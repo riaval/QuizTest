@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:outputStylesheet library="css" name="main.css"  />
+<!-- <script async="" type="text/javascript" charset="UTF-8" src="http://code.jquery.com/jquery-2.0.3.min.js"></script> -->
+<h:head>
+	<title>Admin panel</title>
+</h:head>
+<h:body>
+
+	<div id="container" class="wrapper">
+		
+		<nav>
+			<h:form>
+				<p:menubar>
+					<p:menuitem value="Home" icon="ui-icon-home" url="#"></p:menuitem>
+					<p:menuitem value="Open site" icon="ui-icon-newwin" url="#"></p:menuitem>
+
+					<p:menuitem value="Logout" icon="ui-icon-extlink" url="#"></p:menuitem>
+					<p:menuitem value="Zhukov Dmitry" icon="ui-icon-person" url="#"></p:menuitem>
+					<p:submenu label="Language" icon="ui-icon-pencil">  
+						<p:menuitem value="English" url="#" />  
+						<p:menuitem value="Русский" url="#" />  
+					</p:submenu>
+				</p:menubar>
+			</h:form>
+		</nav>
+
+		
+		<div id="middle">
+			<div id="sidebar">
+				<h:form>
+					<p:menu>
+						<p:submenu label="Quizes">
+							<p:menuitem value="Edit" icon="ui-icon-pencil" />
+							<p:menuitem value="Add new" icon="ui-icon-plusthick"/>
+							<p:menuitem value="Categories" icon="ui-icon-tag"/>
+							<p:menuitem value="Comments" icon="ui-icon-comment" />
+							</p:submenu>
+							<p:submenu label="Media files">
+								<p:menuitem value="Library" icon="ui-icon-folder-open" />
+								<p:menuitem value="Add file" icon="ui-icon-document-b"/>
+							</p:submenu>
+							<p:submenu label="Users">
+								<p:menuitem value="All users" icon="ui-icon-person" />
+								<p:menuitem value="Add" icon="ui-icon-plusthick"/>
+								<p:menuitem value="Your profile" icon="ui-icon-circle-plus"/>
+							</p:submenu>
+					</p:menu>
+				</h:form>
+			</div>
+
+			<div id="content">
+				<p:panel id="panel" header="New Quiz">
+					<div id="header">Title</div>
+					<p:inputText />
+					
+					<div id="header" class="top-margin">Comment</div>
+					<p:inputTextarea rows="10" cols="50" />  
+					
+					<div id="header" class="top-margin">Time limit (minutes)</div>
+					<p:spinner />
+
+					<div id="header" class="top-margin">Amount of questions</div>
+					<p:spinner />
+
+					<div class="buttons">
+						<h:form>
+							<p:commandButton value="Create" styleClass="ui-priority-primary top-margin" />
+							<p:commandButton onclick="PF('addQuestionDialog').show()" value="Add question" />
+						</h:form>
+					</div>
+				</p:panel>
+
+				<h:form id="form">
+					<p:outputPanel id="questions">
+					<p:panel header="Questions" rendered="#{not empty createQuizBean.quiz.questions}">
+						<ui:repeat value="#{createQuizBean.quiz.questions.toArray()}" var="question">
+						<div class="question">
+							<div class="question-title">#{question.text}</div>
+							<h:panelGrid>
+								<p:outputPanel rendered="#{question.type.name eq 'single'}">
+									<ui:repeat value="#{question.answers.toArray()}" var="answer">
+									<h:panelGroup rendered="#{answer.correct}">
+										<input type="radio" checked="checked" disabled="true" />
+									</h:panelGroup>
+									<h:panelGroup rendered="#{not answer.correct}">
+										<input type="radio" disabled="true" />
+									</h:panelGroup>
+										<label>#{answer.text}</label><br />
+									</ui:repeat>
+								</p:outputPanel>
+
+								<p:outputPanel rendered="#{question.type.name eq 'multiple'}">
+									<ui:repeat value="#{question.answers.toArray()}" var="answer">
+									<h:panelGroup rendered="#{answer.correct}">
+										<input type="checkbox" checked="checked" disabled="true" />
+									</h:panelGroup>
+									<h:panelGroup rendered="#{not answer.correct}">
+										<input type="checkbox" disabled="true" />
+									</h:panelGroup>
+										<label>#{answer.text}</label><br />
+									</ui:repeat>
+								</p:outputPanel>
+
+								<h:panelGroup rendered="#{question.type.name eq 'open'}">
+									<ui:repeat value="#{question.answers.toArray()}" var="answer">
+										<div>#{answer.text}</div>
+									</ui:repeat>
+								</h:panelGroup>
+							</h:panelGrid>
+						</div>
+						</ui:repeat>
+					</p:panel>
+					</p:outputPanel>
+
+					<p:dialog id="dialog" header="Add question" widgetVar="addQuestionDialog" resizable="false">  
+						<div class="top-margin">Question</div>
+						<p:inputTextarea rows="10" cols="50" value="#{createQuizBean.question.text}" />
+						<div class="top-margin">Type</div>
+
+						<p:selectOneMenu value="#{createQuizBean.questionType}">
+							<f:selectItem itemLabel="Single choice" itemValue="single" />
+							<f:selectItem itemLabel="Multiple choice" itemValue="multiple" />
+							<f:selectItem itemLabel="Open question" itemValue="open" />
+							<!-- <f:selectItem itemLabel="Cross questions" itemValue="4" /> -->
+							<!-- <f:converter converterId="TypeConverter" /> -->
+							<p:ajax update="answers"/>
+						</p:selectOneMenu>
+
+						<div class="top-margin">
+							<p:commandButton update="answers" value="Add answer" actionListener="#{createQuizBean.addAnswer(actionEvent)}" />
+							<p:commandButton update="questions" actionListener="#{createQuizBean.addQuestion(actionEvent)}" value="Confirm" styleClass="ui-priority-primary" />
+						</div>
+
+						<div class="top-margin">
+							<h:panelGrid id="answers">
+								<p:outputPanel rendered="#{createQuizBean.questionType eq 'single'}">
+									<div class="floated left">
+										<p:selectOneRadio value="#{createQuizBean.checkedItem}" layout="pageDirection">
+											<f:selectItems value="#{createQuizBean.answers}" var="answer" itemValue="#{createQuizBean.answers.indexOf(answer)}" itemLabel="" />
+										</p:selectOneRadio>
+									</div>
+									<div class="floated right">
+										<ui:repeat value="#{createQuizBean.answers}" var="answer">
+											<p:inputText value="#{answer.text}" /><br />
+										</ui:repeat>
+									</div>
+								</p:outputPanel>
+
+								<p:outputPanel rendered="#{createQuizBean.questionType eq 'multiple'}">
+									<div class="floated left">
+										<p:selectManyCheckbox value="#{createQuizBean.checkedItems}" layout="pageDirection">
+											<f:selectItems value="#{createQuizBean.answers}" var="answer" itemLabel="" itemValue="#{createQuizBean.answers.indexOf(answer)}" />
+										</p:selectManyCheckbox>
+									</div>
+									<div class="floated right">
+									<ui:repeat value="#{createQuizBean.answers}" var="answer">
+										<!-- <h:selectBooleanCheckbox value="#{answer.correct}"/> -->
+										<p:inputText value="#{answer.text}" /><br />
+									</ui:repeat>
+									</div>
+								</p:outputPanel>
+
+								<p:outputPanel rendered="#{createQuizBean.questionType eq 'open'}">
+								<div class="floated right">
+									<ui:repeat value="#{createQuizBean.answers}" var="answer">
+										<p:inputText value="#{answer.text}" /><br />
+									</ui:repeat>
+								</div>
+								</p:outputPanel>
+							</h:panelGrid>
+						</div>
+					</p:dialog>
+				</h:form>
+
+			</div>
+		</div>
+
+	</div>
+</h:body>
+</html>

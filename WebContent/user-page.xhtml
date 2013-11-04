@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:outputStylesheet library="css" name="main.css"  />
+<!-- <script async="" type="text/javascript" charset="UTF-8" src="http://code.jquery.com/jquery-2.0.3.min.js"></script> -->
+<h:head>
+	<title>Categories</title>
+</h:head>
+<h:body>
+
+	<div id="container" class="wrapper">
+		
+		<nav>
+			<h:form>
+				<p:menubar>
+					<p:menuitem value="Home" icon="ui-icon-home" url="#"></p:menuitem>
+
+					<p:menuitem value="Sign in" icon="ui-icon-person" url="#"></p:menuitem>
+					<p:menuitem value="Login" icon="ui-icon-person" url="#"></p:menuitem>
+					<p:submenu label="Language" icon="ui-icon-pencil">  
+						<p:menuitem value="English" url="#" />  
+						<p:menuitem value="Русский" url="#" />  
+					</p:submenu>
+				</p:menubar>
+			</h:form>
+		</nav>
+
+		
+		<div id="middle">
+			<p:accordionPanel activeIndex="#{userCategoryBean.activeIndexStr}" multiple="true" value="#{userCategoryBean.categories}" var="category">
+				<p:tab title="#{category.name}">  
+					<h:panelGrid columns="2" cellpadding="10">
+					gadgadgadgadgadgagdadg
+					</h:panelGrid>  
+				</p:tab>
+			</p:accordionPanel> 
+
+		</div>
+
+	</div>
+</h:body>
+</html>
