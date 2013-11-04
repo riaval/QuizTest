@@ -2,6 +2,7 @@ package ua.riaval.quiztest.dao;
 
 import ua.riaval.quiztest.dao.implementation.CategoryDAOImpl;
 import ua.riaval.quiztest.dao.implementation.QuestionTypeDAOImpl;
+import ua.riaval.quiztest.dao.implementation.QuizDAOImpl;
 
 public class DAOFactory {
 
@@ -10,6 +11,7 @@ public class DAOFactory {
 
 	private static QuestionTypeDAOImpl questionTypeDAO;
 	private static CategoryDAOImpl categoryDAO;
+	private static QuizDAOImpl quizDAO;
 
 	public static QuestionTypeDAOImpl getQuestionTypeDAO() {
 		if (questionTypeDAO == null) {
@@ -23,6 +25,13 @@ public class DAOFactory {
 			categoryDAO = new CategoryDAOImpl();
 		}
 		return categoryDAO;
+	}
+	
+	public static QuizDAOImpl getQuizDAO() {
+		if (quizDAO == null) {
+			quizDAO = new QuizDAOImpl();
+		}
+		return quizDAO;
 	}
 
 }

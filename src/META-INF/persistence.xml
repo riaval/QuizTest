@@ -16,7 +16,6 @@ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 		<class>ua.riaval.quiztest.entity.QuestionResult</class>
 		<class>ua.riaval.quiztest.entity.QuestionType</class>
 		<class>ua.riaval.quiztest.entity.Quiz</class>
-		<class>ua.riaval.quiztest.entity.QuizCategory</class>
 		<class>ua.riaval.quiztest.entity.QuizResult</class>
 		<class>ua.riaval.quiztest.entity.User</class>
 		<class>ua.riaval.quiztest.entity.UserRole</class>

@@ -12,6 +12,6 @@ public interface DAO<T> {
 
 	public List<T> findAll();
 
-	public T findByID(long id);
+	public T findByID(int id);
 
 }

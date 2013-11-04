@@ -7,6 +7,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -64,7 +65,7 @@ public class Question implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "type_id", nullable = false)
 	public QuestionType getQuestionType() {
 		return this.questionType;
@@ -74,7 +75,7 @@ public class Question implements java.io.Serializable {
 		this.questionType = questionType;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "quiz_id", nullable = false)
 	public Quiz getQuiz() {
 		return this.quiz;
@@ -120,7 +121,7 @@ public class Question implements java.io.Serializable {
 		this.cost = cost;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question", cascade = CascadeType.ALL)
 	public Set<Answer> getAnswers() {
 		return this.answers;
 	}

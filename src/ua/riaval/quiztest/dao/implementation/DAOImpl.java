@@ -27,6 +27,20 @@ public abstract class DAOImpl<T> implements DAO<T> {
 		return entity;
 	}
 
+	public T quickSave(T entity) {
+		try {
+			DataUtil.begin();
+			getEntityManager().persist(entity);
+			DataUtil.commit();
+		} finally {
+			if (DataUtil.isActive()) {
+				DataUtil.rollback();
+			}
+		}
+		
+		return entity;
+	}
+
 	@Override
 	public void merge(T entity) {
 		getEntityManager().merge(entity);
@@ -46,7 +60,7 @@ public abstract class DAOImpl<T> implements DAO<T> {
 	}
 
 	@Override
-	public T findByID(long id) {
+	public T findByID(int id) {
 		T entity = getEntityManager().find(persistClass, id);
 
 		return entity;
@@ -59,7 +73,7 @@ public abstract class DAOImpl<T> implements DAO<T> {
 			return null;
 		}
 	}
-	
+
 	protected List<T> findMany(TypedQuery<T> query) {
 		try {
 			return query.getResultList();
@@ -67,7 +81,7 @@ public abstract class DAOImpl<T> implements DAO<T> {
 			return null;
 		}
 	}
-	
+
 	protected EntityManager getEntityManager() {
 		return DataUtil.getEntityManager();
 	}

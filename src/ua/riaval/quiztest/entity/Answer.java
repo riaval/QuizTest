@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +27,7 @@ public class Answer implements java.io.Serializable {
 
 	private Integer id;
 	private String text;
-	private Boolean correct;
+	private Boolean correct = false;
 	private Question question;
 //	private Set<AnswerAnswer> answerAnswersForChildAnswerId = new HashSet<AnswerAnswer>();
 //	private Set<AnswerAnswer> answerAnswersForParentAnswerId = new HashSet<AnswerAnswer>();
@@ -50,7 +51,7 @@ public class Answer implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id", nullable = false)
 	public Question getQuestion() {
 		return this.question;

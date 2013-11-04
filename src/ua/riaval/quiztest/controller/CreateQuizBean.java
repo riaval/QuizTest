@@ -5,18 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import org.primefaces.context.RequestContext;
 
 import ua.riaval.quiztest.dao.DAOFactory;
 import ua.riaval.quiztest.entity.Answer;
+import ua.riaval.quiztest.entity.Category;
 import ua.riaval.quiztest.entity.Question;
 import ua.riaval.quiztest.entity.QuestionType;
 import ua.riaval.quiztest.entity.Quiz;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class CreateQuizBean {
 
 	private Quiz quiz = new Quiz();
@@ -77,11 +78,13 @@ public class CreateQuizBean {
 
 	public void addAnswer(ActionEvent actionEvent) {
 		// System.out.println("-------------addAnswer------------");
-		answers.add(new Answer("", false));
+		Answer answer = new Answer();
+		answer.setQuestion(question);
+		answers.add(answer);
 	}
 
 	public void addQuestion(ActionEvent actionEvent) {
-		System.out.println("-------------addQuestion------------");
+//		System.out.println("-------------addQuestion------------");
 		switch (questionType) {
 		case "single":
 			prepareForSingleQuestion();
@@ -98,7 +101,8 @@ public class CreateQuizBean {
 		question.getAnswers().addAll(answers);
 		QuestionType objectType = DAOFactory.getQuestionTypeDAO().findByTypeName(questionType);
 		question.setQuestionType(objectType);
-		quiz.getQuestions().add(question);
+		question.setQuiz(quiz);
+		quiz.getQuestions().add(question);	
 
 		clear();
 		
@@ -139,6 +143,14 @@ public class CreateQuizBean {
 		questionType = null;
 		checkedItems = null;
 		checkedItem = null;
+	}
+	
+	public void create() {
+//		System.out.println("-------------createQuizBean------------");
+		Category category = DAOFactory.getCategoryDAO().findByID(1);
+		quiz.getCategories().add(category);
+		DAOFactory.getQuizDAO().quickSave(quiz);
+		DAOFactory.getQuizDAO().merge(quiz);
 	}
 
 }

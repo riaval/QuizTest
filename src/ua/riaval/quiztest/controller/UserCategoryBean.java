@@ -3,13 +3,14 @@ package ua.riaval.quiztest.controller;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 
 import ua.riaval.quiztest.dao.DAOFactory;
 import ua.riaval.quiztest.entity.Category;
 
 @ManagedBean
-@ViewScoped
+@RequestScoped
 public class UserCategoryBean {
 
 	public UserCategoryBean() {

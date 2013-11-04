@@ -7,12 +7,14 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,18 +26,13 @@ public class Category implements java.io.Serializable {
 
 	private Integer id;
 	private String name;
-	private Set<QuizCategory> quizCategories = new LinkedHashSet<QuizCategory>();
+	private Set<Quiz> quizzes = new LinkedHashSet<Quiz>();
 
 	public Category() {
 	}
 
 	public Category(String name) {
 		this.name = name;
-	}
-
-	public Category(String name, Set<QuizCategory> quizCategories) {
-		this.name = name;
-		this.quizCategories = quizCategories;
 	}
 
 	@Id
@@ -58,13 +55,19 @@ public class Category implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-	public Set<QuizCategory> getQuizCategories() {
-		return this.quizCategories;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable
+	(name="Quiz_Category",
+	joinColumns =
+	{ @JoinColumn(name = "category_id") },
+	inverseJoinColumns =
+	{ @JoinColumn(name = "quiz_id") })
+	public Set<Quiz> getQuizzes() {
+		return quizzes;
 	}
 
-	public void setQuizCategories(Set<QuizCategory> quizCategories) {
-		this.quizCategories = quizCategories;
+	public void setQuizzes(Set<Quiz> quizzes) {
+		this.quizzes = quizzes;
 	}
 
 }

@@ -55,24 +55,24 @@
 
 			<div id="content">
 				<p:panel id="panel" header="New Quiz">
+					<h:form>
 					<div id="header">Title</div>
-					<p:inputText />
+					<p:inputText value="#{createQuizBean.quiz.name}" />
 					
 					<div id="header" class="top-margin">Comment</div>
-					<p:inputTextarea rows="10" cols="50" />  
+					<p:inputTextarea value="#{createQuizBean.quiz.comment}" rows="10" cols="50" />  
 					
 					<div id="header" class="top-margin">Time limit (minutes)</div>
-					<p:spinner />
+					<p:spinner value="#{createQuizBean.quiz.timeLimit}" />
 
 					<div id="header" class="top-margin">Amount of questions</div>
-					<p:spinner />
+					<p:spinner value="#{createQuizBean.quiz.amount}" />
 
 					<div class="buttons">
-						<h:form>
-							<p:commandButton value="Create" styleClass="ui-priority-primary top-margin" />
-							<p:commandButton onclick="PF('addQuestionDialog').show()" value="Add question" />
-						</h:form>
+						<p:commandButton value="Create" action="#{createQuizBean.create}" styleClass="ui-priority-primary top-margin" />
+						<p:commandButton onclick="PF('addQuestionDialog').show()" value="Add question" />
 					</div>
+					</h:form>
 				</p:panel>
 
 				<h:form id="form">
@@ -82,7 +82,7 @@
 						<div class="question">
 							<div class="question-title">#{question.text}</div>
 							<h:panelGrid>
-								<p:outputPanel rendered="#{question.type.name eq 'single'}">
+								<p:outputPanel rendered="#{question.questionType.name eq 'single'}">
 									<ui:repeat value="#{question.answers.toArray()}" var="answer">
 									<h:panelGroup rendered="#{answer.correct}">
 										<input type="radio" checked="checked" disabled="true" />
@@ -94,7 +94,7 @@
 									</ui:repeat>
 								</p:outputPanel>
 
-								<p:outputPanel rendered="#{question.type.name eq 'multiple'}">
+								<p:outputPanel rendered="#{question.questionType.name eq 'multiple'}">
 									<ui:repeat value="#{question.answers.toArray()}" var="answer">
 									<h:panelGroup rendered="#{answer.correct}">
 										<input type="checkbox" checked="checked" disabled="true" />
@@ -106,7 +106,7 @@
 									</ui:repeat>
 								</p:outputPanel>
 
-								<h:panelGroup rendered="#{question.type.name eq 'open'}">
+								<h:panelGroup rendered="#{question.questionType.name eq 'open'}">
 									<ui:repeat value="#{question.answers.toArray()}" var="answer">
 										<div>#{answer.text}</div>
 									</ui:repeat>
