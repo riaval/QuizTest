@@ -28,8 +28,7 @@ public class AnswerResult implements java.io.Serializable {
 	public AnswerResult() {
 	}
 
-	public AnswerResult(QuestionResult questionResult, String text,
-			boolean checked) {
+	public AnswerResult(String text, boolean checked) {
 		this.questionResult = questionResult;
 		this.text = text;
 		this.checked = checked;
@@ -41,6 +40,11 @@ public class AnswerResult implements java.io.Serializable {
 		this.text = text;
 		this.correct = correct;
 		this.checked = checked;
+	}
+
+	public AnswerResult(Answer answer) {
+		this.text = answer.getText();
+		this.correct = answer.isCorrect();
 	}
 
 	@Id
@@ -74,7 +78,7 @@ public class AnswerResult implements java.io.Serializable {
 	}
 
 	@Column(name = "correct")
-	public Boolean getCorrect() {
+	public Boolean isCorrect() {
 		return this.correct;
 	}
 

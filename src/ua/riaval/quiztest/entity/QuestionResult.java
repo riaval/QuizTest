@@ -52,6 +52,14 @@ public class QuestionResult implements java.io.Serializable {
 		this.isLatex = isLatex;
 		this.answerResults = answerResults;
 	}
+	
+	public QuestionResult(Question question) {
+		this.questionType = question.getQuestionType();
+		this.text = question.getText();
+		for (Answer answer : question.getAnswers()) {
+			answerResults.add(new AnswerResult(answer));
+		}
+	}
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)

@@ -45,7 +45,7 @@
 <!-- 						<p:button outcome="user-test-run"  value="Begin quiz"  styleClass="ui-priority-primary top-margin">
 						        <f:param name="id" value="#{userTestBean.quiz.id}" />
 						</p:button> -->
-						<p:commandButton action="user-test-run?faces-redirect=true" actionListener="#{quizRunBean.push(userTestBean.quiz.id)}" value="Begin quiz"  styleClass="ui-priority-primary top-margin" />
+						<p:commandButton action="user-test-run?faces-redirect=true" actionListener="#{quizRunBean.inject(userTestBean.quiz.id)}" value="Begin quiz"  styleClass="ui-priority-primary top-margin" />
 					</div>
 				</h:form>
 			</p:panel>

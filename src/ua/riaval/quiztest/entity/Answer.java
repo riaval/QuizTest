@@ -71,7 +71,7 @@ public class Answer implements java.io.Serializable {
 	}
 
 	@Column(name = "correct")
-	public Boolean getCorrect() {
+	public Boolean isCorrect() {
 		return this.correct;
 	}
 

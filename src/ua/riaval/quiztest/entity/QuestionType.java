@@ -25,6 +25,10 @@ import javax.persistence.Table;
 @Table(name = "QuestionType", catalog = "QuizTest")
 public class QuestionType implements java.io.Serializable {
 
+	public static final String SINGLE = "single";
+	public static final String MULTIPLE = "multiple";
+	public static final String OPEN = "open";
+	
 	private Integer id;
 	private String name;
 	private Set<QuestionResult> questionResults = new LinkedHashSet<QuestionResult>();
