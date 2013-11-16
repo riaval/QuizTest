@@ -1,0 +1,20 @@
+<ui:composition 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="template/user-template.xhtml">
+
+<ui:param name="title" value="Available tests" />
+
+	<ui:define name="content">
+		<p:accordionPanel activeIndex="#{userCategoryBean.activeIndexStr}" multiple="true" value="#{userCategoryBean.categories}" var="category">
+			<p:tab title="#{category.name}">
+				<p:dataList value="#{category.quizzes.toArray()}" var="quiz" itemType="disc" styleClass="quiz-list">
+					<a href="/QuizTest/faces/user-test-page.xhtml?id=#{quiz.id}" class="quiz">#{quiz.name}</a>
+				</p:dataList>
+			</p:tab>
+		</p:accordionPanel>
+	</ui:define>
+
+</ui:composition>
