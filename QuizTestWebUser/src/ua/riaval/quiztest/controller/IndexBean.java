@@ -17,19 +17,8 @@ import ua.riaval.quiztest.entity.Quiz;
 @ViewScoped
 public class IndexBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@EJB
-	private CategoryDAO catDAO;
-	@EJB
-	private QuizDAO quizDAO;
-
-	private List<Category> categories;
-	private Category currentCategory;
-	private List<Quiz> quizzes;
-
 	@PostConstruct
-	public void postConstruct() {
+	private void postConstruct() {
 		quizzes = quizDAO.findLastQuizzes(10);
 		categories = catDAO.findAll();
 	}
@@ -57,5 +46,16 @@ public class IndexBean implements Serializable {
 	public void setQuizzes(List<Quiz> quizzes) {
 		this.quizzes = quizzes;
 	}
+	
+	@EJB
+	private CategoryDAO catDAO;
+	@EJB
+	private QuizDAO quizDAO;
+
+	private List<Category> categories;
+	private Category currentCategory;
+	private List<Quiz> quizzes;
+	
+	private static final long serialVersionUID = 1L;
 
 }

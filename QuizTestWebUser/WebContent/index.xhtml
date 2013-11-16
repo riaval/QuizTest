@@ -35,18 +35,12 @@
 						<h2>Last added</h2>
 					</div> -->
 					<p:outputPanel id="quizzesList">
-					<ui:repeat value="#{indexBean.quizzes.toArray()}" var="quiz" rendered="#{indexBean.currentCategory == null}">
-						<p:commandLink styleClass="quiz-in-list">
+					<ui:repeat value="#{indexBean.currentCategory == null ? indexBean.quizzes.toArray() : indexBean.currentCategory.quizzes.toArray()}" var="quiz">
+						<h:link styleClass="quiz-in-list" outcome="test">
+							<f:param name="id" value="#{quiz.id}" />
 							<h4 class="media-heading">#{quiz.name}</h4>
 							<div>#{quiz.comment}</div>
-						</p:commandLink>
-					</ui:repeat>
-
-					<ui:repeat value="#{indexBean.currentCategory.quizzes.toArray()}" var="quiz" rendered="#{indexBean.currentCategory != null}">
-						<p:commandLink styleClass="quiz-in-list">
-							<h4 class="media-heading">#{quiz.name}</h4>
-							<div>#{quiz.comment}</div>
-						</p:commandLink>
+						</h:link>
 					</ui:repeat>
 					</p:outputPanel>
 				</div>

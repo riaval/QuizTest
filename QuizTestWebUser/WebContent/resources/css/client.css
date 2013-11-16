@@ -97,6 +97,19 @@ html {
 	color: #333333;
 }
 
+.button-header {
+	overflow: hidden;
+}
+
+.button-header h1 {
+	float: left;
+}
+
+.button-header form {
+	float: right;
+	margin-top: 8px;
+}
+
 footer {
 	height: 35px;
 	padding-top: 18px;
