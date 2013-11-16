@@ -16,51 +16,51 @@
 </h:head>
 <h:body>
 	<div class="expanded">
-		<nav>
-			<div class="navbar">
-				<div class="navbar-inner">
+		<nav class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
 
-					<div class="wrapper">
-						<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-						<a class="btn btn-navbar" data-toggle="collapse"
-							data-target=".nav-collapse">
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</a>
+				<div class="wrapper">
+					<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+					<a class="btn btn-navbar" data-toggle="collapse"
+						data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
 
-						<!-- Be sure to leave the brand out there if you want it shown -->
-						<a class="brand" href="#">QuizTest</a>
+					<!-- Be sure to leave the brand out there if you want it shown -->
+					<a class="brand" href="#">QuizTest</a>
 
-						<!-- Everything you want hidden at 940px or less, place within here -->
-						<div class="nav-collapse collapse">
-							<ul class="nav">
-								<li><a href="#">Quizzes</a></li>
-								<!-- <li><a href="#">Results</a></li> -->
-							</ul>
+					<!-- Everything you want hidden at 940px or less, place within here -->
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li><a href="#">Quizzes</a></li>
+							<!-- <li><a href="#">Results</a></li> -->
+						</ul>
 
-							<ul class="nav pull-right">
-								<li class="dropdown"><a data-toggle="dropdown"
-									class="dropdown-toggle" href="#">Language<b class="caret"></b></a>
-									<ul class="dropdown-menu">
-										<li><a href="#">English</a></li>
-										<li><a href="#">Русский</a></li>
-									</ul>
-								</li>
-								<li class="divider-vertical"></li>
-								<li><a href="#">Login</a></li>
-								<li><a href="#">Sign in</a></li>
-							</ul>
-						</div>
+						<ul class="nav pull-right">
+							<li class="dropdown"><a data-toggle="dropdown"
+								class="dropdown-toggle" href="#">Language<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="#">English</a></li>
+									<li><a href="#">Русский</a></li>
+								</ul>
+							</li>
+							<li class="divider-vertical"></li>
+							<li><a href="#">Login</a></li>
+							<li><a href="#">Sign in</a></li>
+						</ul>
 					</div>
-
 				</div>
+
 			</div>
 		</nav>
 
-		<div class="wrapper">
+		<div class="wrapper top">
 			<ui:insert name="content" />
 		</div>
+		
+		<div class="push"></div>
 	</div>
 
 	<footer>

@@ -7,7 +7,7 @@ import ua.riaval.quiztest.entity.Quiz;
 
 @ManagedBean
 @ViewScoped
-public class UserTestBean {
+public class TestBean {
 
 	private Quiz quiz;
 
