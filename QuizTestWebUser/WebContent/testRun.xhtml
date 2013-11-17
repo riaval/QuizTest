@@ -1,73 +1,30 @@
-<!DOCTYPE html>
-<html lang="en"
+<ui:composition 
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-	<h:outputStylesheet library="css" name="client.css"  />
-	<!-- Bootstrap -->
-	<h:outputStylesheet library="bootstrap/css" name="bootstrap.min.css"  />
-	<h:outputScript library="bootstrap/js" name="bootstrap.min.js" />
-	<!-- <script async="" type="text/javascript" charset="UTF-8" src="http://code.jquery.com/jquery-2.0.3.min.js"></script> -->
-<h:head>
-	<title>#{quizRunBean.quiz.name}</title>
-</h:head>
-<h:body>
-<div class="expanded">
-	<nav>
-		<div class="navbar">
-			<div class="navbar-inner">
+	xmlns:p="http://primefaces.org/ui"
+	template="template/user-template.xhtml">
 
-				<div class="wrapper">
-					<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-					<a class="btn btn-navbar" data-toggle="collapse"
-						data-target=".nav-collapse"> <span class="icon-bar"></span><span class="icon-bar"></span> <span class="icon-bar"></span>
-					</a>
+	<ui:param name="title" value="#{quizRunBean.quiz.name}" />
 
-					<!-- Be sure to leave the brand out there if you want it shown -->
-					<a class="brand" href="#">QuizTest</a>
+	<ui:define name="content">
 
-					<!-- Everything you want hidden at 940px or less, place within here -->
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-							<li><a href="#">Quizzes</a></li>
-							<!-- <li><a href="#">Results</a></li> -->
-						</ul>
-
-						<ul class="nav pull-right">
-							<li class="dropdown">
-								<a data-toggle="dropdown" class="dropdown-toggle" href="#">Language<b class="caret"></b></a>
-								<ul class="dropdown-menu">
-									<li class="active"><a href="#">English</a></li>
-									<li><a href="#">Русский</a></li>
-								</ul>
-							</li>
-							<li class="divider-vertical"></li>
-							<li><a href="#">Login</a></li>
-							<li><a href="#">Sign in</a></li>
-	                    </ul>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</nav>
-
-	<div class="wrapper">
 	<h:form id="form">
 		<div class="sidebar">
-			<h:outputText id="timer" value="#{quizRunBean.timeLeft}" />
-			<!-- <p:poll interval="1" update="timer" autoStart="true"/> -->
+			<div class="timer">
+				<h:outputText id="timer" value="#{quizRunBean.timeLeft}" />
+			</div>
+			<p:poll interval="1" update=":form:timer" autoStart="true"/>
 			<ul class="nav nav-tabs nav-stacked">
 				<ui:repeat value="#{quizRunBean.quiz.questionResults.toArray()}" var="question" varStatus="status">
-					<li>
-						<p:commandLink update=":form:question" actionListener="#{quizRunBean.setCurrentQuestion(question)}">
+					<li class="#{quizRunBean.currentQuestion == question ? 'active' : ''}">
+						<p:commandLink update="@form" actionListener="#{quizRunBean.setCurrentQuestion(question)}">
 							<h:outputText value="#{status.index + 1}" />
 						</p:commandLink>
 					</li>
 				</ui:repeat>
 			</ul>
-			<p:commandButton action="user-test-run?faces-redirect=true" actionListener="#{quizRunBean.push(userTestBean.quiz.id)}" value="Finish" tyleClass="btn btn-danger btn btn-large" style="width:100%" />
+			<p:commandButton action="user-test-run?faces-redirect=true" actionListener="#{quizRunBean.push(userTestBean.quiz.id)}" value="Finish" styleClass="btn btn-large btn-danger" style="width:100%" />
 		</div>
 
 		<div class="content">
@@ -84,14 +41,7 @@
 		</div>
 
 	</h:form>
-	</div>
-</div>
 
-<footer>
-	<div class="wrapper">
-		<p class="muted credit">© Zhukov Dmitry 2013</p>
-	</div>
-</footer>
-<script src="http://code.jquery.com/jquery.js"></script>
-</h:body>
-</html>
+	</ui:define>
+
+</ui:composition>

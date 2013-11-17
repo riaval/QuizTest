@@ -14,15 +14,15 @@
 			<div class="row-fluid">
 				<div class="span3">
 					<ul class="nav nav-tabs nav-stacked menu-sidebar">
-						<li>
-						<p:commandLink update=":form:quizzesList" actionListener="#{indexBean.setCurrentCategory(null)}">
+						<li class="#{indexBean.currentCategory == null ? 'active' : ''}">
+						<p:commandLink update="@form" actionListener="#{indexBean.setCurrentCategory(null)}">
 							<h:outputText value="Last quizzes" />  
 							<i class="icon-home"></i>
 						</p:commandLink>
 						</li>
 						<ui:repeat value="#{indexBean.categories}" var="category">
-							<li>
-							<p:commandLink update=":form:quizzesList" actionListener="#{indexBean.setCurrentCategory(category)}">
+							<li class="#{indexBean.currentCategory == category ? 'active' : ''}">
+							<p:commandLink update="@form" actionListener="#{indexBean.setCurrentCategory(category)}">
 								<h:outputText value="#{category.name}" />  
 								<i class="icon-chevron-right"></i>
 							</p:commandLink>

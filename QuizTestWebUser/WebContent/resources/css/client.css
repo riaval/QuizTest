@@ -110,6 +110,12 @@ html {
 	margin-top: 8px;
 }
 
+.timer {
+	font-size: 1.5em;
+	margin: 0 0 10px;
+	text-align: center;
+}
+
 footer {
 	height: 35px;
 	padding-top: 18px;

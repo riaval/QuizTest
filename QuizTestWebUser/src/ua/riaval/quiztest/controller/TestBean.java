@@ -7,13 +7,14 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import ua.riaval.quiztest.dao.QuizDAO;
 import ua.riaval.quiztest.entity.Quiz;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class TestBean implements Serializable {
 
 	@PostConstruct
