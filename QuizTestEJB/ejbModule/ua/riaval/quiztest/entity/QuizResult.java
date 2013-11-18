@@ -14,10 +14,12 @@ import javax.persistence.GeneratedValue;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,7 +58,9 @@ public class QuizResult implements java.io.Serializable {
 		this.name = quiz.getName();
 		date = Calendar.getInstance().getTime();
 		for (Question question : quiz.getQuestions()) {
-			questionResults.add(new QuestionResult(question));
+			QuestionResult qr = new QuestionResult(question);
+			qr.setQuizResult(this);
+			questionResults.add(qr);
 		}
 	}
 
@@ -100,7 +104,8 @@ public class QuizResult implements java.io.Serializable {
 		this.date = date;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quizResult")
+	@OrderBy
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quizResult", cascade = CascadeType.ALL)
 	public Set<QuestionResult> getQuestionResults() {
 		return this.questionResults;
 	}

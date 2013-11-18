@@ -116,6 +116,34 @@ html {
 	text-align: center;
 }
 
+.result {
+	padding: 10px 10px 0;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.result.correct {
+	background-color: #F5FFF5;
+}
+
+.result.incorrect {
+	background-color: #FFF5F5;
+}
+
+.result-title {
+  font-size: 1.3em;
+  line-height: 35px;
+  margin: 5px 0 10px 5px;
+}
+
+.result p {
+	margin-left: 5px;
+}
+
+.result td:nth-of-type(-n+2) {
+	width: 10px;
+}
+
 footer {
 	height: 35px;
 	padding-top: 18px;

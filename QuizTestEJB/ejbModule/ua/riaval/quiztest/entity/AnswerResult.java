@@ -29,7 +29,6 @@ public class AnswerResult implements java.io.Serializable {
 	}
 
 	public AnswerResult(String text, boolean checked) {
-		this.questionResult = questionResult;
 		this.text = text;
 		this.checked = checked;
 	}
@@ -78,7 +77,7 @@ public class AnswerResult implements java.io.Serializable {
 	}
 
 	@Column(name = "correct")
-	public Boolean isCorrect() {
+	public Boolean getCorrect() {
 		return this.correct;
 	}
 
@@ -87,7 +86,7 @@ public class AnswerResult implements java.io.Serializable {
 	}
 
 	@Column(name = "checked", nullable = false)
-	public boolean isChecked() {
+	public boolean getChecked() {
 		return this.checked;
 	}
 

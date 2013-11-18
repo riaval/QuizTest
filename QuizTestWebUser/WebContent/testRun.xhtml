@@ -24,7 +24,7 @@
 					</li>
 				</ui:repeat>
 			</ul>
-			<p:commandButton action="user-test-run?faces-redirect=true" actionListener="#{quizRunBean.push(userTestBean.quiz.id)}" value="Finish" styleClass="btn btn-large btn-danger" style="width:100%" />
+			<p:commandButton action="#{quizRunBean.finish()}" value="Finish" styleClass="btn btn-large btn-danger" style="width:100%" />
 		</div>
 
 		<div class="content">
@@ -39,7 +39,6 @@
 				<p:inputText value="#{quizRunBean.openAnswer}" rendered="#{quizRunBean.currentQuestion.questionType.name eq 'open'}" />
 			</h:panelGroup>
 		</div>
-
 	</h:form>
 
 	</ui:define>

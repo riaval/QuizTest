@@ -7,6 +7,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -57,7 +59,9 @@ public class QuestionResult implements java.io.Serializable {
 		this.questionType = question.getQuestionType();
 		this.text = question.getText();
 		for (Answer answer : question.getAnswers()) {
-			answerResults.add(new AnswerResult(answer));
+			AnswerResult ar = new AnswerResult(answer);
+			ar.setQuestionResult(this);
+			answerResults.add(ar);
 		}
 	}
 
@@ -119,7 +123,8 @@ public class QuestionResult implements java.io.Serializable {
 		this.isLatex = isLatex;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionResult")
+	@OrderBy
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionResult", cascade = CascadeType.ALL)
 	public Set<AnswerResult> getAnswerResults() {
 		return this.answerResults;
 	}

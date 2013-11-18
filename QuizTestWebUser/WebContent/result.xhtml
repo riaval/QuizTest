@@ -1,0 +1,71 @@
+<ui:composition 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="template/user-template.xhtml">
+
+	<ui:param name="title" value="#{quizRunBean.quiz.name}" />
+
+	<ui:define name="content">
+
+	<div class="page-header">
+		<h1>#{resultBean.quizResul.name}</h1>
+	</div>
+
+	<ui:repeat value="#{resultBean.quizResul.questionResults.toArray()}" var="questionResult">
+	<div class="result #{resultBean.isCorrect(questionResult) ? 'correct' : 'incorrect'}">
+		<div class="result-title">#{questionResult.text}</div>
+		<h:panelGroup rendered="#{questionResult.questionType.name == 'open'}">
+			<ui:repeat value="#{questionResult.answerResults.toArray()}" var="answerResult">
+				<h:panelGroup rendered="#{answerResult.checked}">
+					<p>
+						<span>Your answer:</span>
+						<input type="text" disabled="disabled" value="#{answerResult.text}" />
+					</p>
+				</h:panelGroup>
+			</ui:repeat>
+			<p>
+				Correct answers:
+				<ui:repeat value="#{questionResult.answerResults.toArray()}" var="answerResult">
+					<h:panelGroup rendered="#{not answerResult.checked}">
+						<h:outputText value="#{answerResult.text}, " />
+					</h:panelGroup>
+				</ui:repeat>
+			</p>
+		</h:panelGroup>
+
+		<h:dataTable value="#{questionResult.answerResults.toArray()}" var="answerResult" styleClass="table" rendered="#{questionResult.questionType.name != 'open'}">
+			<h:column>
+				<h:panelGroup rendered="#{questionResult.questionType.name == 'multiple'}">
+					<h:panelGroup rendered="#{answerResult.checked}">
+						<input type="checkbox" disabled="disabled" checked="checked" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{not answerResult.checked}">
+						<input type="checkbox" disabled="disabled" />
+					</h:panelGroup>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{questionResult.questionType.name == 'single'}">
+					<h:panelGroup rendered="#{answerResult.checked}">
+						<input type="radio" disabled="disabled" checked="checked" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{not answerResult.checked}">
+						<input type="radio" disabled="disabled" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:column>
+
+			<h:column>
+				<h:panelGroup rendered="#{answerResult.correct}"><i class="icon-ok"></i></h:panelGroup>
+			</h:column>
+
+			<h:column>
+				#{answerResult.text}
+			</h:column>
+		</h:dataTable>
+	</div>
+	</ui:repeat>
+
+	</ui:define>
+
+</ui:composition>

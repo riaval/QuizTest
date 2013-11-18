@@ -11,27 +11,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import ua.riaval.quiztest.dao.QuizDAO;
+import ua.riaval.quiztest.dao.QuizResultDAO;
+import ua.riaval.quiztest.dao.UserDAO;
 import ua.riaval.quiztest.entity.AnswerResult;
 import ua.riaval.quiztest.entity.QuestionResult;
 import ua.riaval.quiztest.entity.Quiz;
 import ua.riaval.quiztest.entity.QuizResult;
+import ua.riaval.quiztest.entity.User;
 
 @ManagedBean
 @SessionScoped
 public class QuizRunBean implements Serializable {
-
-	@EJB
-	private QuizDAO quizDAO;
-
-	private QuizResult quiz;
-	private QuestionResult currentQuestion;
-	private long timeLeft;
-	private Timer timer = new Timer();
-
-	// private List<String> multiAnswers;
-	// private String singleAnswer;
-
-	private static final long serialVersionUID = 1L;
 
 	public String start(int requestId) {
 		if (quiz == null) {
@@ -59,7 +49,7 @@ public class QuizRunBean implements Serializable {
 
 	public String getSingleAnswer() {
 		for (AnswerResult answerResult : currentQuestion.getAnswerResults()) {
-			if (answerResult.isChecked()) {
+			if (answerResult.getChecked()) {
 				return answerResult.getText();
 			}
 		}
@@ -69,7 +59,7 @@ public class QuizRunBean implements Serializable {
 	public List<String> getMultiAnswers() {
 		List<String> answers = new ArrayList<String>();
 		for (AnswerResult answerResult : currentQuestion.getAnswerResults()) {
-			if (answerResult.isChecked()) {
+			if (answerResult.getChecked()) {
 				answers.add(answerResult.getText());
 			}
 		}
@@ -104,18 +94,26 @@ public class QuizRunBean implements Serializable {
 
 	public void setOpenAnswer(String answer) {
 		for (AnswerResult answerResult : currentQuestion.getAnswerResults()) {
-			if (answerResult.isChecked()) {
+			if (answerResult.getChecked()) {
 				answerResult.setText(answer);
 				return;
 			}
 		}
 
 		AnswerResult ar = new AnswerResult(answer, true);
+		ar.setCorrect(false);
+		ar.setQuestionResult(currentQuestion);
 		currentQuestion.getAnswerResults().add(ar);
 	}
 
-	public void finish() {
-
+	public String finish() {
+		User user = userDAO.findByID(1);
+		quiz.setUser(user);
+		quizResultDAO.save(quiz);
+		
+		int id = quiz.getId();
+		quiz = null;
+		return "result?faces-redirect=true&id=" + id;
 	}
 
 	public QuizResult getQuiz() {
@@ -133,5 +131,19 @@ public class QuizRunBean implements Serializable {
 	public void setCurrentQuestion(QuestionResult currentQuestion) {
 		this.currentQuestion = currentQuestion;
 	}
+
+	@EJB
+	private UserDAO userDAO;
+	@EJB
+	private QuizDAO quizDAO;
+	@EJB
+	private QuizResultDAO quizResultDAO;
+
+	private QuizResult quiz;
+	private QuestionResult currentQuestion;
+	private long timeLeft;
+	private Timer timer = new Timer();
+
+	private static final long serialVersionUID = 1L;
 
 }
