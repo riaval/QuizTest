@@ -1,30 +1,32 @@
 package ua.riaval.quiztest.controller;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
+import ua.riaval.quiztest.dao.CategoryDAO;
+import ua.riaval.quiztest.dao.QuestionTypeDAO;
+import ua.riaval.quiztest.dao.QuizDAO;
 import ua.riaval.quiztest.entity.Answer;
+import ua.riaval.quiztest.entity.Category;
 import ua.riaval.quiztest.entity.Question;
+import ua.riaval.quiztest.entity.QuestionType;
 import ua.riaval.quiztest.entity.Quiz;
 
 @ManagedBean
 @ViewScoped
 public class CreateQuizBean {
 
-	private Quiz quiz = new Quiz();
-	private Question question = new Question();
-	private List<Answer> answers = new ArrayList<Answer>();
-
-	private String questionType;
-	private String[] checkedItems;
-	private String checkedItem;
+	@PostConstruct
+	private void postConstract() {
+		categories = categoryDAO.findAll();
+	}
 
 	public Quiz getQuiz() {
 		return quiz;
@@ -74,15 +76,46 @@ public class CreateQuizBean {
 		this.checkedItem = checkedItem;
 	}
 
-	public void addAnswer(ActionEvent actionEvent) {
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public int[] getSelectedCategories() {
+		return selectedCategories;
+	}
+
+	public void setSelectedCategories(int[] selectedCategories) {
+		this.selectedCategories = selectedCategories;
+	}
+
+	public String getCategoryName() {
+		return categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+
+	public void addAnswer() {
 		// System.out.println("-------------addAnswer------------");
 		Answer answer = new Answer();
 		answer.setQuestion(question);
 		answers.add(answer);
 	}
 
-	public void addQuestion(ActionEvent actionEvent) {
-//		System.out.println("-------------addQuestion------------");
+	public void removeAnswer() {
+		int size = answers.size();
+		if (size > 0) {
+			answers.remove(size - 1);
+		}
+	}
+
+	public void addQuestion() {
+		// System.out.println("-------------addQuestion------------");
 		switch (questionType) {
 		case "single":
 			prepareForSingleQuestion();
@@ -97,13 +130,13 @@ public class CreateQuizBean {
 			break;
 		}
 		question.getAnswers().addAll(answers);
-//		QuestionType objectType = DAOFactory.getQuestionTypeDAO().findByTypeName(questionType);
-//		question.setQuestionType(objectType);
+		QuestionType objectType = questionTypeDAO.findByTypeName(questionType);
+		question.setQuestionType(objectType);
 		question.setQuiz(quiz);
-		quiz.getQuestions().add(question);	
+		quiz.getQuestions().add(question);
 
 		clear();
-		
+
 		RequestContext.getCurrentInstance().execute("addQuestionDialog.hide()");
 		RequestContext.getCurrentInstance().update("form:dialog");
 	}
@@ -143,12 +176,37 @@ public class CreateQuizBean {
 		checkedItem = null;
 	}
 	
-//	public void create() {
-////		System.out.println("-------------createQuizBean------------");
-//		Category category = DAOFactory.getCategoryDAO().findByID(1);
-//		quiz.getCategories().add(category);
-//		DAOFactory.getQuizDAO().quickSave(quiz);
-//		DAOFactory.getQuizDAO().merge(quiz);
-//	}
+	public void addCategory() {
+		Category category = new Category(categoryName);
+		categoryDAO.save(category);
+		categories.add(0, category);
+	}
+
+	public void create() {
+		for (int index : selectedCategories) {
+			// Category category = categoryDAO.findByID(1);
+			Category category = categories.get(index);
+			quiz.getCategories().add(category);
+		}
+		quizDAO.save(quiz);
+	}
+
+	@EJB
+	private CategoryDAO categoryDAO;
+	@EJB
+	private QuizDAO quizDAO;
+	@EJB
+	private QuestionTypeDAO questionTypeDAO;
+
+	private List<Category> categories;
+	private Quiz quiz = new Quiz();
+	private Question question = new Question();
+	private List<Answer> answers = new ArrayList<Answer>();
+
+	private String questionType;
+	private String[] checkedItems;
+	private String checkedItem;
+	private int[] selectedCategories;
+	private String categoryName;
 
 }

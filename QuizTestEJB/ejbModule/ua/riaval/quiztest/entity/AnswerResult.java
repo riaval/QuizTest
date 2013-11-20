@@ -43,7 +43,7 @@ public class AnswerResult implements java.io.Serializable {
 
 	public AnswerResult(Answer answer) {
 		this.text = answer.getText();
-		this.correct = answer.isCorrect();
+		this.correct = answer.getCorrect();
 	}
 
 	@Id

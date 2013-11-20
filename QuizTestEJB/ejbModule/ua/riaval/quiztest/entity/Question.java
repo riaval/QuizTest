@@ -65,7 +65,7 @@ public class Question implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinColumn(name = "type_id", nullable = false)
 	public QuestionType getQuestionType() {
 		return this.questionType;

@@ -28,6 +28,7 @@ public class Category implements java.io.Serializable {
 
 	private Integer id;
 	private String name;
+	
 	private Set<Quiz> quizzes = new LinkedHashSet<Quiz>();
 
 	public Category() {
@@ -57,6 +58,7 @@ public class Category implements java.io.Serializable {
 		this.name = name;
 	}
 
+//	@ManyToMany(mappedBy = "categories", cascade = CascadeType.ALL)
 	@OrderBy("id DESC")
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable

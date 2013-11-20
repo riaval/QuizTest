@@ -107,7 +107,7 @@ public class Quiz implements java.io.Serializable {
 	}
 
 //	@ManyToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinTable
 	(name="Quiz_Category",
 	joinColumns =

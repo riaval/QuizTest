@@ -2,23 +2,16 @@ package ua.riaval.quiztest.entity;
 
 // Generated 04.11.2013 10:49:58 by Hibernate Tools 3.4.0.CR1
 
-import java.util.HashSet;
-import java.util.Set;
+import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -71,32 +64,12 @@ public class Answer implements java.io.Serializable {
 	}
 
 	@Column(name = "correct")
-	public Boolean isCorrect() {
+	public Boolean getCorrect() {
 		return this.correct;
 	}
 
 	public void setCorrect(Boolean correct) {
 		this.correct = correct;
 	}
-
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "answerByChildAnswerId")
-//	public Set<AnswerAnswer> getAnswerAnswersForChildAnswerId() {
-//		return this.answerAnswersForChildAnswerId;
-//	}
-//
-//	public void setAnswerAnswersForChildAnswerId(
-//			Set<AnswerAnswer> answerAnswersForChildAnswerId) {
-//		this.answerAnswersForChildAnswerId = answerAnswersForChildAnswerId;
-//	}
-//
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "answerByParentAnswerId")
-//	public Set<AnswerAnswer> getAnswerAnswersForParentAnswerId() {
-//		return this.answerAnswersForParentAnswerId;
-//	}
-//
-//	public void setAnswerAnswersForParentAnswerId(
-//			Set<AnswerAnswer> answerAnswersForParentAnswerId) {
-//		this.answerAnswersForParentAnswerId = answerAnswersForParentAnswerId;
-//	}
 
 }

@@ -20,7 +20,7 @@ public class IndexBean implements Serializable {
 	@PostConstruct
 	private void postConstruct() {
 		quizzes = quizDAO.findLastQuizzes(10);
-		categories = catDAO.findAll();
+		categories = categoryDAO.findAll();
 	}
 
 	public List<Category> getCategories() {
@@ -48,7 +48,7 @@ public class IndexBean implements Serializable {
 	}
 	
 	@EJB
-	private CategoryDAO catDAO;
+	private CategoryDAO categoryDAO;
 	@EJB
 	private QuizDAO quizDAO;
 

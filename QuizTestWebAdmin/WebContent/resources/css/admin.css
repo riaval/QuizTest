@@ -1,0 +1,193 @@
+a:focus { 
+	outline: 0 !important;
+}
+
+html, body {
+	height: 100%;
+}
+
+html {
+	overflow-y: scroll; 
+}
+
+.wrapper {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.top {
+	padding-top: 60px;
+}
+
+.expanded {
+	min-height: 100%;
+	margin-bottom: -53px;
+}
+
+.push {
+	height: 75px;
+	/*height: 53px;*/
+}
+
+footer {
+	height: 35px;
+	padding-top: 18px;
+	background-color: #f5f5f5;
+}
+
+/* custom */
+.quiz-title, .quiz-comment {
+	width: 705px;
+}
+
+.quiz-item {
+	margin-bottom: 12px;
+}
+
+.cat-check tr {
+	height: 30px;
+}
+
+.quiz-check {
+	margin-top: 20px;
+}
+
+.quiz-check tr{
+	height: 39px;
+}
+
+.title {
+	margin-bottom: 7px;
+	font-size: 1.2em;
+}
+
+.buttons button {
+	margin-right: 10px;
+}
+
+.new-cat-bt {
+	margin-top: 10px;
+}
+
+
+/*
+ *
+ * Category dialog
+ *
+ */
+.cat-dialog input{
+	width: 350px;
+ }
+
+ .cat-dialog .buttons {
+ 	margin-top: 25px;
+ }
+
+
+/*
+ *
+ * Question dialog
+ *
+ */
+.question-dialog textarea {
+	margin-bottom: 10px;
+}
+
+.question-dialog {
+	/*top: 100px !important;*/
+}
+
+.top-margin {
+	margin-top: 10px;
+}
+
+.floated.left {
+	float: left;
+}
+
+.floated.right {
+	float: right;
+}
+
+.floated.left .ui-chkbox {
+	height: 28px;
+	margin-top: 8px;
+}
+
+.floated.left .ui-radiobutton {
+	height: 25px;
+	margin-top: 8px;
+	margin-right: 7px;
+}
+
+.floated.right input {
+	margin: 5px 0 !important;
+}
+
+.non-open input {
+	width: 406px;
+}
+
+.open input {
+	width: 433px;
+}
+
+/*
+ *
+ * Question list
+ *
+ */
+.question {
+	margin-bottom: 15px;
+}
+
+.question-title {
+	overflow: hidden;
+}
+
+.question-title-text {
+	font-size: 1.5em;
+	line-height: 30px;
+	margin-bottom: 10px;
+	float: left;
+}
+
+.question-title-bt {
+	float: right;
+	max-width: 810px;
+}
+
+.answer {
+	font-size: 1.2em;
+	margin-bottom: 10px;
+}
+
+
+/* Bootstrap*/
+[class^="icon-"], [class*=" icon-"] {
+	background-image: url('#{resource['bootstrap:img/glyphicons-halflings.png']}') !important;
+}
+
+.ui-selectmanycheckbox label {
+	margin: 0 0 0 5px !important;
+}
+
+.btn-danger {
+  background-color: #DA4F49 !important;
+  background-image: linear-gradient(to bottom, #EE5F5B, #BD362F) !important;
+  background-repeat: repeat-x !important;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25) !important;
+  color: #FFFFFF !important;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25) !important;
+}
+
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger.active,
+.btn-danger.disabled,
+.btn-danger[disabled] {
+  color: #ffffff !important;
+  background-color: #bd362f !important;
+  *background-color: #a9302a !important;
+}

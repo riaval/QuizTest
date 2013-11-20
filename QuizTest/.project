@@ -5,6 +5,7 @@
 	<projects>
 		<project>QuizTestEJB</project>
 		<project>QuizTestWebUser</project>
+		<project>QuizTestWebAdmin</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

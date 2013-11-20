@@ -1,0 +1,27 @@
+<ui:composition 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="template/admin-template.xhtml">
+
+	<ui:param name="title" value="Available tests" />
+
+	<ui:define name="content">
+				
+		<p:dataTable id="dataTable" var="quiz" value="#{QuizzesBean.quizzes}"  
+		                 paginator="true" rows="30"  
+		                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  >   
+
+			<p:column>  
+			    <f:facet name="header">  
+			        <h:outputText value="Model" />  
+			    </f:facet>  
+			    <h:outputText value="#{quiz.name}" />  
+			</p:column>  
+
+		</p:dataTable>  
+
+	</ui:define>
+
+</ui:composition>
