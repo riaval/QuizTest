@@ -1,0 +1,66 @@
+<ui:composition 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="template/admin-template.xhtml">
+
+	<ui:param name="title" value="Categories" />
+
+	<ui:define name="content">
+	
+		<h:form>
+
+			<div class="page-header button-header">
+				<h1>Categories</h1>
+				<div class="buttons new-cat-bt">
+					<p:commandButton value="Remove" styleClass="btn-danger" actionListener="#{categoriesBean.removeCategories()}" update="dataTable">
+						<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:commandButton value="Create new" styleClass="btn-success" onclick="PF('CatDialog').show()" />
+				</div>
+			</div>			
+
+			<p:dataTable id="dataTable"
+				value="#{categoriesBean.categoriesModel}" var="category" 
+				selection="#{categoriesBean.selectedCategories}" 
+				editable="true" > 
+
+				<p:column selectionMode="multiple" styleClass="selection-unit" />
+
+				<p:column headerText="Name">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{category.name}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{category.name}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column> 
+
+				<p:column styleClass="edit-unit">
+					<p:rowEditor />
+				</p:column>
+
+			</p:dataTable>
+			
+			<p:dialog id="CatDialog" styleClass="cat-dialog" header="Add question" widgetVar="CatDialog" modal="true" resizable="false">
+				<div class="title">Name</div>
+				<div class="title"><p:inputText value="#{categoriesBean.categoryName}" /></div>
+				<div class="buttons">
+					<p:commandButton value="Confirm" update="@form" styleClass="ui-priority-primary" actionListener="#{categoriesBean.addCategory()}" />
+					<p:commandButton value="Cancel" onclick="PF('CatDialog').hide()" />
+				</div>
+			</p:dialog>
+
+			<p:confirmDialog global="true">
+				<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
+			</p:confirmDialog>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

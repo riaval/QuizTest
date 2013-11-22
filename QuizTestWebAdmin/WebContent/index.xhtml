@@ -61,15 +61,7 @@
 					<!-- <p:commandButton value="Remove" styleClass="btn-danger" /> -->
 				</div>
 			</div>
-
-			<p:dialog id="CatDialog" styleClass="cat-dialog" header="Add question" widgetVar="CatDialog" modal="true" resizable="false">
-				<div class="title">Name</div>
-				<div class="title"><p:inputText value="#{createQuizBean.categoryName}" /></div>
-				<div class="buttons">
-					<p:commandButton value="Confirm" update="@form" styleClass="ui-priority-primary" actionListener="#{createQuizBean.addCategory()}" />
-					<p:commandButton value="Cancel" onclick="PF('CatDialog').hide()" />
-				</div>
-			</p:dialog>
+			
 		</h:form>
 
 

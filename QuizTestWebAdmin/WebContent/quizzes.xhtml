@@ -8,19 +8,53 @@
 	<ui:param name="title" value="Available tests" />
 
 	<ui:define name="content">
-				
-		<p:dataTable id="dataTable" var="quiz" value="#{QuizzesBean.quizzes}"  
-		                 paginator="true" rows="30"  
-		                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  >   
 
-			<p:column>  
-			    <f:facet name="header">  
-			        <h:outputText value="Model" />  
-			    </f:facet>  
-			    <h:outputText value="#{quiz.name}" />  
-			</p:column>  
+		<h:form>
 
-		</p:dataTable>  
+			<div class="page-header button-header">
+				<h1>Quizzes</h1>
+				<div class="buttons new-cat-bt">
+					<p:commandButton value="Remove" styleClass="btn-danger" actionListener="#{categoriesBean.removeCategories()}" update="dataTable">
+						<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+					</p:commandButton>
+					<p:commandButton value="Create new" styleClass="btn-success" onclick="PF('CatDialog').show()" />
+				</div>
+			</div>	
+
+			<p:dataTable id="dataTable" var="quiz" value="#{quizzesBean.quizzes.toArray()}"
+						editable="true"
+						paginator="true" rows="15"
+						paginatorPosition="bottom"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  >   
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Name" />
+					</f:facet>
+					<h:outputText value="#{quiz.name}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Time limit (minutes)" />
+					</f:facet>
+					<h:outputText value="#{quiz.timeLimit}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Questions" />
+					</f:facet>
+					<h:outputText value="#{quiz.amount}" />
+				</p:column>
+
+				<p:column style="width:6%">
+					<p:rowEditor />
+				</p:column>
+
+			</p:dataTable> 
+
+		</h:form> 
 
 	</ui:define>
 

@@ -13,6 +13,7 @@ import org.primefaces.context.RequestContext;
 import ua.riaval.quiztest.dao.CategoryDAO;
 import ua.riaval.quiztest.dao.QuestionTypeDAO;
 import ua.riaval.quiztest.dao.QuizDAO;
+import ua.riaval.quiztest.dao.implementation.OrderBy;
 import ua.riaval.quiztest.entity.Answer;
 import ua.riaval.quiztest.entity.Category;
 import ua.riaval.quiztest.entity.Question;
@@ -25,7 +26,7 @@ public class CreateQuizBean {
 
 	@PostConstruct
 	private void postConstract() {
-		categories = categoryDAO.findAll();
+		categories = categoryDAO.findAll(OrderBy.DESC);
 	}
 
 	public Quiz getQuiz() {
@@ -90,14 +91,6 @@ public class CreateQuizBean {
 
 	public void setSelectedCategories(int[] selectedCategories) {
 		this.selectedCategories = selectedCategories;
-	}
-
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
 	}
 
 	public void addAnswer() {
@@ -175,12 +168,6 @@ public class CreateQuizBean {
 		checkedItems = null;
 		checkedItem = null;
 	}
-	
-	public void addCategory() {
-		Category category = new Category(categoryName);
-		categoryDAO.save(category);
-		categories.add(0, category);
-	}
 
 	public void create() {
 		for (int index : selectedCategories) {
@@ -207,6 +194,5 @@ public class CreateQuizBean {
 	private String[] checkedItems;
 	private String checkedItem;
 	private int[] selectedCategories;
-	private String categoryName;
 
 }

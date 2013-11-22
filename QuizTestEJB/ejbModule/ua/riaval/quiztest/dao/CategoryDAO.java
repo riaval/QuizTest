@@ -7,4 +7,6 @@ import ua.riaval.quiztest.entity.Category;
 @Local
 public interface CategoryDAO extends DAO<Category> {
 
+	public Category findByName(String name);
+	
 }

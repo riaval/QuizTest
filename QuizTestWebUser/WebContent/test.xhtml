@@ -10,10 +10,10 @@
 	<ui:define name="content">
 
 		<div class="page-header button-header">
-		<h1>#{testBean.quiz.name}</h1>
-		<h:form>
-			<p:commandButton action="#{quizRunBean.start(testBean.quiz.id)}" value="Start quiz"  styleClass="ui-priority-primary" />
-		</h:form>
+			<h1>#{testBean.quiz.name}</h1>
+			<h:form>
+				<p:commandButton action="#{quizRunBean.start(testBean.quiz.id)}" value="Start quiz"  styleClass="ui-priority-primary" />
+			</h:form>
 		</div>
 		<p class="lead">#{testBean.quiz.comment}</p>
 

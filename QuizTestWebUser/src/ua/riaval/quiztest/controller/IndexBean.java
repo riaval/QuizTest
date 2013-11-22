@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 
 import ua.riaval.quiztest.dao.CategoryDAO;
 import ua.riaval.quiztest.dao.QuizDAO;
+import ua.riaval.quiztest.dao.implementation.OrderBy;
 import ua.riaval.quiztest.entity.Category;
 import ua.riaval.quiztest.entity.Quiz;
 
@@ -20,7 +21,7 @@ public class IndexBean implements Serializable {
 	@PostConstruct
 	private void postConstruct() {
 		quizzes = quizDAO.findLastQuizzes(10);
-		categories = categoryDAO.findAll();
+		categories = categoryDAO.findAll(OrderBy.DESC);
 	}
 
 	public List<Category> getCategories() {

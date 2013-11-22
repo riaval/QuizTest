@@ -5,13 +5,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 import ua.riaval.quiztest.dao.QuizDAO;
+import ua.riaval.quiztest.dao.implementation.OrderBy;
 import ua.riaval.quiztest.entity.Quiz;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class QuizzesBean {
 
 	@EJB
@@ -21,7 +22,7 @@ public class QuizzesBean {
 
 	@PostConstruct
 	private void postConstract() {
-		quizzes = quizDAO.findAll();
+		quizzes = quizDAO.findAll(OrderBy.DESC);
 	}
 	
 	public List<Quiz> getQuizzes() {

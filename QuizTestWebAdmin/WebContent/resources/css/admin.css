@@ -66,9 +66,21 @@ footer {
 }
 
 .new-cat-bt {
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
+.button-header {
+	overflow: hidden;
+}
+
+.button-header h1 {
+	float: left;
+	max-width: 755px;
+}
+
+.button-header .new-cat-bt {
+	float: right;
+}
 
 /*
  *
@@ -160,6 +172,19 @@ footer {
 .answer {
 	font-size: 1.2em;
 	margin-bottom: 10px;
+}
+
+/*
+ *
+ * DataTable
+ *
+ */
+.selection-unit {
+	width: 18px;
+}
+
+.edit-unit {
+	width: 35px;
 }
 
 

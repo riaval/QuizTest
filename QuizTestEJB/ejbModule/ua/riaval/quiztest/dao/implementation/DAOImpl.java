@@ -20,7 +20,7 @@ public abstract class DAOImpl<T> implements DAO<T> {
 
 		StringBuilder output = new StringBuilder();
 		output.append("SELECT e FROM ").append(persistClass.getSimpleName())
-				.append(" AS e").append(" ORDER BY e.id DESC");
+				.append(" AS e").append(" ORDER BY e.id ");
 		findAllQuery = output.toString();
 	}
 
@@ -40,10 +40,10 @@ public abstract class DAOImpl<T> implements DAO<T> {
 	public void delete(T entity) {
 		em.remove(entity);
 	}
-
+	
 	@Override
-	public List<T> findAll() {
-		TypedQuery<T> query = em.createQuery(findAllQuery, persistClass);
+	public List<T> findAll(OrderBy orderBy) {
+		TypedQuery<T> query = em.createQuery(findAllQuery + orderBy, persistClass);
 
 		return findMany(query);
 	}
