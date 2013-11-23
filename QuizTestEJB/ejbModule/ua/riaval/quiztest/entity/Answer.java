@@ -22,8 +22,6 @@ public class Answer implements java.io.Serializable {
 	private String text;
 	private Boolean correct = false;
 	private Question question;
-//	private Set<AnswerAnswer> answerAnswersForChildAnswerId = new HashSet<AnswerAnswer>();
-//	private Set<AnswerAnswer> answerAnswersForParentAnswerId = new HashSet<AnswerAnswer>();
 
 	public Answer() {
 	}

@@ -6,9 +6,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import ua.riaval.quiztest.controller.datamodel.QuizDataModel;
 import ua.riaval.quiztest.dao.QuizDAO;
-import ua.riaval.quiztest.dao.implementation.OrderBy;
 import ua.riaval.quiztest.entity.Quiz;
 
 @ManagedBean
@@ -17,20 +18,30 @@ public class QuizzesBean {
 
 	@EJB
 	private QuizDAO quizDAO;
-	
-	private List<Quiz> quizzes;
+
+	private QuizDataModel quizDataModel;
+	private Quiz selectedQuiz;
 
 	@PostConstruct
 	private void postConstract() {
-		quizzes = quizDAO.findAll(OrderBy.DESC);
-	}
-	
-	public List<Quiz> getQuizzes() {
-		return quizzes;
+		FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		quizDataModel = new QuizDataModel();
 	}
 
-	public void setQuizzes(List<Quiz> quizzes) {
-		this.quizzes = quizzes;
+	public QuizDataModel getQuizDataModel() {
+		return quizDataModel;
+	}
+
+	public void setQuizDataModel(QuizDataModel quizDataModel) {
+		this.quizDataModel = quizDataModel;
+	}
+
+	public Quiz getSelectedQuiz() {
+		return selectedQuiz;
+	}
+
+	public void setSelectedQuiz(Quiz selectedQuiz) {
+		this.selectedQuiz = selectedQuiz;
 	}
 
 }

@@ -49,11 +49,17 @@ footer {
 }
 
 .quiz-check {
-	margin-top: 20px;
+	margin-top: 18px;
 }
 
-.quiz-check tr{
-	height: 39px;
+.quiz-check div{
+	display: block;
+	line-height: 36px;
+	vertical-align: middle;
+}
+
+.quiz-check .ui-chkbox-label {
+	padding-left: 5px;
 }
 
 .title {
@@ -144,6 +150,11 @@ footer {
 	width: 433px;
 }
 
+.question-tab td { 
+    vertical-align: top;
+    padding-right: 50px;
+}
+
 /*
  *
  * Question list
@@ -191,6 +202,10 @@ footer {
 /* Bootstrap*/
 [class^="icon-"], [class*=" icon-"] {
 	background-image: url('#{resource['bootstrap:img/glyphicons-halflings.png']}') !important;
+}
+
+.icon-white, .nav-pills > .active > a > [class^="icon-"], .nav-pills > .active > a > [class*=" icon-"], .nav-list > .active > a > [class^="icon-"], .nav-list > .active > a > [class*=" icon-"], .navbar-inverse .nav > .active > a > [class^="icon-"], .navbar-inverse .nav > .active > a > [class*=" icon-"], .dropdown-menu > li > a:hover > [class^="icon-"], .dropdown-menu > li > a:focus > [class^="icon-"], .dropdown-menu > li > a:hover > [class*=" icon-"], .dropdown-menu > li > a:focus > [class*=" icon-"], .dropdown-menu > .active > a > [class^="icon-"], .dropdown-menu > .active > a > [class*=" icon-"], .dropdown-submenu:hover > a > [class^="icon-"], .dropdown-submenu:focus > a > [class^="icon-"], .dropdown-submenu:hover > a > [class*=" icon-"], .dropdown-submenu:focus > a > [class*=" icon-"] {
+	background-image: url('#{resource['bootstrap:img/glyphicons-halflings-white.png']}') !important;
 }
 
 .ui-selectmanycheckbox label {

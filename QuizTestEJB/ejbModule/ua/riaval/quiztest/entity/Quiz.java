@@ -22,8 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @NamedQueries({
-	@NamedQuery(name = "Quiz.findAllDesc", 
-				query = "SELECT q FROM Quiz AS q ORDER BY q.id DESC")
+	@NamedQuery(name = "Quiz.findAllDesc", query = "SELECT q FROM Quiz AS q ORDER BY q.id DESC"),
 })
 @Entity
 @Table(name = "Quiz", catalog = "QuizTest")
@@ -34,12 +33,15 @@ public class Quiz implements java.io.Serializable {
 	private String comment;
 	private int timeLimit;
 	private int amount;
+	private boolean randomOrder;
+	private boolean showResults;
+	private boolean binaryGrade;
 	private Set<Comment> comments = new LinkedHashSet<Comment>();
 	private Set<Category> categories = new LinkedHashSet<Category>();
 	private Set<Question> questions = new LinkedHashSet<Question>();
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public Quiz() {
 	}
 
@@ -97,6 +99,33 @@ public class Quiz implements java.io.Serializable {
 		this.amount = amount;
 	}
 
+	@Column(name = "randomOrder", nullable = false)
+	public boolean isRandomOrder() {
+		return this.randomOrder;
+	}
+
+	public void setRandomOrder(boolean randomOrder) {
+		this.randomOrder = randomOrder;
+	}
+
+	@Column(name = "showResults", nullable = false)
+	public boolean isShowResults() {
+		return this.showResults;
+	}
+
+	public void setShowResults(boolean showResults) {
+		this.showResults = showResults;
+	}
+
+	@Column(name = "binaryGrade", nullable = false)
+	public boolean isBinaryGrade() {
+		return this.binaryGrade;
+	}
+
+	public void setBinaryGrade(boolean binaryGrade) {
+		this.binaryGrade = binaryGrade;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz", cascade = CascadeType.ALL)
 	public Set<Comment> getComments() {
 		return this.comments;
@@ -106,14 +135,9 @@ public class Quiz implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-//	@ManyToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-	@JoinTable
-	(name="Quiz_Category",
-	joinColumns =
-	{ @JoinColumn(name = "quiz_id") },
-	inverseJoinColumns =
-	{ @JoinColumn(name = "category_id") })
+	// @ManyToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+	@JoinTable(name = "Quiz_Category", joinColumns = { @JoinColumn(name = "quiz_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
 	public Set<Category> getCategories() {
 		return categories;
 	}

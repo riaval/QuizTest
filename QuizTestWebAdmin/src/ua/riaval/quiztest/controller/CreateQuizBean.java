@@ -169,13 +169,15 @@ public class CreateQuizBean {
 		checkedItem = null;
 	}
 
-	public void create() {
+	public String create() {
 		for (int index : selectedCategories) {
 			// Category category = categoryDAO.findByID(1);
 			Category category = categories.get(index);
 			quiz.getCategories().add(category);
 		}
 		quizDAO.save(quiz);
+		
+		return "quizzes?faces-redirect=true";
 	}
 
 	@EJB

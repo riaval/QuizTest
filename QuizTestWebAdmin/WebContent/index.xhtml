@@ -39,11 +39,11 @@
 							</div>
 						</div>
 						<div class="span7">
-							<p:selectManyCheckbox layout="pageDirection" styleClass="check-list quiz-check">
-								<f:selectItem itemLabel="Random order" itemValue="Option 1" />
-								<f:selectItem itemLabel="Show results" itemValue="Option 2" />
-								<f:selectItem itemLabel="Binary format of questions" itemValue="Option 3" />
-							</p:selectManyCheckbox>
+							<div class="quiz-check">
+								<p:selectBooleanCheckbox value="#{createQuizBean.quiz.randomOrder}" itemLabel="Random order" />
+								<p:selectBooleanCheckbox value="#{createQuizBean.quiz.showResults}" itemLabel="Show results" />
+								<p:selectBooleanCheckbox value="#{createQuizBean.quiz.binaryGrade}" itemLabel="Binary format of questions" />
+							</div>
 						</div>
 					</div>
 
@@ -61,7 +61,7 @@
 					<!-- <p:commandButton value="Remove" styleClass="btn-danger" /> -->
 				</div>
 			</div>
-			
+
 		</h:form>
 
 
@@ -128,15 +128,30 @@
 			<p:dialog id="dialog" styleClass="question-dialog" header="Add question" widgetVar="addQuestionDialog" position="center, 100" modal="true" resizable="false">
 				<div class="title">Question</div>
 				<p:inputTextarea rows="10" cols="53" value="#{createQuizBean.question.text}" />
-				<div class="title">Type</div>
-				<p:selectOneMenu value="#{createQuizBean.questionType}">
-					<f:selectItem itemLabel="Single choice" itemValue="single" />
-					<f:selectItem itemLabel="Multiple choice" itemValue="multiple" />
-					<f:selectItem itemLabel="Open question" itemValue="open" />
-					<!-- <f:selectItem itemLabel="Cross questions" itemValue="4" /> -->
-					<!-- <f:converter converterId="TypeConverter" /> -->
-					<p:ajax update="answers"/>
-				</p:selectOneMenu>
+				
+				<table cellspacing="5" class="question-tab">
+					<tr>
+						<td>
+							<div class="title">Cost</div>
+						</td>
+						<td>
+							<div class="title">Type</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<p:spinner value="#{createQuizBean.question.cost}" min="1" size="15" />
+						</td>
+						<td>
+							<p:selectOneMenu value="#{createQuizBean.questionType}" style="width:180px">
+								<f:selectItem itemLabel="Single choice" itemValue="single" />
+								<f:selectItem itemLabel="Multiple choice" itemValue="multiple" />
+								<f:selectItem itemLabel="Open question" itemValue="open" />
+								<p:ajax update="answers"/>
+							</p:selectOneMenu>
+						</td>
+					</tr>
+				</table>
 
 				<div class="buttons top-margin">
 					<p:commandButton update="answers" value="Add answer" actionListener="#{createQuizBean.addAnswer()}" />

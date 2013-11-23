@@ -13,21 +13,27 @@
 
 			<div class="page-header button-header">
 				<h1>Quizzes</h1>
-				<div class="buttons new-cat-bt">
-					<p:commandButton value="Remove" styleClass="btn-danger" actionListener="#{categoriesBean.removeCategories()}" update="dataTable">
-						<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-					</p:commandButton>
-					<p:commandButton value="Create new" styleClass="btn-success" onclick="PF('CatDialog').show()" />
-				</div>
+					<div class="btn-toolbar new-cat-bt">
+						<div class="btn-group">
+							<button class="btn btn-warning"><i class="icon-edit icon-white"></i> Edit</button>
+							<button class="btn btn-danger"><i class="icon-remove icon-white"></i> Remove</button>
+						</div>
+						<div class="btn-group">
+							<p:button outcome="index?faces-redirect=true" styleClass="btn btn-success" value="Create new" />
+						</div>
+					</div>
+					
+
 			</div>	
 
-			<p:dataTable id="dataTable" var="quiz" value="#{quizzesBean.quizzes.toArray()}"
-						editable="true"
+			<p:dataTable id="dataTable" var="quiz" value="#{quizzesBean.quizDataModel}" 
+						lazy="true"
 						paginator="true" rows="15"
 						paginatorPosition="bottom"
+						selection="#{quizzesBean.selectedQuiz}" selectionMode="single"
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  >   
 
-				<p:column>
+				<p:column style="width:36%">
 					<f:facet name="header">
 						<h:outputText value="Name" />
 					</f:facet>
@@ -36,9 +42,9 @@
 
 				<p:column>
 					<f:facet name="header">
-						<h:outputText value="Time limit (minutes)" />
+						<h:outputText value="Time limit" />
 					</f:facet>
-					<h:outputText value="#{quiz.timeLimit}" />
+					<h:outputText value="#{quiz.timeLimit} min" />
 				</p:column>
 
 				<p:column>
@@ -48,8 +54,25 @@
 					<h:outputText value="#{quiz.amount}" />
 				</p:column>
 
-				<p:column style="width:6%">
-					<p:rowEditor />
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Random order" />
+					</f:facet>
+					<h:outputText value="#{quiz.randomOrder ? 'Yes' : 'No'}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Show result" />
+					</f:facet>
+					<h:outputText value="#{quiz.showResults ? 'Yes' : 'No'}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Binary type" />
+					</f:facet>
+					<h:outputText value="#{quiz.binaryGrade ? 'Yes' : 'No'}" />
 				</p:column>
 
 			</p:dataTable> 

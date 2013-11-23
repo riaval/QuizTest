@@ -20,7 +20,7 @@ public class IndexBean implements Serializable {
 
 	@PostConstruct
 	private void postConstruct() {
-		quizzes = quizDAO.findLastQuizzes(10);
+		quizzes = quizDAO.loadPart(0, 10, OrderBy.DESC);
 		categories = categoryDAO.findAll(OrderBy.DESC);
 	}
 

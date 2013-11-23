@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ua.riaval.quiztest.dao.DAO;
@@ -22,6 +23,11 @@ public abstract class DAOImpl<T> implements DAO<T> {
 		output.append("SELECT e FROM ").append(persistClass.getSimpleName())
 				.append(" AS e").append(" ORDER BY e.id ");
 		findAllQuery = output.toString();
+
+		output = new StringBuilder();
+		output.append("SELECT COUNT(e) FROM ")
+				.append(persistClass.getSimpleName()).append(" AS e");
+		countQuery = output.toString();
 	}
 
 	@Override
@@ -40,10 +46,22 @@ public abstract class DAOImpl<T> implements DAO<T> {
 	public void delete(T entity) {
 		em.remove(entity);
 	}
-	
+
 	@Override
 	public List<T> findAll(OrderBy orderBy) {
-		TypedQuery<T> query = em.createQuery(findAllQuery + orderBy, persistClass);
+		TypedQuery<T> query = em.createQuery(findAllQuery + orderBy,
+				persistClass);
+
+		return findMany(query);
+	}
+
+	@Override
+	public List<T> loadPart(int firstIndex, int amount, OrderBy orderBy) {
+		TypedQuery<T> query = em.createQuery(findAllQuery + orderBy,
+				persistClass);
+
+		query.setFirstResult(firstIndex);
+		query.setMaxResults(amount);
 
 		return findMany(query);
 	}
@@ -53,6 +71,13 @@ public abstract class DAOImpl<T> implements DAO<T> {
 		T entity = em.find(persistClass, id);
 
 		return entity;
+	}
+
+	@Override
+	public int count() {
+		Query query = em.createQuery(countQuery);
+		
+		return ((Long) query.getSingleResult()).intValue();
 	}
 
 	protected T findOne(TypedQuery<T> query) {
@@ -73,5 +98,6 @@ public abstract class DAOImpl<T> implements DAO<T> {
 
 	private Class<T> persistClass;
 	private String findAllQuery;
+	private String countQuery;
 
 }
