@@ -19,7 +19,7 @@
 		<display-name>AdminConstraint</display-name>
 		<web-resource-collection>
 			<web-resource-name>whole</web-resource-name>
-			<url-pattern>/faces/*</url-pattern> 
+			<url-pattern>/faces/index.xhtml</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>
@@ -34,8 +34,8 @@
 		<auth-method>FORM</auth-method>
 		<realm-name>QuizTestAuth</realm-name>
 		<form-login-config>
-			<form-login-page>/login.xhtml</form-login-page>
-			<form-error-page>/login.xhtml</form-error-page>
+			<form-login-page>/faces/signin.xhtml</form-login-page>
+			<form-error-page>/faces/signin.xhtml</form-error-page>
 		</form-login-config>
 	</login-config>
   
