@@ -154,3 +154,27 @@ footer {
 [class^="icon-"], [class*=" icon-"] {
 	background-image: url('#{resource['bootstrap:img/glyphicons-halflings.png']}') !important;
 }
+
+.divider {
+    width: 100%;
+    text-align: center;
+    line-height: 38px;
+    font-size: 13px;
+    color: #555555;
+    margin: 5px 0;
+}
+
+.divider hr {
+    margin-left: auto;
+    margin-right: auto;
+    width: 43%;
+
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
