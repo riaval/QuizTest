@@ -24,7 +24,7 @@ public class TestBean implements Serializable {
 		int id = Integer.parseInt(params.get("id"));
 		quiz = quizDAO.findByID(id);
 	}
-
+	
 	public Quiz getQuiz() {
 		return quiz;
 	}

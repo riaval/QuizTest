@@ -1,7 +1,5 @@
 package ua.riaval.quiztest.entity;
 
-// Generated 04.11.2013 10:49:58 by Hibernate Tools 3.4.0.CR1
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.Date;
@@ -23,13 +21,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-@NamedQueries({
-	@NamedQuery(name = "User.findByEmail", 
-				query = "SELECT u FROM User AS u WHERE u.email = :email")
-})
+@NamedQueries({ @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User AS u WHERE u.email = :email") })
 @Entity
 @Table(name = "User", catalog = "QuizTest", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User implements java.io.Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private UserRole userRole;

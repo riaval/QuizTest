@@ -20,11 +20,23 @@
 		<table class="table">
 			<tr>
 				<td>Amount of questions</td>
-				<td>#{testBean.quiz.amount}</td>
+				<td>#{testBean.quiz.amount == 0 ? testBean.quiz.questions.size() : testBean.quiz.amount}/#{testBean.quiz.questions.size()}</td>
 			</tr>
 			<tr>
 				<td>Time limit</td>
 				<td>#{testBean.quiz.timeLimit} min</td>
+			</tr>
+			<tr>
+				<td>Random order</td>
+				<td>#{testBean.quiz.randomOrder ? 'Yes' : 'No'}</td>
+			</tr>
+			<tr>
+				<td>Show mistakes</td>
+				<td>#{testBean.quiz.showResults ? 'Yes' : 'No'}</td>
+			</tr>
+			<tr>
+				<td>Binary grade</td>
+				<td>#{testBean.quiz.binaryGrade ? 'Yes' : 'No'}</td>
 			</tr>
 		</table>
 

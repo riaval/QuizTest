@@ -1,6 +1,5 @@
 package ua.riaval.quiztest.controller.datamodel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -35,9 +34,8 @@ public class QuizDataModel extends LazyDataModel<Quiz> {
 	@Override
 	public Quiz getRowData(String rowKey) {
 		int id = Integer.parseInt(rowKey);
-		quizDAO.findByID(id);
-
-		return null;
+		
+		return quizDAO.findByID(id);
 	}
 
 	@Override

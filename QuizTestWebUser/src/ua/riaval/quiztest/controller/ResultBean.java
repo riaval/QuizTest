@@ -26,15 +26,15 @@ public class ResultBean implements Serializable {
 
 		int id = Integer.parseInt(params.get("id"));
 
-		quizResul = quizResultDAO.findByID(id);
+		quizResult = quizResultDAO.findByID(id);
 	}
 
-	public QuizResult getQuizResul() {
-		return quizResul;
+	public QuizResult getQuizResult() {
+		return quizResult;
 	}
 
-	public void setQuizResul(QuizResult quizResul) {
-		this.quizResul = quizResul;
+	public void setQuizResult(QuizResult quizResul) {
+		this.quizResult = quizResul;
 	}
 	
 	public boolean isCorrect(QuestionResult questionResult) {
@@ -49,7 +49,7 @@ public class ResultBean implements Serializable {
 	@EJB
 	private QuizResultDAO quizResultDAO;
 
-	private QuizResult quizResul;
+	private QuizResult quizResult;
 
 	private static final long serialVersionUID = 1L;
 

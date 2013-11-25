@@ -1,7 +1,5 @@
 package ua.riaval.quiztest.entity;
 
-// Generated 04.11.2013 10:49:58 by Hibernate Tools 3.4.0.CR1
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.LinkedHashSet;
@@ -21,12 +19,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@NamedQueries({
-	@NamedQuery(name = "Quiz.findAllDesc", query = "SELECT q FROM Quiz AS q ORDER BY q.id DESC"),
-})
+@NamedQueries({ @NamedQuery(name = "Quiz.findAllDesc", query = "SELECT q FROM Quiz AS q ORDER BY q.id DESC"), })
 @Entity
 @Table(name = "Quiz", catalog = "QuizTest")
 public class Quiz implements java.io.Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private String name;
@@ -39,8 +37,6 @@ public class Quiz implements java.io.Serializable {
 	private Set<Comment> comments = new LinkedHashSet<Comment>();
 	private Set<Category> categories = new LinkedHashSet<Category>();
 	private Set<Question> questions = new LinkedHashSet<Question>();
-
-	private static final long serialVersionUID = 1L;
 
 	public Quiz() {
 	}
@@ -109,7 +105,7 @@ public class Quiz implements java.io.Serializable {
 	}
 
 	@Column(name = "showResults", nullable = false)
-	public boolean isShowResults() {
+	public boolean getShowResults() {
 		return this.showResults;
 	}
 

@@ -7,7 +7,6 @@
 		<jta-data-source>java:/QuizTest</jta-data-source>
 
 		<class>ua.riaval.quiztest.entity.Answer</class>
-		<class>ua.riaval.quiztest.entity.AnswerAnswer</class>
 		<class>ua.riaval.quiztest.entity.AnswerResult</class>
 		<class>ua.riaval.quiztest.entity.Category</class>
 		<class>ua.riaval.quiztest.entity.Comment</class>
@@ -23,6 +22,9 @@
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="true" />
+			
+			<property name="hibernate.connection.useUnicode" value="true" />
+			<property name="hibernate.connection.characterEncoding" value="UTF-8" />
 		</properties>
 	</persistence-unit>
 </persistence>

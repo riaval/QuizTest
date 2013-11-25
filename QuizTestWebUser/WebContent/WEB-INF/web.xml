@@ -32,7 +32,7 @@
 		<web-resource-collection>
 			<web-resource-name>whole</web-resource-name>
 			<url-pattern>/faces/testRun.xhtml</url-pattern>
-			<url-pattern>/faces/result.xhtml</url-pattern>
+			<!-- <url-pattern>/faces/result.xhtml</url-pattern> -->
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>user</role-name>

@@ -35,7 +35,7 @@
 					<div class="nav-collapse collapse">
 						<ul class="nav">
 							<li><a href="#">Quizzes</a></li>
-							<!-- <li><a href="#">Results</a></li> -->
+							<h:panelGroup rendered="#{request.isUserInRole('user')}"><li><h:link outcome="results" value="Results" /></li></h:panelGroup>
 						</ul>
 
 						<ul class="nav pull-right">
@@ -47,8 +47,18 @@
 								</ul>
 							</li>
 							<li class="divider-vertical"></li>
-							<li><a href="#">Login</a></li>
-							<li><a href="#">Sign in</a></li>
+							<h:panelGroup rendered="#{not request.isUserInRole('user')}">
+								<li><h:link outcome="signin" value="Login" /></li>
+								<li><h:link outcome="signup" value="Sign up" /></li>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{request.isUserInRole('user')}">
+								<li class="dropdown"><a data-toggle="dropdown"
+									class="dropdown-toggle" href="#">#{authBean.getUser().email}<b class="caret"></b></a>
+									<ul class="dropdown-menu">
+										<li><p:commandLink action="#{authBean.logout()}" value="Logout" /></li>
+									</ul>
+								</li>						
+							</h:panelGroup>
 						</ul>
 					</div>
 				</div>

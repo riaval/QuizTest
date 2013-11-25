@@ -5,15 +5,39 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="template/user-template.xhtml">
 
-	<ui:param name="title" value="#{quizRunBean.quiz.name}" />
+	<ui:param name="title" value="#{resultBean.quizResult.name}" />
 
 	<ui:define name="content">
 
 	<div class="page-header">
-		<h1>#{resultBean.quizResul.name}</h1>
+		<h1>#{resultBean.quizResult.name}</h1>
 	</div>
 
-	<ui:repeat value="#{resultBean.quizResul.questionResults.toArray()}" var="questionResult">
+	<h:panelGroup>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Marks /60</th>
+					<th>Graede</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<h:outputText value="#{resultBean.quizResult.date}">
+							<f:convertDateTime pattern="dd.MM.yyyy, HH:mm" />
+						</h:outputText>
+					</td>
+					<td>10</td>
+					<td>#{resultBean.quizResult.grade}</td>
+				</tr>
+			</tbody>
+		</table>
+	</h:panelGroup>
+
+	<h:panelGroup rendered="#{resultBean.quizResult.showResults}">
+	<ui:repeat value="#{resultBean.quizResult.questionResults.toArray()}" var="questionResult">
 	<div class="result #{resultBean.isCorrect(questionResult) ? 'correct' : 'incorrect'}">
 		<div class="result-title">#{questionResult.text}</div>
 		<h:panelGroup rendered="#{questionResult.questionType.name == 'open'}">
@@ -65,6 +89,7 @@
 		</h:dataTable>
 	</div>
 	</ui:repeat>
+	</h:panelGroup>
 
 	</ui:define>
 

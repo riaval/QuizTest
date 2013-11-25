@@ -1,7 +1,5 @@
 package ua.riaval.quiztest.entity;
 
-// Generated 04.11.2013 10:49:58 by Hibernate Tools 3.4.0.CR1
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.LinkedHashSet;
@@ -17,18 +15,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@NamedQueries({
-	@NamedQuery(name = "QuestionType.findByType", 
-				query = "SELECT qt FROM QuestionType AS qt WHERE qt.name = :typeName")
-})
+@NamedQueries({ @NamedQuery(name = "QuestionType.findByType", query = "SELECT qt FROM QuestionType AS qt WHERE qt.name = :typeName") })
 @Entity
 @Table(name = "QuestionType", catalog = "QuizTest")
 public class QuestionType implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	public static final String SINGLE = "single";
 	public static final String MULTIPLE = "multiple";
 	public static final String OPEN = "open";
-	
+
 	private Integer id;
 	private String name;
 	private Set<QuestionResult> questionResults = new LinkedHashSet<QuestionResult>();

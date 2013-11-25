@@ -1,0 +1,30 @@
+<ui:composition 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="template/user-template.xhtml">
+
+	<ui:param name="title" value="Sign up" />
+
+	<ui:define name="content">
+
+		<div class="container">
+
+			<h:form class="form-signin">
+				<h2 class="form-signin-heading">Sign up</h2>
+				<p:inputText value="#{authBean.email}" placeholder="Email address" style="width:280px" />
+				<p:inputText value="#{authBean.password}" placeholder="First name" type="password" style="width:120px" styleClass="pull-left" />
+				<p:inputText value="#{authBean.password}" placeholder="Last name" type="password" style="width:120px" styleClass="pull-right" />
+				<p:inputText value="#{authBean.password}" placeholder="Password" type="password" style="width:280px" />
+				<p:inputText value="#{authBean.password}" placeholder="Password (again)" type="password" style="width:280px" />
+				<div>
+					<p:commandButton action="#{authBean.signin()}" value="Sign up" styleClass="ui-priority-primary" style="width:100%;" />
+				</div>
+			</h:form>
+			
+		</div><!-- /container -->
+
+	</ui:define>
+
+</ui:composition>

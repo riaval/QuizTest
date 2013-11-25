@@ -1,7 +1,5 @@
 package ua.riaval.quiztest.entity;
 
-// Generated 04.11.2013 10:49:58 by Hibernate Tools 3.4.0.CR1
-
 import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.CascadeType;
@@ -17,6 +15,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Answer", catalog = "QuizTest")
 public class Answer implements java.io.Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Integer id;
 	private String text;
