@@ -45,6 +45,24 @@ public class ResultBean implements Serializable {
 		}
 		return false;
 	}
+	
+	public int getCost() {
+		int cost = 0;
+		for (QuestionResult each : quizResult.getQuestionResults()) {
+			cost += each.getCost();
+		}
+		
+		return cost;
+	}
+	
+	public double getMarks() {
+		double marks = 0;
+		for (QuestionResult each : quizResult.getQuestionResults()) {
+			marks += each.getResult();
+		}
+		
+		return marks;
+	}
 
 	@EJB
 	private QuizResultDAO quizResultDAO;

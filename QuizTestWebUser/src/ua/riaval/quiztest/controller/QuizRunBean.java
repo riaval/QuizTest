@@ -9,6 +9,7 @@ import java.util.TimerTask;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import ua.riaval.quiztest.dao.QuizDAO;
 import ua.riaval.quiztest.dao.QuizResultDAO;
@@ -26,6 +27,7 @@ public class QuizRunBean implements Serializable {
 	public String start(int requestId) {
 		if (quiz == null) {
 			Quiz defaultQuiz = quizDAO.findByID(requestId);
+			binary = defaultQuiz.isBinaryGrade();
 			this.quiz = new QuizResult(defaultQuiz);
 
 			timeLeft = defaultQuiz.getTimeLimit() * 60;
@@ -100,20 +102,97 @@ public class QuizRunBean implements Serializable {
 			}
 		}
 
-		AnswerResult ar = new AnswerResult(answer, true);
+		newAnswerResult(answer, currentQuestion);
+	}
+	
+	private void newAnswerResult(String text, QuestionResult question) {
+		AnswerResult ar = new AnswerResult(text, true);
 		ar.setCorrect(false);
-		ar.setQuestionResult(currentQuestion);
-		currentQuestion.getAnswerResults().add(ar);
+		ar.setQuestionResult(question);
+		question.getAnswerResults().add(ar);
 	}
 
 	public String finish() {
+		String email = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+//		User user = userDAO.findByEmail(email);
 		User user = userDAO.findByID(1);
 		quiz.setUser(user);
+		quizAnalyzing(quiz);
+		
+//		System.out.println(quizAnalyzing(quiz));
+		
 		quizResultDAO.save(quiz);
 		
 		int id = quiz.getId();
 		quiz = null;
 		return "result?faces-redirect=true&id=" + id;
+	}
+	
+	private QuizResult quizAnalyzing(QuizResult quiz) {
+		double mark = 0;
+		double marks = 0;
+		int cost = 0;
+		double grade;
+		for (QuestionResult qr : quiz.getQuestionResults()) {
+			cost += qr.getCost();
+			String questionType = qr.getQuestionType().getName();
+			if (questionType.equals("multiple")) {
+				int correct = 0;
+				int pointed = 0;
+				double result = 0;
+				for (AnswerResult ar : qr.getAnswerResults()) {
+					if (ar.getCorrect()) {
+						pointed++;
+					}
+					if (ar.getCorrect() && ar.getChecked()) {
+						correct++;
+					} else if (!ar.getCorrect() && ar.getChecked()) {
+						correct--;
+					}
+				}
+				result = (double) correct / pointed;
+				if (binary &&  result != 1) {
+					continue;
+				} else {
+					mark = qr.getCost() * result;
+					marks += mark;
+				}
+			} else if (questionType.equals("single")) {
+				for (AnswerResult ar : qr.getAnswerResults()) {
+					if (ar.getCorrect() && ar.getChecked()) {
+						mark = qr.getCost();
+						marks += mark;
+					}
+				}
+			} else if (questionType.equals("open")) {
+				AnswerResult checkedAnswer = null;
+				for (AnswerResult ar : qr.getAnswerResults()) {
+					if (ar.getChecked()) {
+						checkedAnswer = ar;
+						break;
+					}
+				}
+				if (checkedAnswer == null) {
+					newAnswerResult("", qr);
+				}
+				for (AnswerResult ar : qr.getAnswerResults()) {
+					if (ar.getCorrect() && ar.equals(checkedAnswer)) {
+						checkedAnswer.setCorrect(true);
+						mark = qr.getCost();
+						marks += mark;
+						break;
+					}
+				}
+			}
+			qr.setResult(mark);
+			mark = 0;
+		}
+		grade = (double) marks/cost;
+//		System.out.println("mark: " + marks);
+//		System.out.println("cost: " + cost);
+//		System.out.println("grade: " + grade);
+		quiz.setGrade(grade);
+		return quiz;
 	}
 
 	public QuizResult getQuiz() {
@@ -144,6 +223,8 @@ public class QuizRunBean implements Serializable {
 	private long timeLeft;
 	private Timer timer = new Timer();
 
+	private boolean binary;
+	
 	private static final long serialVersionUID = 1L;
 
 }

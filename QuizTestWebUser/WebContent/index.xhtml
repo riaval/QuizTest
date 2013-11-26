@@ -21,19 +21,18 @@
 						</p:commandLink>
 						</li>
 						<ui:repeat value="#{indexBean.categories}" var="category">
+							<h:panelGroup rendered="#{not empty category.quizzes}">
 							<li class="#{indexBean.currentCategory == category ? 'active' : ''}">
 							<p:commandLink update="@form" actionListener="#{indexBean.setCurrentCategory(category)}">
 								<h:outputText value="#{category.name}" />  
 								<i class="icon-chevron-right"></i>
 							</p:commandLink>
 							</li>
+							</h:panelGroup>
 						</ui:repeat>
 					</ul>
 				</div>
 				<div class="span9">
-<!-- 					<div class="page-header">
-						<h2>Last added</h2>
-					</div> -->
 					<p:outputPanel id="quizzesList">
 					<ui:repeat value="#{indexBean.currentCategory == null ? indexBean.quizzes.toArray() : indexBean.currentCategory.quizzes.toArray()}" var="quiz">
 						<h:link styleClass="quiz-in-list" outcome="test">
@@ -55,7 +54,7 @@
 							<li><a href="#">»</a></li>
 						</ul>
 					</div>
-					
+
 				</div>
 			</div>
 		</h:form>

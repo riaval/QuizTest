@@ -30,7 +30,7 @@ public class QuestionResult implements java.io.Serializable {
 	private byte[] image;
 	private boolean isLatex;
 	private int cost;
-	private int result;
+	private double result;
 	private Set<AnswerResult> answerResults = new LinkedHashSet<AnswerResult>();
 
 	public QuestionResult() {
@@ -133,11 +133,11 @@ public class QuestionResult implements java.io.Serializable {
 	}
 
 	@Column(name = "result", nullable = false)
-	public int getResult() {
+	public double getResult() {
 		return this.result;
 	}
 
-	public void setResult(int result) {
+	public void setResult(double result) {
 		this.result = result;
 	}
 	

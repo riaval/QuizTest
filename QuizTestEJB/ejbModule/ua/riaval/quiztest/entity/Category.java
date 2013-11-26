@@ -28,7 +28,6 @@ public class Category implements java.io.Serializable {
 	
 	private Integer id;
 	private String name;
-
 	private Set<Quiz> quizzes = new LinkedHashSet<Quiz>();
 
 	public Category() {

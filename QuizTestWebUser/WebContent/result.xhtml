@@ -18,8 +18,8 @@
 			<thead>
 				<tr>
 					<th>Date</th>
-					<th>Marks /60</th>
-					<th>Graede</th>
+					<th>Marks / #{resultBean.getCost()}</th>
+					<th>Grade</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -29,7 +29,7 @@
 							<f:convertDateTime pattern="dd.MM.yyyy, HH:mm" />
 						</h:outputText>
 					</td>
-					<td>10</td>
+					<td>#{resultBean.getMarks()}</td>
 					<td>#{resultBean.quizResult.grade}</td>
 				</tr>
 			</tbody>
@@ -38,8 +38,8 @@
 
 	<h:panelGroup rendered="#{resultBean.quizResult.showResults}">
 	<ui:repeat value="#{resultBean.quizResult.questionResults.toArray()}" var="questionResult">
-	<div class="result #{resultBean.isCorrect(questionResult) ? 'correct' : 'incorrect'}">
-		<div class="result-title">#{questionResult.text}</div>
+	<div class="result #{questionResult.result > 0 ? 'correct' : 'incorrect'}">
+		<div class="result-title">(#{questionResult.result} / #{questionResult.cost}) #{questionResult.text}</div>
 		<h:panelGroup rendered="#{questionResult.questionType.name == 'open'}">
 			<ui:repeat value="#{questionResult.answerResults.toArray()}" var="answerResult">
 				<h:panelGroup rendered="#{answerResult.checked}">
