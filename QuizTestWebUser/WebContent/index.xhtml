@@ -15,7 +15,7 @@
 				<div class="span3">
 					<ul class="nav nav-tabs nav-stacked menu-sidebar">
 						<li class="#{indexBean.currentCategory == null ? 'active' : ''}">
-						<p:commandLink update="@form" actionListener="#{indexBean.setCurrentCategory(null)}">
+						<p:commandLink update="@form" actionListener="#{indexBean.firstLoadQuizzes(null)}">
 							<h:outputText value="Last quizzes" />  
 							<i class="icon-home"></i>
 						</p:commandLink>
@@ -23,7 +23,7 @@
 						<ui:repeat value="#{indexBean.categories}" var="category">
 							<h:panelGroup rendered="#{not empty category.quizzes}">
 							<li class="#{indexBean.currentCategory == category ? 'active' : ''}">
-							<p:commandLink update="@form" actionListener="#{indexBean.setCurrentCategory(category)}">
+							<p:commandLink update="@form" actionListener="#{indexBean.firstLoadQuizzes(category)}">
 								<h:outputText value="#{category.name}" />  
 								<i class="icon-chevron-right"></i>
 							</p:commandLink>
@@ -34,26 +34,35 @@
 				</div>
 				<div class="span9">
 					<p:outputPanel id="quizzesList">
-					<ui:repeat value="#{indexBean.currentCategory == null ? indexBean.quizzes.toArray() : indexBean.currentCategory.quizzes.toArray()}" var="quiz">
+					<ui:repeat value="#{indexBean.quizzes.toArray()}" var="quiz">
 						<h:link styleClass="quiz-in-list" outcome="test">
 							<f:param name="id" value="#{quiz.id}" />
 							<h4 class="media-heading">#{quiz.name}</h4>
 							<div>#{quiz.comment}</div>
 						</h:link>
 					</ui:repeat>
-					</p:outputPanel>
 
-					<div class="pagination">
-						<ul>
-							<li><a href="#">«</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">»</a></li>
-						</ul>
-					</div>
+					<h:panelGroup rendered="#{indexBean.count > 10}">
+					<ul class="pager">
+						<li class="previous #{indexBean.firstIndex lt 1 ? 'disabled' : ''}">
+							<h:panelGroup rendered="#{!(indexBean.firstIndex lt 1)}">
+								<p:commandLink action="#{indexBean.previous()}" update="quizzesList" value="← Older" />
+							</h:panelGroup>
+							<h:panelGroup rendered="#{indexBean.firstIndex lt 1}">
+								<a href="">← Older</a>
+							</h:panelGroup>
+						</li>
+						<li class="next #{indexBean.firstIndex + 10 ge indexBean.count ? 'disabled' : ''}">
+							<h:panelGroup rendered="#{!(indexBean.firstIndex + 10 ge indexBean.count)}">
+								<p:commandLink action="#{indexBean.next()}" update="quizzesList" value="Newer →" />
+							</h:panelGroup>
+							<h:panelGroup rendered="#{indexBean.firstIndex + 10 ge indexBean.count}">
+								<a href="">Newer →</a>
+							</h:panelGroup>
+						</li>
+					</ul>
+					</h:panelGroup>
+					</p:outputPanel>
 
 				</div>
 			</div>

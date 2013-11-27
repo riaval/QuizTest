@@ -19,7 +19,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@NamedQueries({ @NamedQuery(name = "Quiz.findAllDesc", query = "SELECT q FROM Quiz AS q ORDER BY q.id DESC"), })
+@NamedQueries({
+	@NamedQuery(name = "Quiz.findInCategory", query = "SELECT q FROM Quiz AS q WHERE :category MEMBER OF q.categories ORDER BY q.id DESC"),
+	@NamedQuery(name = "Quiz.countFromCategory", query = "SELECT COUNT(q) FROM Quiz AS q WHERE :category MEMBER OF q.categories")
+})
 @Entity
 @Table(name = "Quiz", catalog = "QuizTest")
 public class Quiz implements java.io.Serializable {

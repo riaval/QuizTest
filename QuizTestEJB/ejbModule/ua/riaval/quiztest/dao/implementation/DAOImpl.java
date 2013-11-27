@@ -95,6 +95,13 @@ public abstract class DAOImpl<T> implements DAO<T> {
 			return null;
 		}
 	}
+	
+	public List<T> findPart(TypedQuery<T> query, int firstIndex, int amount) {
+		query.setFirstResult(firstIndex);
+		query.setMaxResults(amount);
+
+		return findMany(query);
+	}
 
 	private Class<T> persistClass;
 	private String findAllQuery;

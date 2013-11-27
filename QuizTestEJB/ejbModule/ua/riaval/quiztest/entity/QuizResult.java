@@ -25,7 +25,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @NamedQueries({
-	@NamedQuery(name = "QuizResult.findForUser", query = "SELECT qr FROM QuizResult AS qr WHERE qr.user = :user")
+	@NamedQuery(name = "QuizResult.findForUser", query = "SELECT qr FROM QuizResult AS qr WHERE qr.user = :user ORDER BY qr.id DESC"),
+	@NamedQuery(name = "QuizResult.countForUser", query = "SELECT COUNT(qr) FROM QuizResult AS qr WHERE qr.user = :user")
 })
 @Entity
 @Table(name = "QuizResult", catalog = "QuizTest")

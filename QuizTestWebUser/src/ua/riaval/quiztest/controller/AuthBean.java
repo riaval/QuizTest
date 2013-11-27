@@ -6,12 +6,17 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Size;
+import javax.xml.bind.ValidationException;
 
+import org.hibernate.validator.constraints.Email;
 import org.jboss.security.auth.spi.Util;
 
 import ua.riaval.quiztest.dao.UserDAO;
@@ -32,10 +37,16 @@ public class AuthBean {
 	private String from;
 	private String id;
 
-	private String email = "ls2294@gmail.com";
+	@Email(message = "Not valid email")
+	@Size(min = 6, max= 40, message = "Must be between 6 and 40 characters")
+	private String email;// = "ls2294@gmail.com";
+	@Size(min = 6, max= 40, message = "Must be between 6 and 40 characters")
 	private String password;
+	@Size(min = 6, max= 40, message = "Must be between 6 and 40 characters")
 	private String passwordAgain;
+	@Size(min = 1, max= 40, message = "Name field is required")
 	private String firstName;
+	@Size(min = 1, max= 40, message = "Surname field is required")
 	private String lastName;
 
 	@PostConstruct
@@ -90,14 +101,36 @@ public class AuthBean {
 		this.lastName = lastName;
 	}
 
-	public String signin() throws ServletException {
-		request.login(email, getHash(password));
+	public String signin() {
+		try {
+			request.login(email, getHash(password));
+		} catch (ServletException e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null, 
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Login failed", "wrong login or password")
+			); 
+		}
 
 		return returnURI();
 	}
 
 	public String signup() throws ServletException {
+		User createdUser = userDAO.findByEmail(email);
+		if (createdUser != null) {
+			FacesContext.getCurrentInstance().addMessage(
+					null, 
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Email already exists", "")
+			); 
+			password = passwordAgain = null;
+			return null;
+		}
+		
 		if (! password.equals(passwordAgain)) {
+			FacesContext.getCurrentInstance().addMessage(
+					null, 
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Passwords don't match", "")
+			); 
+			password = passwordAgain = null;
 			return null;
 		}
 		

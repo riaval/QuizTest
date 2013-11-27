@@ -10,13 +10,23 @@
 	<ui:define name="content">
 
 		<div class="container">
+			<!-- <div class="global-msg"> -->
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true" />
+			<!-- </div> -->
 
 			<h:form class="form-signin">
+				<!-- <p:messages id="msg"/>  -->
+
 				<h2 class="form-signin-heading">Please sign in</h2>
-				<p:inputText value="#{authBean.email}" placeholder="Email address" style="width:280px" />
-				<p:inputText value="#{authBean.password}" placeholder="Password" type="password" style="width:280px" />
+					<!-- <h:message for="pass" /> -->
+				<h:message styleClass="valid-msd" for="email" />
+				<p:inputText id="email" value="#{authBean.email}" placeholder="Email address" style="width:280px" />
+				
+				<h:message styleClass="valid-msd" for="pass" />
+				<p:inputText id="pass" value="#{authBean.password}" placeholder="Password" type="password" style="width:280px" />
+				
 				<div>
-					<p:commandButton action="#{authBean.signin()}" value="Sign in" styleClass="ui-priority-primary" style="width:100%;" />
+					<p:commandButton update="@form" action="#{authBean.signin()}" value="Sign in" styleClass="ui-priority-primary" style="width:100%;" />
 				</div>
 			</h:form>
 
