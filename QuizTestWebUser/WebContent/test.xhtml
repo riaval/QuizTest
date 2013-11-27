@@ -12,7 +12,21 @@
 		<div class="page-header button-header">
 			<h1>#{testBean.quiz.name}</h1>
 			<h:form>
-				<p:commandButton action="#{quizRunBean.start(testBean.quiz.id)}" value="Start quiz"  styleClass="ui-priority-primary" />
+				<h:panelGroup rendered="#{not request.isUserInRole('user')}">
+					<div class="btn-group">
+						<h:link value="Login" outcome="signin" styleClass="btn btn-success">
+							<f:param name="from" value="test" />
+							<f:param name="id" value="#{param['id']}" />
+						</h:link>
+						<h:link value="Sign up" outcome="signup.xhtml" styleClass="btn btn-warning">
+							<f:param name="from" value="test" />
+							<f:param name="id" value="#{param['id']}" />
+						</h:link>
+					</div>
+				</h:panelGroup>
+				<h:panelGroup rendered="#{request.isUserInRole('user')}">
+					<p:commandButton action="#{quizRunBean.start(testBean.quiz.id)}" value="Start quiz"  styleClass="ui-priority-primary" />
+				</h:panelGroup>
 			</h:form>
 		</div>
 		<p class="lead">#{testBean.quiz.comment}</p>

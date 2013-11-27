@@ -9,37 +9,49 @@
 
 	<ui:define name="content">
 
-	<h:form id="form">
-		<div class="sidebar">
-			<div class="timer">
-				<h:outputText id="timer" value="#{quizRunBean.timeLeft}" />
+	<h:panelGroup rendered="#{empty quizRunBean.quiz}">
+		<div class="page-header">
+			<h1>No quiz found!</h1>
+		</div>
+		
+		<p>
+			<h:link value="Main page" outcome="index" styleClass="btn btn-primary btn-large" />
+		</p>
+	</h:panelGroup>
+	
+	<h:panelGroup rendered="#{not empty quizRunBean.quiz}">
+		<h:form id="form">
+			<div class="sidebar">
+				<div class="timer">
+					<h:outputText id="timer" value="#{quizRunBean.timeLeft}" />
+				</div>
+				<p:poll interval="1" update=":form:timer" autoStart="true"/>
+				<ul class="nav nav-tabs nav-stacked">
+					<ui:repeat value="#{quizRunBean.quiz.questionResults.toArray()}" var="question" varStatus="status">
+						<li class="#{quizRunBean.currentQuestion == question ? 'active' : ''}">
+							<p:commandLink update="@form" actionListener="#{quizRunBean.setCurrentQuestion(question)}">
+								<h:outputText value="#{status.index + 1}" />
+							</p:commandLink>
+						</li>
+					</ui:repeat>
+				</ul>
+				<p:commandButton action="#{quizRunBean.finish()}" value="Finish" styleClass="btn btn-large btn-danger" style="width:100%" />
 			</div>
-			<p:poll interval="1" update=":form:timer" autoStart="true"/>
-			<ul class="nav nav-tabs nav-stacked">
-				<ui:repeat value="#{quizRunBean.quiz.questionResults.toArray()}" var="question" varStatus="status">
-					<li class="#{quizRunBean.currentQuestion == question ? 'active' : ''}">
-						<p:commandLink update="@form" actionListener="#{quizRunBean.setCurrentQuestion(question)}">
-							<h:outputText value="#{status.index + 1}" />
-						</p:commandLink>
-					</li>
-				</ui:repeat>
-			</ul>
-			<p:commandButton action="#{quizRunBean.finish()}" value="Finish" styleClass="btn btn-large btn-danger" style="width:100%" />
-		</div>
 
-		<div class="content">
-			<h:panelGroup id="question" styleClass="question">
-				<div class="question-title">#{quizRunBean.currentQuestion.text}</div>
-				<p:selectOneRadio value="#{quizRunBean.singleAnswer}" layout="pageDirection" styleClass="answers" rendered="#{quizRunBean.currentQuestion.questionType.name eq 'single'}">
-					<f:selectItems value="#{quizRunBean.currentQuestion.answerResults.toArray()}" var="answer" itemValue="#{answer.text}" itemLabel="#{answer.text}" />
-				</p:selectOneRadio>
-				<p:selectManyCheckbox value="#{quizRunBean.multiAnswers}" layout="pageDirection" rendered="#{quizRunBean.currentQuestion.questionType.name eq 'multiple'}">
-					<f:selectItems value="#{quizRunBean.currentQuestion.answerResults.toArray()}" var="answer" itemValue="#{answer.text}" itemLabel="#{answer.text}" />
-				</p:selectManyCheckbox>
-				<p:inputText value="#{quizRunBean.openAnswer}" rendered="#{quizRunBean.currentQuestion.questionType.name eq 'open'}" />
-			</h:panelGroup>
-		</div>
-	</h:form>
+			<div class="content">
+				<h:panelGroup id="question" styleClass="question">
+					<div class="question-title">#{quizRunBean.currentQuestion.text}</div>
+					<p:selectOneRadio value="#{quizRunBean.singleAnswer}" layout="pageDirection" styleClass="answers" rendered="#{quizRunBean.currentQuestion.questionType.name eq 'single'}">
+						<f:selectItems value="#{quizRunBean.currentQuestion.answerResults.toArray()}" var="answer" itemValue="#{answer.text}" itemLabel="#{answer.text}" />
+					</p:selectOneRadio>
+					<p:selectManyCheckbox value="#{quizRunBean.multiAnswers}" layout="pageDirection" rendered="#{quizRunBean.currentQuestion.questionType.name eq 'multiple'}">
+						<f:selectItems value="#{quizRunBean.currentQuestion.answerResults.toArray()}" var="answer" itemValue="#{answer.text}" itemLabel="#{answer.text}" />
+					</p:selectManyCheckbox>
+					<p:inputText value="#{quizRunBean.openAnswer}" rendered="#{quizRunBean.currentQuestion.questionType.name eq 'open'}" />
+				</h:panelGroup>
+			</div>
+		</h:form>
+	</h:panelGroup>
 
 	</ui:define>
 
