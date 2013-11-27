@@ -125,8 +125,8 @@ public class QuizRunBean implements Serializable {
 
 	public String finish() {
 		String email = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-//		User user = userDAO.findByEmail(email);
-		User user = userDAO.findByID(1);
+		User user = userDAO.findByEmail(email);
+//		User user = userDAO.findByID(1);
 		quiz.setUser(user);
 		quizAnalyzing(quiz);
 		

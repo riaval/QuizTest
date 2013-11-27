@@ -20,6 +20,5 @@ public class UserDAOImpl extends DAOImpl<User> implements UserDAO {
 		query.setParameter("email", email);
 
 		return findOne(query);
-		
 	}
 }

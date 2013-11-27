@@ -21,7 +21,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-@NamedQueries({ @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User AS u WHERE u.email = :email") })
+@NamedQueries({
+	@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User AS u WHERE u.email = :email")
+})
 @Entity
 @Table(name = "User", catalog = "QuizTest", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User implements java.io.Serializable {

@@ -10,9 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+@NamedQueries({
+	@NamedQuery(name = "UserRole.findByRole", query = "SELECT ur FROM UserRole AS ur WHERE ur.name = :role")
+})
 @Entity
 @Table(name = "UserRole", catalog = "QuizTest")
 public class UserRole implements java.io.Serializable {

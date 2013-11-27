@@ -1,5 +1,7 @@
 package ua.riaval.quiztest.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -10,8 +12,12 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.security.auth.spi.Util;
+
 import ua.riaval.quiztest.dao.UserDAO;
+import ua.riaval.quiztest.dao.UserRoleDAO;
 import ua.riaval.quiztest.entity.User;
+import ua.riaval.quiztest.entity.UserRole;
 
 @ManagedBean
 @ViewScoped
@@ -19,6 +25,8 @@ public class AuthBean {
 
 	@EJB
 	private UserDAO userDAO;
+	@EJB
+	private UserRoleDAO userRoleDAO;
 
 	private HttpServletRequest request;
 	private String from;
@@ -26,6 +34,9 @@ public class AuthBean {
 
 	private String email = "ls2294@gmail.com";
 	private String password;
+	private String passwordAgain;
+	private String firstName;
+	private String lastName;
 
 	@PostConstruct
 	private void postConstruct() {
@@ -33,7 +44,7 @@ public class AuthBean {
 				.getExternalContext().getRequestParameterMap();
 		from = params.get("from");
 		id = params.get("id");
-		
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		request = (HttpServletRequest) context.getExternalContext()
 				.getRequest();
@@ -55,21 +66,48 @@ public class AuthBean {
 		this.password = password;
 	}
 
+	public String getPasswordAgain() {
+		return passwordAgain;
+	}
+
+	public void setPasswordAgain(String passwordAgain) {
+		this.passwordAgain = passwordAgain;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public String signin() throws ServletException {
-		request.login(email, password);
-		
-		if (from != null) {
-			StringBuilder toUri = new StringBuilder();
-			toUri.append(from).append("?faces-redirect=true");
-			if (id != null) {
-				toUri.append("id=").append(id);
-			}
-			System.err.println(toUri.toString());
-			return toUri.toString();
+		request.login(email, getHash(password));
+
+		return returnURI();
+	}
+
+	public String signup() throws ServletException {
+		if (! password.equals(passwordAgain)) {
+			return null;
 		}
-		return "index?faces-redirect=true";
-		// return "index";
 		
+		UserRole userRole = userRoleDAO.findByRole("user");
+		Date registered = Calendar.getInstance().getTime();
+		User user = new User(userRole, email, getHash(password), firstName, lastName,
+				registered);
+		userDAO.save(user);
+
+		return signin();
 	}
 
 	public String logout() throws ServletException {
@@ -78,10 +116,25 @@ public class AuthBean {
 		return "index?faces-redirect=true";
 	}
 
+	public String returnURI() {
+		if (from != null) {
+			StringBuilder toUri = new StringBuilder();
+			toUri.append(from).append("?faces-redirect=true");
+			if (id != null) {
+				toUri.append("id=").append(id);
+			}
+			return toUri.toString();
+		}
+		return "index?faces-redirect=true";
+	}
+	
+	public String getHash(String item) {
+		return Util.createPasswordHash("SHA",Util.BASE64_ENCODING, null, null, item);
+	}
+
 	public User getUser() {
 		String email = FacesContext.getCurrentInstance().getExternalContext()
 				.getRemoteUser();
-		// Util.createPasswordHash("MD5","BASE64",null, null, plainPassword);
 		return userDAO.findByEmail(email);
 	}
 
