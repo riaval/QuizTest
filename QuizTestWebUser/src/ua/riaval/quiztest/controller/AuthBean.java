@@ -10,11 +10,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Size;
-import javax.xml.bind.ValidationException;
 
 import org.hibernate.validator.constraints.Email;
 import org.jboss.security.auth.spi.Util;
@@ -38,15 +36,19 @@ public class AuthBean {
 	private String id;
 
 	@Email(message = "Not valid email")
-	@Size(min = 6, max= 40, message = "Must be between 6 and 40 characters")
-	private String email;// = "ls2294@gmail.com";
-	@Size(min = 6, max= 40, message = "Must be between 6 and 40 characters")
+	@Size(min = 6, max = 40, message = "Must be between 6 and 40 characters")
+	private String email;
+	
+	@Size(min = 6, max = 40, message = "Must be between 6 and 40 characters")
 	private String password;
-	@Size(min = 6, max= 40, message = "Must be between 6 and 40 characters")
+	
+	@Size(min = 6, max = 40, message = "Must be between 6 and 40 characters")
 	private String passwordAgain;
-	@Size(min = 1, max= 40, message = "Name field is required")
+	
+	@Size(min = 1, max = 40, message = "Name field is required")
 	private String firstName;
-	@Size(min = 1, max= 40, message = "Surname field is required")
+	
+	@Size(min = 1, max = 40, message = "Surname field is required")
 	private String lastName;
 
 	@PostConstruct
@@ -59,6 +61,77 @@ public class AuthBean {
 		FacesContext context = FacesContext.getCurrentInstance();
 		request = (HttpServletRequest) context.getExternalContext()
 				.getRequest();
+	}
+
+	public String signin() {
+		try {
+			request.login(email, getHash(password));
+		} catch (ServletException e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Login failed", "wrong login or password"));
+		}
+
+		return returnURI();
+	}
+
+	public String signup() throws ServletException {
+		User createdUser = userDAO.findByEmail(email);
+		if (createdUser != null) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Email already exists", ""));
+			password = passwordAgain = null;
+			return null;
+		}
+
+		if (!password.equals(passwordAgain)) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Passwords don't match", ""));
+			password = passwordAgain = null;
+			return null;
+		}
+
+		UserRole userRole = userRoleDAO.findByRole("user");
+		Date registered = Calendar.getInstance().getTime();
+		User user = new User(userRole, email, getHash(password), firstName,
+				lastName, registered);
+		userDAO.save(user);
+
+		return signin();
+	}
+
+	public String logout() throws ServletException {
+		request.logout();
+
+		return "index?faces-redirect=true";
+	}
+
+	public String returnURI() {
+		if (from != null) {
+			StringBuilder toUri = new StringBuilder();
+			toUri.append(from).append("?faces-redirect=true");
+			if (id != null) {
+				toUri.append("id=").append(id);
+			}
+			return toUri.toString();
+		}
+		return "index?faces-redirect=true";
+	}
+
+	public String getHash(String item) {
+		return Util.createPasswordHash("SHA", Util.BASE64_ENCODING, null, null,
+				item);
+	}
+
+	public User getUser() {
+		String email = FacesContext.getCurrentInstance().getExternalContext()
+				.getRemoteUser();
+		return userDAO.findByEmail(email);
 	}
 
 	public String getEmail() {
@@ -99,76 +172,6 @@ public class AuthBean {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String signin() {
-		try {
-			request.login(email, getHash(password));
-		} catch (ServletException e) {
-			FacesContext.getCurrentInstance().addMessage(
-					null, 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Login failed", "wrong login or password")
-			); 
-		}
-
-		return returnURI();
-	}
-
-	public String signup() throws ServletException {
-		User createdUser = userDAO.findByEmail(email);
-		if (createdUser != null) {
-			FacesContext.getCurrentInstance().addMessage(
-					null, 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Email already exists", "")
-			); 
-			password = passwordAgain = null;
-			return null;
-		}
-		
-		if (! password.equals(passwordAgain)) {
-			FacesContext.getCurrentInstance().addMessage(
-					null, 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,"Passwords don't match", "")
-			); 
-			password = passwordAgain = null;
-			return null;
-		}
-		
-		UserRole userRole = userRoleDAO.findByRole("user");
-		Date registered = Calendar.getInstance().getTime();
-		User user = new User(userRole, email, getHash(password), firstName, lastName,
-				registered);
-		userDAO.save(user);
-
-		return signin();
-	}
-
-	public String logout() throws ServletException {
-		request.logout();
-
-		return "index?faces-redirect=true";
-	}
-
-	public String returnURI() {
-		if (from != null) {
-			StringBuilder toUri = new StringBuilder();
-			toUri.append(from).append("?faces-redirect=true");
-			if (id != null) {
-				toUri.append("id=").append(id);
-			}
-			return toUri.toString();
-		}
-		return "index?faces-redirect=true";
-	}
-	
-	public String getHash(String item) {
-		return Util.createPasswordHash("SHA",Util.BASE64_ENCODING, null, null, item);
-	}
-
-	public User getUser() {
-		String email = FacesContext.getCurrentInstance().getExternalContext()
-				.getRemoteUser();
-		return userDAO.findByEmail(email);
 	}
 
 }

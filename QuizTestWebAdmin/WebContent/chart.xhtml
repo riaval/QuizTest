@@ -1,0 +1,19 @@
+<ui:composition 
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="template/admin-template.xhtml">
+
+	<ui:param name="title" value="Charts" />
+
+	<ui:define name="content">
+
+		<p:lineChart id="filled" value="#{chartBean.categoryModel}" legendPosition="ne" fill="true"  
+             title="Filled" style="height:300px;margin-top:20px" xaxisLabel="Year" yaxisLabel="Births" />  
+  
+<p:lineChart id="stacked" value="#{chartBean.categoryModel}" legendPosition="ne" stacked="true" fill="true" title="Stacked and Filled" style="height:300px; margin-top:20px" xaxisLabel="Year" yaxisLabel="Births" />  
+
+	</ui:define>
+
+</ui:composition>

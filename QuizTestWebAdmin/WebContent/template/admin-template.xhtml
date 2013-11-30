@@ -29,21 +29,29 @@
 					</a>
 
 					<!-- Be sure to leave the brand out there if you want it shown -->
-					<a class="brand" href="/QuizTestWebUser/faces/index.xhtml">QuizTest</a>
+					<a class="brand" href="chart.xhtml">QuizTest</a>
 
 					<!-- Everything you want hidden at 940px or less, place within here -->
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li><a href="index.xhtml"><b>New quiz</b></a></li>
+							<li><a href="newquiz.xhtml"><b>New quiz</b></a></li>
 							<li><a href="quizzes.xhtml">Quizzes</a></li>
 							<li><a href="categories.xhtml">Categories</a></li>
 							<!-- <li><a href="#">Results</a></li> -->
 						</ul>
 
-						<p class="navbar-text pull-right">
+						<ul class="nav pull-right">
+							<li class="dropdown"><a data-toggle="dropdown"
+								class="dropdown-toggle" href="#">#{authBean.getUser().firstName} #{authBean.getUser().lastName}<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><p:commandLink action="#{authBean.logout()}" value="Logout" /></li>
+								</ul>
+							</li>						
+						</ul>
+<!-- 						<p class="navbar-text pull-right">
               				Logged in as <a class="navbar-link" href="#">Username</a>
               				<p:commandLink action="#{authBean.logout()}" value="Logout" />
-						</p>
+						</p> -->
 					</div>
 				</div>
 

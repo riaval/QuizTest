@@ -3,14 +3,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	template="template/admin-template.xhtml">
+	template="admin-template.xhtml">
 
 	<ui:param name="title" value="Available tests" />
 
 	<ui:define name="content">
 
 		<div class="page-header">
-			<h1>Create new quiz</h1>
+			<h1>#{heading}</h1>
 		</div>
 		
 		<h:form id="CategoryForm">
@@ -18,44 +18,44 @@
 				<div class="span9">
 					<div class="quiz-item">
 						<div class="title">Title</div>
-						<p:inputText value="#{createQuizBean.quiz.name}" styleClass="quiz-title" />
+						<p:inputText value="#{newQuizBean.quiz.name}" styleClass="quiz-title" />
 					</div>
 					
 					<div class="quiz-item">
 						<div class="title">Comment</div>
-						<p:inputTextarea value="#{createQuizBean.quiz.comment}" rows="10" styleClass="quiz-comment" />
+						<p:inputTextarea value="#{newQuizBean.quiz.comment}" rows="10" styleClass="quiz-comment" />
 					</div>
 					
 					<div class="row-fluid">
 						<div class="span5">
 							<div class="quiz-item">
 								<div class="title">Time limit (minutes)</div>
-								<p:spinner value="#{createQuizBean.quiz.timeLimit}" />
+								<p:spinner value="#{newQuizBean.quiz.timeLimit}" />
 							</div>
 
 							<div class="quiz-item">
 								<div class="title">Amount of questions</div>
-								<p:spinner value="#{createQuizBean.quiz.amount}" />
+								<p:spinner value="#{newQuizBean.quiz.amount}" />
 							</div>
 						</div>
 						<div class="span7">
 							<div class="quiz-check">
-								<p:selectBooleanCheckbox value="#{createQuizBean.quiz.randomOrder}" itemLabel="Random order" />
-								<p:selectBooleanCheckbox value="#{createQuizBean.quiz.showResults}" itemLabel="Show results" />
-								<p:selectBooleanCheckbox value="#{createQuizBean.quiz.binaryGrade}" itemLabel="Binary format of questions" />
+								<p:selectBooleanCheckbox value="#{newQuizBean.quiz.randomOrder}" itemLabel="Random order" />
+								<p:selectBooleanCheckbox value="#{newQuizBean.quiz.showResults}" itemLabel="Show results" />
+								<p:selectBooleanCheckbox value="#{newQuizBean.quiz.binaryGrade}" itemLabel="Binary format of questions" />
 							</div>
 						</div>
 					</div>
 
 					<div class="buttons quiz-item">
-						<p:commandButton value="Create" action="#{createQuizBean.create}" styleClass="ui-priority-primary" />
+						<p:commandButton value="Create" action="#{newQuizBean.create}" styleClass="ui-priority-primary" />
 						<p:commandButton onclick="PF('addQuestionDialog').show()" value="Add question" />
 					</div>
 				</div>
 				<div class="span3">
 					<h3>Category</h3>
-					<p:selectManyCheckbox value="#{createQuizBean.selectedCategories}" layout="pageDirection" styleClass="cat-check">
-						<f:selectItems value="#{createQuizBean.categories}" var="category" itemLabel="#{category.name}" itemValue="#{createQuizBean.categories.indexOf(category)}" />
+					<p:selectManyCheckbox value="#{newQuizBean.selectedCategories}" layout="pageDirection" styleClass="cat-check">
+						<f:selectItems value="#{newQuizBean.categories}" var="category" itemLabel="#{category.name}" itemValue="#{newQuizBean.categories.indexOf(category)}" />
 					</p:selectManyCheckbox>
 					<!-- <p:commandButton value="Create new" styleClass="btn-success new-cat-bt" onclick="PF('CatDialog').show()" /> -->
 					<!-- <p:commandButton value="Remove" styleClass="btn-danger" /> -->
@@ -67,18 +67,18 @@
 
 		<h:form id="form" style="margin-top:35px;">
 			<h:panelGroup id="questions">
-			<h:panelGroup rendered="#{not empty createQuizBean.quiz.questions}">
+			<h:panelGroup rendered="#{not empty newQuizBean.quiz.questions}">
 				<div class="page-header">
 					<h2>Questions</h2>
 				</div>
-				<ui:repeat value="#{createQuizBean.quiz.questions.toArray()}" var="question">
+				<ui:repeat value="#{newQuizBean.quiz.questions.toArray()}" var="question">
 				<div class="question">
 					<div class="question-title">
 						<div class="question-title-text">
 							#{question.text}
 						</div>
 						<div class="buttons question-title-bt">
-							<p:commandButton value="Edit" styleClass="btn-warning" />
+							<p:commandButton value="Edit" onclick="PF('addQuestionDialog').show()" actionListener="#{newQuizBean.editQuestion(question)}" styleClass="btn-warning" />
 							<p:commandButton value="Remove" styleClass="btn-danger" />
 						</div>
 					</div>
@@ -125,9 +125,13 @@
 			</h:panelGroup>
 			</h:panelGroup>
 
-			<p:dialog id="dialog" styleClass="question-dialog" header="Add question" widgetVar="addQuestionDialog" position="center, 100" modal="true" resizable="false">
+			<p:dialog id="dialog" 
+				header="Add question" widgetVar="addQuestionDialog"  
+				modal="true" resizable="false" 
+				position="center, 100" styleClass="question-dialog">
+
 				<div class="title">Question</div>
-				<p:inputTextarea rows="10" cols="53" value="#{createQuizBean.question.text}" />
+				<p:inputTextarea rows="10" cols="53" value="#{newQuizBean.question.text}" />
 				
 				<table cellspacing="5" class="question-tab">
 					<tr>
@@ -140,10 +144,10 @@
 					</tr>
 					<tr>
 						<td>
-							<p:spinner value="#{createQuizBean.question.cost}" min="1" size="15" />
+							<p:spinner value="#{newQuizBean.question.cost}" min="1" size="15" />
 						</td>
 						<td>
-							<p:selectOneMenu value="#{createQuizBean.questionType}" style="width:180px">
+							<p:selectOneMenu value="#{newQuizBean.questionType}" style="width:180px">
 								<f:selectItem itemLabel="Single choice" itemValue="single" />
 								<f:selectItem itemLabel="Multiple choice" itemValue="multiple" />
 								<f:selectItem itemLabel="Open question" itemValue="open" />
@@ -154,43 +158,43 @@
 				</table>
 
 				<div class="buttons top-margin">
-					<p:commandButton update="answers" value="Add answer" actionListener="#{createQuizBean.addAnswer()}" />
-					<p:commandButton update="answers" value="Remove" actionListener="#{createQuizBean.removeAnswer()}" styleClass="btn-danger" />
-					<p:commandButton update="questions" actionListener="#{createQuizBean.addQuestion()}" value="Confirm" styleClass="ui-priority-primary" />
+					<p:commandButton update="answers" value="Add answer" actionListener="#{newQuizBean.addAnswer()}" />
+					<p:commandButton update="answers" value="Remove" actionListener="#{newQuizBean.removeAnswer()}" styleClass="btn-danger" />
+					<p:commandButton update="questions" actionListener="#{newQuizBean.addQuestion()}" value="Confirm" styleClass="ui-priority-primary" />
 				</div>
 
 				<div class="top-margin">
 					<h:panelGrid id="answers">
-						<p:outputPanel rendered="#{createQuizBean.questionType eq 'single'}">
+						<p:outputPanel rendered="#{newQuizBean.questionType eq 'single'}">
 							<div class="floated left">
-								<p:selectOneRadio value="#{createQuizBean.checkedItem}" layout="pageDirection">
-									<f:selectItems value="#{createQuizBean.answers}" var="answer" itemValue="#{createQuizBean.answers.indexOf(answer)}" itemLabel="" />
+								<p:selectOneRadio value="#{newQuizBean.checkedItem}" layout="pageDirection">
+									<f:selectItems value="#{newQuizBean.answers}" var="answer" itemValue="#{newQuizBean.answers.indexOf(answer)}" itemLabel="" />
 								</p:selectOneRadio>
 							</div>
 							<div class="floated right non-open">
-								<ui:repeat value="#{createQuizBean.answers}" var="answer">
+								<ui:repeat value="#{newQuizBean.answers}" var="answer">
 									<p:inputText value="#{answer.text}" /><br />
 								</ui:repeat>
 							</div>
 						</p:outputPanel>
 
-						<p:outputPanel rendered="#{createQuizBean.questionType eq 'multiple'}">
+						<p:outputPanel rendered="#{newQuizBean.questionType eq 'multiple'}">
 							<div class="floated left">
-								<p:selectManyCheckbox value="#{createQuizBean.checkedItems}" layout="pageDirection">
-									<f:selectItems value="#{createQuizBean.answers}" var="answer" itemLabel="" itemValue="#{createQuizBean.answers.indexOf(answer)}" />
+								<p:selectManyCheckbox value="#{newQuizBean.checkedItems}" layout="pageDirection">
+									<f:selectItems value="#{newQuizBean.answers}" var="answer" itemLabel="" itemValue="#{newQuizBean.answers.indexOf(answer)}" />
 								</p:selectManyCheckbox>
 							</div>
 							<div class="floated right non-open">
-							<ui:repeat value="#{createQuizBean.answers}" var="answer">
+							<ui:repeat value="#{newQuizBean.answers}" var="answer">
 								<!-- <h:selectBooleanCheckbox value="#{answer.correct}"/> -->
 								<p:inputText value="#{answer.text}" /><br />
 							</ui:repeat>
 							</div>
 						</p:outputPanel>
 
-						<p:outputPanel rendered="#{createQuizBean.questionType eq 'open'}">
+						<p:outputPanel rendered="#{newQuizBean.questionType eq 'open'}">
 						<div class="floated right open">
-							<ui:repeat value="#{createQuizBean.answers}" var="answer">
+							<ui:repeat value="#{newQuizBean.answers}" var="answer">
 								<p:inputText value="#{answer.text}" /><br />
 							</ui:repeat>
 						</div>

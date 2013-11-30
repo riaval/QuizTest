@@ -1,6 +1,7 @@
 package ua.riaval.quiztest.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +23,7 @@ import ua.riaval.quiztest.entity.Quiz;
 
 @ManagedBean
 @ViewScoped
-public class CreateQuizBean {
+public class NewQuizBean {
 
 	@PostConstruct
 	private void postConstract() {
@@ -94,7 +95,6 @@ public class CreateQuizBean {
 	}
 
 	public void addAnswer() {
-		// System.out.println("-------------addAnswer------------");
 		Answer answer = new Answer();
 		answer.setQuestion(question);
 		answers.add(answer);
@@ -108,7 +108,6 @@ public class CreateQuizBean {
 	}
 
 	public void addQuestion() {
-		// System.out.println("-------------addQuestion------------");
 		switch (questionType) {
 		case "single":
 			prepareForSingleQuestion();
@@ -122,19 +121,26 @@ public class CreateQuizBean {
 		default:
 			break;
 		}
+		
 		question.getAnswers().addAll(answers);
 		QuestionType objectType = questionTypeDAO.findByTypeName(questionType);
 		question.setQuestionType(objectType);
-		question.setQuiz(quiz);
-		quiz.getQuestions().add(question);
+		
+		if (question.getId() == null) {
+			quiz.getQuestions().add(question);
+			question.setQuiz(quiz);
+		}
 
 		clear();
 
 		RequestContext.getCurrentInstance().execute("addQuestionDialog.hide()");
 		RequestContext.getCurrentInstance().update("form:dialog");
 	}
-
+	
 	private void prepareForSingleQuestion() {
+		for (Answer answer : answers) {
+			answer.setCorrect(false);
+		}
 		try {
 			int selectedIndex = Integer.parseInt(checkedItem);
 			answers.get(selectedIndex).setCorrect(true);
@@ -144,6 +150,9 @@ public class CreateQuizBean {
 	}
 
 	private void prepereForMultipleQuestion() {
+		for (Answer answer : answers) {
+			answer.setCorrect(false);
+		}
 		for (String checkedItem : checkedItems) {
 			try {
 				int selectedIndex = Integer.parseInt(checkedItem);
@@ -160,6 +169,31 @@ public class CreateQuizBean {
 		}
 	}
 
+	public void editQuestion(Question question) {
+		this.question = question;
+		answers.clear();
+		this.answers.addAll(question.getAnswers());
+		
+		List<String> checkedAnswers = new ArrayList<>();
+		for (int i = 0; i < answers.size(); i++) {
+			if (answers.get(i).getCorrect()) {
+				checkedAnswers.add(String.valueOf(i));
+			}
+		}
+		
+		
+		if (question.getQuestionType().getName().equals("multiple")) {
+			checkedItems = Arrays.copyOf(checkedAnswers.toArray(), checkedAnswers.size(), String[].class);
+		} else if (question.getQuestionType().getName().equals("single")) {
+			checkedItem = checkedAnswers.get(0);
+		}
+		
+		questionType = question.getQuestionType().getName();
+		
+		RequestContext.getCurrentInstance().update("form:dialog");
+		RequestContext.getCurrentInstance().execute("addQuestionDialog.show()");
+	}
+	
 	private void clear() {
 		question = new Question();
 		answers.clear();
@@ -171,7 +205,6 @@ public class CreateQuizBean {
 
 	public String create() {
 		for (int index : selectedCategories) {
-			// Category category = categoryDAO.findByID(1);
 			Category category = categories.get(index);
 			quiz.getCategories().add(category);
 		}

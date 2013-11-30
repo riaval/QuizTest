@@ -49,10 +49,10 @@
 
 		<h:form class="form-signin">
 			<h2 class="form-signin-heading">Please sign in</h2>
-			<p:inputText value="#{authBean.email}" placeholder="Email address" style="width:280px" />
-			<p:inputText value="#{authBean.password}" placeholder="Password" type="password" style="width:280px" />
+			<p:inputText value="#{authAdminBean.email}" placeholder="Email address" style="width:280px" />
+			<p:inputText value="#{authAdminBean.password}" placeholder="Password" type="password" style="width:280px" />
 			<div>
-				<p:commandButton action="#{authBean.signin()}" value="Sign in" styleClass="ui-priority-primary" />
+				<p:commandButton update="@form" action="#{authAdminBean.signin()}" value="Sign in" styleClass="ui-priority-primary" />
 			</div>
 		</h:form>
 
