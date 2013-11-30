@@ -33,7 +33,7 @@ public class AuthAdminBean {
 	public String signin() throws ServletException {
 		request.login(email, password);
 
-		return "newquiz?faces-redirect=true";
+		return "quiz?faces-redirect=true";
 	}
 
 	public String logout() throws ServletException {

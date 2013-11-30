@@ -3,14 +3,14 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	template="admin-template.xhtml">
+	template="template/admin-template.xhtml">
 
 	<ui:param name="title" value="Available tests" />
 
 	<ui:define name="content">
 
 		<div class="page-header">
-			<h1>#{heading}</h1>
+			<h1>#{newQuizBean.heading}</h1>
 		</div>
 		
 		<h:form id="CategoryForm">
@@ -48,7 +48,7 @@
 					</div>
 
 					<div class="buttons quiz-item">
-						<p:commandButton value="Create" action="#{newQuizBean.create}" styleClass="ui-priority-primary" />
+						<p:commandButton value="Save" action="#{newQuizBean.save()}" styleClass="ui-priority-primary" />
 						<p:commandButton onclick="PF('addQuestionDialog').show()" value="Add question" />
 					</div>
 				</div>

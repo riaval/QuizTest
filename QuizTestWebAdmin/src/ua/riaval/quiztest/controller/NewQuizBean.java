@@ -2,12 +2,15 @@ package ua.riaval.quiztest.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 
@@ -27,7 +30,33 @@ public class NewQuizBean {
 
 	@PostConstruct
 	private void postConstract() {
+		Map<String, String> params = FacesContext.getCurrentInstance()
+				.getExternalContext().getRequestParameterMap();
+
+		try {
+			Integer id = Integer.parseInt(params.get("id"));
+			quiz = quizDAO.findByID(id);
+		} catch (Exception e) {
+		}
+		
+		if (quiz != null) {
+			heading = "Edit quiz";
+		} else {
+			quiz = new Quiz();
+			heading = "Create quiz";
+		}
+		
 		categories = categoryDAO.findAll(OrderBy.DESC);
+		selectedCategories = new int[quiz.getCategories().size()];
+		Object[] cats = quiz.getCategories().toArray();
+		for (int i = 0; i < quiz.getCategories().size(); i++) {
+			for (Category each : categories) {
+				if (each.equals(cats[i])) {
+					selectedCategories[i] = categories.indexOf(cats[i]);
+				}
+			}
+		}
+		
 	}
 
 	public Quiz getQuiz() {
@@ -94,6 +123,14 @@ public class NewQuizBean {
 		this.selectedCategories = selectedCategories;
 	}
 
+	public String getHeading() {
+		return heading;
+	}
+
+	public void setHeading(String heading) {
+		this.heading = heading;
+	}
+
 	public void addAnswer() {
 		Answer answer = new Answer();
 		answer.setQuestion(question);
@@ -121,11 +158,11 @@ public class NewQuizBean {
 		default:
 			break;
 		}
-		
+
 		question.getAnswers().addAll(answers);
 		QuestionType objectType = questionTypeDAO.findByTypeName(questionType);
 		question.setQuestionType(objectType);
-		
+
 		if (question.getId() == null) {
 			quiz.getQuestions().add(question);
 			question.setQuiz(quiz);
@@ -136,7 +173,7 @@ public class NewQuizBean {
 		RequestContext.getCurrentInstance().execute("addQuestionDialog.hide()");
 		RequestContext.getCurrentInstance().update("form:dialog");
 	}
-	
+
 	private void prepareForSingleQuestion() {
 		for (Answer answer : answers) {
 			answer.setCorrect(false);
@@ -173,27 +210,27 @@ public class NewQuizBean {
 		this.question = question;
 		answers.clear();
 		this.answers.addAll(question.getAnswers());
-		
+
 		List<String> checkedAnswers = new ArrayList<>();
 		for (int i = 0; i < answers.size(); i++) {
 			if (answers.get(i).getCorrect()) {
 				checkedAnswers.add(String.valueOf(i));
 			}
 		}
-		
-		
+
 		if (question.getQuestionType().getName().equals("multiple")) {
-			checkedItems = Arrays.copyOf(checkedAnswers.toArray(), checkedAnswers.size(), String[].class);
+			checkedItems = Arrays.copyOf(checkedAnswers.toArray(),
+					checkedAnswers.size(), String[].class);
 		} else if (question.getQuestionType().getName().equals("single")) {
 			checkedItem = checkedAnswers.get(0);
 		}
-		
+
 		questionType = question.getQuestionType().getName();
-		
+
 		RequestContext.getCurrentInstance().update("form:dialog");
 		RequestContext.getCurrentInstance().execute("addQuestionDialog.show()");
 	}
-	
+
 	private void clear() {
 		question = new Question();
 		answers.clear();
@@ -203,13 +240,14 @@ public class NewQuizBean {
 		checkedItem = null;
 	}
 
-	public String create() {
+	public String save() {
+		quiz.setCategories(new HashSet<Category>());
 		for (int index : selectedCategories) {
 			Category category = categories.get(index);
 			quiz.getCategories().add(category);
 		}
 		quizDAO.save(quiz);
-		
+
 		return "quizzes?faces-redirect=true";
 	}
 
@@ -221,9 +259,10 @@ public class NewQuizBean {
 	private QuestionTypeDAO questionTypeDAO;
 
 	private List<Category> categories;
-	private Quiz quiz = new Quiz();
+	private Quiz quiz;
 	private Question question = new Question();
 	private List<Answer> answers = new ArrayList<Answer>();
+	private String heading;
 
 	private String questionType;
 	private String[] checkedItems;

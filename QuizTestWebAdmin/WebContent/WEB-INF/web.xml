@@ -23,8 +23,8 @@
 		<display-name>AdminConstraint</display-name>
 		<web-resource-collection>
 			<web-resource-name>whole</web-resource-name>
-			<url-pattern>/faces/chart.xhtml</url-pattern><!-- 
-			<url-pattern>/faces/newquiz.xhtml</url-pattern> -->
+			<url-pattern>/faces/chart.xhtml</url-pattern>
+			<url-pattern>/faces/quiz.xhtml</url-pattern>
 			<url-pattern>/faces/quizzes.xhtml</url-pattern>
 			<url-pattern>/faces/categories.xhtml</url-pattern>
 		</web-resource-collection>
