@@ -17,9 +17,9 @@
 		<table class="table table-hover" style="cursor: pointer;">
 			<thead>
 				<tr>
-					<th>Name</th>
+					<th>#{res.name}</th>
 					<!-- <th style="width:10%">Marks</th> -->
-					<th style="width:10%">Grade</th>
+					<th style="width:10%">#{res.grade}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -28,10 +28,9 @@
 					<td>#{quizResult.name}</td>
 					<!-- <td>10/60</td> -->
 					<td>
-						<h:outputText value="#{quizResult.grade * 100}">
-							<f:convertNumber type="number" groupingUsed="true" minFractionDigits="2" pattern="#0.00"/>
+						<h:outputText value="#{quizResult.grade}">
+							<f:convertNumber type="percent" minFractionDigits="0" maxFractionDigits="2"/>
 						</h:outputText>
-						<h:outputText value="%" />
 					</td>
 				</tr>
 				</ui:repeat>
@@ -42,18 +41,18 @@
 		<ul class="pager">
 			<li class="previous #{resultsBean.firstIndex lt 1 ? 'disabled' : ''}">
 				<h:panelGroup rendered="#{!(resultsBean.firstIndex lt 1)}">
-					<p:commandLink action="#{resultsBean.previous()}" update="@form" value="← Older" />
+					<p:commandLink action="#{resultsBean.previous()}" update="@form" value="← #{res.nav_prev}" />
 				</h:panelGroup>
 				<h:panelGroup rendered="#{resultsBean.firstIndex lt 1}">
-					<a href="">← Older</a>
+					<a href="">← #{res.nav_prev}</a>
 				</h:panelGroup>
 			</li>
 			<li class="next #{resultsBean.firstIndex + 10 ge resultsBean.count ? 'disabled' : ''}">
 				<h:panelGroup rendered="#{!(resultsBean.firstIndex + 10 ge resultsBean.count)}">
-					<p:commandLink action="#{resultsBean.next()}" update="@form" value="Newer →" />
+					<p:commandLink action="#{resultsBean.next()}" update="@form" value="#{res.nav_next} →" />
 				</h:panelGroup>
 				<h:panelGroup rendered="#{resultsBean.firstIndex + 10 ge resultsBean.count}">
-					<a href="">Newer →</a>
+					<a href="">#{res.nav_next} →</a>
 				</h:panelGroup>
 			</li>
 		</ul>

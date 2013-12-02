@@ -1,0 +1,42 @@
+# Header
+quizzes=Тесты
+results=Результаты
+language=Язык
+sign_in=Войти
+sign_up=Зарегестрироватся
+log_out=Выйти
+
+# Index
+nav_prev=Раньше
+nav_next=Новее
+
+# Quiz
+amount=Количество вопросов
+time_limit=Время
+random_order=Тасовать вопросы
+show_mistakes=Показывать ошибки
+binary_grade=Бинарный тип вопросов
+start_quiz=Начать тест
+min=мин.
+yes=Да
+no=Нет
+
+# Results
+date=Дата
+name=Название
+marks=Ответов
+grade=Результат
+
+# Quiz Run
+finish=Завершить
+
+# Sign up
+sign_up_welcome=Зарегестрироватся
+email=Email адрес
+first_name=Имя
+last_name=Фамилия
+password=Пароль
+password_again=Паоль (еще раз)
+
+#Sign in
+sign_in_welcome=Пожалуйста, войдите

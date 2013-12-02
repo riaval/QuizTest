@@ -46,18 +46,18 @@
 					<ul class="pager">
 						<li class="previous #{indexBean.firstIndex lt 1 ? 'disabled' : ''}">
 							<h:panelGroup rendered="#{!(indexBean.firstIndex lt 1)}">
-								<p:commandLink action="#{indexBean.previous()}" update="quizzesList" value="← Older" />
+								<p:commandLink action="#{indexBean.previous()}" update="quizzesList" value="← #{res.nav_prev}" />
 							</h:panelGroup>
 							<h:panelGroup rendered="#{indexBean.firstIndex lt 1}">
-								<a href="">← Older</a>
+								<a href="">← #{res.nav_prev}</a>
 							</h:panelGroup>
 						</li>
 						<li class="next #{indexBean.firstIndex + 10 ge indexBean.count ? 'disabled' : ''}">
 							<h:panelGroup rendered="#{!(indexBean.firstIndex + 10 ge indexBean.count)}">
-								<p:commandLink action="#{indexBean.next()}" update="quizzesList" value="Newer →" />
+								<p:commandLink action="#{indexBean.next()}" update="quizzesList" value="#{res.nav_next} →" />
 							</h:panelGroup>
 							<h:panelGroup rendered="#{indexBean.firstIndex + 10 ge indexBean.count}">
-								<a href="">Newer →</a>
+								<a href="">#{res.nav_next} →</a>
 							</h:panelGroup>
 						</li>
 					</ul>

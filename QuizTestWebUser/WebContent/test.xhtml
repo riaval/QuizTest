@@ -14,18 +14,18 @@
 			<h:form>
 				<h:panelGroup rendered="#{not request.isUserInRole('user')}">
 					<div class="btn-group">
-						<h:link value="Login" outcome="signin" styleClass="btn btn-success">
+						<h:link value="#{res.sign_in}" outcome="signin" styleClass="btn btn-success">
 							<f:param name="from" value="test" />
 							<f:param name="id" value="#{param['id']}" />
 						</h:link>
-						<h:link value="Sign up" outcome="signup.xhtml" styleClass="btn btn-warning">
+						<h:link value="#{res.sign_up}" outcome="signup.xhtml" styleClass="btn btn-warning">
 							<f:param name="from" value="test" />
 							<f:param name="id" value="#{param['id']}" />
 						</h:link>
 					</div>
 				</h:panelGroup>
 				<h:panelGroup rendered="#{request.isUserInRole('user')}">
-					<p:commandButton action="#{quizRunBean.start(testBean.quiz.id)}" value="Start quiz"  styleClass="ui-priority-primary" />
+					<p:commandButton action="#{quizRunBean.start(testBean.quiz.id)}" value="#{res.start_quiz}"  styleClass="ui-priority-primary" />
 				</h:panelGroup>
 			</h:form>
 		</div>
@@ -33,24 +33,24 @@
 
 		<table class="table">
 			<tr>
-				<td>Amount of questions</td>
+				<td>#{res.amount}</td>
 				<td>#{testBean.quiz.amount == 0 ? testBean.quiz.questions.size() : testBean.quiz.amount}/#{testBean.quiz.questions.size()}</td>
 			</tr>
 			<tr>
-				<td>Time limit</td>
-				<td>#{testBean.quiz.timeLimit} min</td>
+				<td>#{res.time_limit}</td>
+				<td>#{testBean.quiz.timeLimit} #{res.min}</td>
 			</tr>
 			<tr>
-				<td>Random order</td>
-				<td>#{testBean.quiz.randomOrder ? 'Yes' : 'No'}</td>
+				<td>#{res.random_order}</td>
+				<td>#{testBean.quiz.randomOrder ? res.yes : res.no}</td>
 			</tr>
 			<tr>
-				<td>Show mistakes</td>
-				<td>#{testBean.quiz.showResults ? 'Yes' : 'No'}</td>
+				<td>#{res.show_mistakes}</td>
+				<td>#{testBean.quiz.showResults ? res.yes : res.no}</td>
 			</tr>
 			<tr>
-				<td>Binary grade</td>
-				<td>#{testBean.quiz.binaryGrade ? 'Yes' : 'No'}</td>
+				<td>#{res.binary_grade}</td>
+				<td>#{testBean.quiz.binaryGrade ? res.yes : res.no}</td>
 			</tr>
 		</table>
 

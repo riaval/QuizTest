@@ -34,13 +34,13 @@
 					<!-- Everything you want hidden at 940px or less, place within here -->
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li><a href="/QuizTestWebUser/faces/index.xhtml">Quizzes</a></li>
-							<h:panelGroup rendered="#{request.isUserInRole('user')}"><li><h:link outcome="results" value="Results" /></li></h:panelGroup>
+							<li><a href="/QuizTestWebUser/faces/index.xhtml">#{res.quizzes}</a></li>
+							<h:panelGroup rendered="#{request.isUserInRole('user')}"><li><h:link outcome="results" value="#{res.results}" /></li></h:panelGroup>
 						</ul>
 
 						<ul class="nav pull-right">
 							<li class="dropdown"><a data-toggle="dropdown"
-								class="dropdown-toggle" href="#">Language<b class="caret"></b></a>
+								class="dropdown-toggle" href="#">#{res.language}<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="#">English</a></li>
 									<li><a href="#">Русский</a></li>
@@ -48,14 +48,14 @@
 							</li>
 							<li class="divider-vertical"></li>
 							<h:panelGroup rendered="#{not request.isUserInRole('user')}">
-								<li><h:link outcome="signin" value="Login" /></li>
-								<li><h:link outcome="signup" value="Sign up" /></li>
+								<li><h:link outcome="signin" value="#{res.sign_in}" /></li>
+								<li><h:link outcome="signup" value="#{res.sign_up}" /></li>
 							</h:panelGroup>
 							<h:panelGroup rendered="#{request.isUserInRole('user')}">
 								<li class="dropdown"><a data-toggle="dropdown"
 									class="dropdown-toggle" href="#">#{authBean.getUser().email}<b class="caret"></b></a>
 									<ul class="dropdown-menu">
-										<li><p:commandLink action="#{authBean.logout()}" value="Logout" /></li>
+										<li><p:commandLink action="#{authBean.logout()}" value="#{res.log_out}" /></li>
 									</ul>
 								</li>						
 							</h:panelGroup>
