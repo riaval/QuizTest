@@ -2,12 +2,14 @@ package ua.riaval.quiztest.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -15,6 +17,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 import ua.riaval.quiztest.dao.CategoryDAO;
+import ua.riaval.quiztest.dao.QuestionDAO;
 import ua.riaval.quiztest.dao.QuestionTypeDAO;
 import ua.riaval.quiztest.dao.QuizDAO;
 import ua.riaval.quiztest.dao.implementation.OrderBy;
@@ -26,7 +29,7 @@ import ua.riaval.quiztest.entity.Quiz;
 
 @ManagedBean
 @ViewScoped
-public class NewQuizBean {
+public class QuizBean {
 
 	@PostConstruct
 	private void postConstract() {
@@ -38,14 +41,19 @@ public class NewQuizBean {
 			quiz = quizDAO.findByID(id);
 		} catch (Exception e) {
 		}
-		
+
 		if (quiz != null) {
 			heading = "Edit quiz";
+			Set<Question> bSet = new LinkedHashSet<>();
+			for (Question each : quiz.getQuestions()) {
+				bSet.add(each);
+			}
+			quiz.setQuestions(bSet);
 		} else {
 			quiz = new Quiz();
 			heading = "Create quiz";
 		}
-		
+
 		categories = categoryDAO.findAll(OrderBy.DESC);
 		selectedCategories = new int[quiz.getCategories().size()];
 		Object[] cats = quiz.getCategories().toArray();
@@ -56,7 +64,7 @@ public class NewQuizBean {
 				}
 			}
 		}
-		
+
 	}
 
 	public Quiz getQuiz() {
@@ -163,11 +171,17 @@ public class NewQuizBean {
 		QuestionType objectType = questionTypeDAO.findByTypeName(questionType);
 		question.setQuestionType(objectType);
 
+		for (Question each : quiz.getQuestions()) {
+			System.out.println(each.getText());
+		}
 		if (question.getId() == null) {
 			quiz.getQuestions().add(question);
 			question.setQuiz(quiz);
 		}
-
+		System.out.println();
+		for (Question each : quiz.getQuestions()) {
+			System.out.println(each.getText());
+		}
 		clear();
 
 		RequestContext.getCurrentInstance().execute("addQuestionDialog.hide()");
@@ -205,7 +219,7 @@ public class NewQuizBean {
 			answer.setCorrect(true);
 		}
 	}
-
+	
 	public void editQuestion(Question question) {
 		this.question = question;
 		answers.clear();
@@ -231,6 +245,11 @@ public class NewQuizBean {
 		RequestContext.getCurrentInstance().execute("addQuestionDialog.show()");
 	}
 
+	public void removeQuestion(Question question) {
+		quiz.getQuestions().remove(question);
+		deletedQuestion.add(question);
+	}
+
 	private void clear() {
 		question = new Question();
 		answers.clear();
@@ -241,14 +260,37 @@ public class NewQuizBean {
 	}
 
 	public String save() {
-		quiz.setCategories(new HashSet<Category>());
+		quiz.setCategories(new LinkedHashSet<Category>());
 		for (int index : selectedCategories) {
 			Category category = categories.get(index);
 			quiz.getCategories().add(category);
 		}
-		quizDAO.save(quiz);
+
+		for (Question each : deletedQuestion) {
+			if (each.getId() != null) {
+				each = questionDAO.findByID(each.getId());
+				questionDAO.delete(each);
+			}
+		}
+//		isValidation(quiz);
+//		quizDAO.save(quiz);
 
 		return "quizzes?faces-redirect=true";
+	}
+	
+	private void isValidation(Quiz quiz) {
+//		if (quiz.getName() == null || quiz.getName().isEmpty()) {
+//			FacesContext.getCurrentInstance().addMessage(
+//					null,
+//					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//							"Title", ""));
+//		}
+//		if (quiz.getQuestions().isEmpty()) {
+//			FacesContext.getCurrentInstance().addMessage(
+//					null,
+//					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+//							"Question", ""));
+//		}
 	}
 
 	@EJB
@@ -257,11 +299,14 @@ public class NewQuizBean {
 	private QuizDAO quizDAO;
 	@EJB
 	private QuestionTypeDAO questionTypeDAO;
+	@EJB
+	private QuestionDAO questionDAO;
 
 	private List<Category> categories;
 	private Quiz quiz;
 	private Question question = new Question();
 	private List<Answer> answers = new ArrayList<Answer>();
+	private List<Question> deletedQuestion = new ArrayList<>();
 	private String heading;
 
 	private String questionType;

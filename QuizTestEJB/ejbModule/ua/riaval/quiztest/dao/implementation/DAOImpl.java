@@ -44,6 +44,10 @@ public abstract class DAOImpl<T> implements DAO<T> {
 
 	@Override
 	public void delete(T entity) {
+//		if (!em.contains(entity)) {
+//			em.persist(entity);
+//		}
+//		System.out.println(em.contains(entity));
 		em.remove(entity);
 	}
 

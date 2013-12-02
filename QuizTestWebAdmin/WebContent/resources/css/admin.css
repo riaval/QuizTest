@@ -10,6 +10,10 @@ html {
 	overflow-y: scroll; 
 }
 
+label {
+	background-color: transparent !important;
+}
+
 .wrapper {
 	width: 1000px;
 	margin: 0 auto;
@@ -173,6 +177,7 @@ footer {
 	line-height: 30px;
 	margin-bottom: 10px;
 	float: left;
+	max-width: 81%;
 }
 
 .question-title-bt {

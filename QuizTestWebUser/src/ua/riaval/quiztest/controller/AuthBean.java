@@ -66,14 +66,14 @@ public class AuthBean {
 	public String signin() {
 		try {
 			request.login(email, getHash(password));
-		} catch (ServletException e) {
+			return returnURI();
+		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							"Login failed", "wrong login or password"));
 		}
-
-		return returnURI();
+		return null;
 	}
 
 	public String signup() throws ServletException {

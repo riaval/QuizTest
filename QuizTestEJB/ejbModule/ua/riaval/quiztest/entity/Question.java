@@ -74,7 +74,7 @@ public class Question implements Serializable {
 		this.questionType = questionType;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "quiz_id", nullable = false)
 	public Quiz getQuiz() {
 		return this.quiz;

@@ -40,12 +40,18 @@
 			padding: 7px 9px;
 		}
 
+		.ui-messages-error {
+			margin: 0 auto 15px;
+			width: 337px;
+		}
+
 		</style>
 	<title>Sign In</title>
 </h:head>
 <h:body>
 
 	<div class="container">
+		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true" />
 
 		<h:form class="form-signin">
 			<h2 class="form-signin-heading">Please sign in</h2>

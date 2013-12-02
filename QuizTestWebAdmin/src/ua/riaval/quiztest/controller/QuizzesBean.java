@@ -1,7 +1,5 @@
 package ua.riaval.quiztest.controller;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -26,6 +24,10 @@ public class QuizzesBean {
 	private void postConstract() {
 		FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		quizDataModel = new QuizDataModel();
+	}
+	
+	public void removeQuiz() {
+		
 	}
 
 	public QuizDataModel getQuizDataModel() {

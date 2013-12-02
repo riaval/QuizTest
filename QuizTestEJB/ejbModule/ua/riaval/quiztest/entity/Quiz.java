@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @NamedQueries({
@@ -32,8 +33,8 @@ public class Quiz implements java.io.Serializable {
 	private Integer id;
 	private String name;
 	private String comment;
-	private int timeLimit;
-	private int amount;
+	private int timeLimit = 1;
+	private int amount = 1;
 	private boolean randomOrder;
 	private boolean showResults;
 	private boolean binaryGrade;
@@ -145,6 +146,7 @@ public class Quiz implements java.io.Serializable {
 		this.categories = categories;
 	}
 
+	@OrderBy
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz", cascade = CascadeType.ALL)
 	public Set<Question> getQuestions() {
 		return this.questions;

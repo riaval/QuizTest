@@ -10,15 +10,11 @@
 	<ui:define name="content">
 
 		<div class="container">
-			<!-- <div class="global-msg"> -->
 			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true" />
-			<!-- </div> -->
 
 			<h:form class="form-signin">
-				<!-- <p:messages id="msg"/>  -->
-
 				<h2 class="form-signin-heading">Please sign in</h2>
-					<!-- <h:message for="pass" /> -->
+				
 				<h:message styleClass="valid-msd" for="email" />
 				<p:inputText id="email" value="#{authBean.email}" placeholder="Email address" style="width:280px" />
 				

@@ -2,11 +2,14 @@ package ua.riaval.quiztest.controller;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+
+import org.jboss.security.auth.spi.Util;
 
 import ua.riaval.quiztest.dao.UserDAO;
 import ua.riaval.quiztest.entity.User;
@@ -31,9 +34,16 @@ public class AuthAdminBean {
 	}
 
 	public String signin() throws ServletException {
-		request.login(email, password);
-
-		return "quiz?faces-redirect=true";
+		try {
+			request.login(email, getHash(password));
+			return "quiz?faces-redirect=true";
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Login failed", "wrong login or password"));
+		}
+		return null;
 	}
 
 	public String logout() throws ServletException {
@@ -48,6 +58,11 @@ public class AuthAdminBean {
 		return userDAO.findByEmail(email);
 	}
 
+	private String getHash(String item) {
+		return Util.createPasswordHash("SHA", Util.BASE64_ENCODING, null, null,
+				item);
+	}
+	
 	public String getEmail() {
 		return email;
 	}
