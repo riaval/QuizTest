@@ -40,3 +40,11 @@ password_again=Паоль (еще раз)
 
 #Sign in
 sign_in_welcome=Пожалуйста, войдите
+
+# Validation
+val_email=Должен быть 6—40 символов
+val_password=Должен быть 6—40 символов
+val_first_name=Поле имя обязательно к заполнению
+val_last_name=Поле фамилия обязательно к заполнению
+
+author=Жуков Дмитрий

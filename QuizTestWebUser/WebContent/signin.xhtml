@@ -16,10 +16,10 @@
 				<h2 class="form-signin-heading">#{res.sign_in_welcome}</h2>
 				
 				<h:message styleClass="valid-msd" for="email" />
-				<p:inputText id="email" value="#{authBean.email}" placeholder="#{res.email}" style="width:280px" />
+				<p:inputText id="email" value="#{authBean.email}" placeholder="#{res.email}" validatorMessage="#{res.val_email}" />
 				
 				<h:message styleClass="valid-msd" for="pass" />
-				<p:inputText id="pass" value="#{authBean.password}" placeholder="#{res.password}" type="password" style="width:280px" />
+				<p:inputText id="pass" value="#{authBean.password}" placeholder="#{res.password}" type="password" validatorMessage="#{res.val_password}" />
 				
 				<div>
 					<p:commandButton update="@form" action="#{authBean.signin()}" value="#{res.sign_in}" styleClass="ui-priority-primary" style="width:100%;" />

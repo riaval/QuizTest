@@ -153,7 +153,7 @@ footer {
 
 /* Auth */
 .form-signin {
-	max-width: 300px;
+	max-width: 350px;
 	padding: 19px 29px 29px;
 	margin: 20px auto 20px;
 	background-color: #fff;
@@ -171,6 +171,7 @@ footer {
 	height: auto;
 	margin-bottom: 15px;
 	padding: 7px 9px;
+	width: 330px;
 }
 /*.global-msg {
 	position: absolute;

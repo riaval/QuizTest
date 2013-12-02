@@ -16,18 +16,18 @@
 			<h:form class="form-signin">
 				<h2 class="form-signin-heading">#{res.sign_up_welcome}</h2>
 				<h:message styleClass="valid-msd" for="email" />
-				<p:inputText id="email" value="#{authBean.email}" placeholder="#{res.email}" style="width:280px" />
+				<p:inputText id="email" value="#{authBean.email}" placeholder="#{res.email}" validatorMessage="#{res.val_email}" />
 
 				<h:message styleClass="valid-msd" for="firstName" />
 				<h:message styleClass="valid-msd" for="lastName" />
-				<p:inputText id="firstName" value="#{authBean.firstName}" placeholder="#{res.first_name}" style="width:120px" styleClass="pull-left" />
-				<p:inputText id="lastName" value="#{authBean.lastName}" placeholder="#{res.last_name}" style="width:120px" styleClass="pull-right" />
+				<p:inputText id="firstName" value="#{authBean.firstName}" placeholder="#{res.first_name}" validatorMessage="#{res.val_first_name}" style="width:145px" styleClass="pull-left" />
+				<p:inputText id="lastName" value="#{authBean.lastName}" placeholder="#{res.last_name}" validatorMessage="#{res.val_last_name}" style="width:145px" styleClass="pull-right" />
 
 				<h:message styleClass="valid-msd" for="pass" />
-				<p:inputText id="pass" value="#{authBean.password}" placeholder="#{res.password}" type="password" style="width:280px" />
+				<p:inputText id="pass" value="#{authBean.password}" placeholder="#{res.password}" type="password" validatorMessage="#{res.val_password}" />
 
 				<h:message styleClass="valid-msd" for="again" />
-				<p:inputText id="again" value="#{authBean.passwordAgain}" placeholder="#{res.password_again}" type="password" style="width:280px" />
+				<p:inputText id="again" value="#{authBean.passwordAgain}" placeholder="#{res.password_again}" type="password" validatorMessage="#{res.val_password}" />
 				<div>
 					<p:commandButton update="@form" action="#{authBean.signup()}" value="#{res.sign_up}" styleClass="ui-priority-primary" style="width:100%;" />
 				</div>

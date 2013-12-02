@@ -35,20 +35,20 @@ public class AuthBean {
 	private String from;
 	private String id;
 
-	@Email(message = "Not valid email")
-	@Size(min = 6, max = 40, message = "Must be between 6 and 40 characters")
+	@Email
+	@Size(min = 6, max = 40)
 	private String email;
 	
-	@Size(min = 6, max = 40, message = "Must be between 6 and 40 characters")
+	@Size(min = 6, max = 40)
 	private String password;
 	
-	@Size(min = 6, max = 40, message = "Must be between 6 and 40 characters")
+	@Size(min = 6, max = 40)
 	private String passwordAgain;
 	
-	@Size(min = 1, max = 40, message = "Name field is required")
+	@Size(min = 1, max = 40)
 	private String firstName;
 	
-	@Size(min = 1, max = 40, message = "Surname field is required")
+	@Size(min = 1, max = 40)
 	private String lastName;
 
 	@PostConstruct
