@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 
 import ua.riaval.quiztest.dao.QuizDAO;
 import ua.riaval.quiztest.dao.QuizResultDAO;
@@ -25,13 +23,6 @@ import ua.riaval.quiztest.entity.User;
 @ManagedBean
 @SessionScoped
 public class QuizRunBean implements Serializable {
-
-	@PostConstruct
-	void postConstruct() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		request = (HttpServletRequest) context.getExternalContext()
-				.getRequest();
-	}
 	
 	public String start(int requestId) {
 		if (quiz == null) {
@@ -232,9 +223,7 @@ public class QuizRunBean implements Serializable {
 	private QuestionResult currentQuestion;
 	private long timeLeft;
 	private Timer timer = new Timer();
-
 	private boolean binary;
-	private HttpServletRequest request;
 	
 	private static final long serialVersionUID = 1L;
 

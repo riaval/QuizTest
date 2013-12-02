@@ -1,18 +1,20 @@
 package ua.riaval.quiztest.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -40,7 +42,7 @@ public class QuizResult implements java.io.Serializable {
 	private Date date;
 	private double grade;
 	private boolean showResults;
-	private Set<QuestionResult> questionResults = new HashSet<QuestionResult>(0);
+	private Set<QuestionResult> questionResults = new LinkedHashSet<QuestionResult>(0);
 
 	public QuizResult() {
 	}
@@ -63,10 +65,20 @@ public class QuizResult implements java.io.Serializable {
 		this.name = quiz.getName();
 		this.date = Calendar.getInstance().getTime();
 		this.showResults = quiz.getShowResults();
+		
+		List<QuestionResult> questions = new ArrayList<>(quiz.getQuestions().size());
 		for (Question question : quiz.getQuestions()) {
 			QuestionResult qr = new QuestionResult(question);
 			qr.setQuizResult(this);
-			questionResults.add(qr);
+			questions.add(qr);
+//			count
+		}
+		if (quiz.isRandomOrder()) {
+			Collections.shuffle(questions);
+		}
+		int count = (questions.size() < quiz.getAmount()) ? questions.size() : quiz.getAmount();
+		for (int i = 0; i < count; i++) {
+			questionResults.add(questions.get(i));
 		}
 	}
 
