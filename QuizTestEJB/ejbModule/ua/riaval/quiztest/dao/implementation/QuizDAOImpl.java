@@ -1,5 +1,6 @@
 package ua.riaval.quiztest.dao.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -18,7 +19,12 @@ public class QuizDAOImpl extends DAOImpl<Quiz> implements QuizDAO {
 	}
 
 	@Override
-	public List<Quiz> findInCategory(Category category, int firstIndex, int amount) {
+	public List<Quiz> findInCategory(Category category, int firstIndex,
+			int amount) {
+		if (category == null) {
+			return new ArrayList<>();
+		}
+
 		TypedQuery<Quiz> query = em.createNamedQuery("Quiz.findInCategory",
 				Quiz.class);
 		query.setParameter("category", category);

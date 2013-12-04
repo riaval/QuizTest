@@ -11,11 +11,11 @@
 
 	<h:panelGroup rendered="#{empty quizRunBean.quiz}">
 		<div class="page-header">
-			<h1>No quiz found!</h1>
+			<h1>#{res.no_quiz_found}</h1>
 		</div>
 		
 		<p>
-			<h:link value="Main page" outcome="index" styleClass="btn btn-primary btn-large" />
+			<h:link value="#{res.main_page}" outcome="index" styleClass="btn btn-primary btn-large" />
 		</p>
 	</h:panelGroup>
 	

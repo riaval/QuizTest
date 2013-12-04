@@ -9,24 +9,36 @@
 
 	<ui:define name="content">
 
-		<h:form>
+		<h:form id="form">
 
 			<div class="page-header button-header">
 				<h1>Quizzes</h1>
 					<div class="buttons new-cat-bt">
-						<p:commandButton value="Remove" styleClass="btn-danger" actionListener="#{quizzesBean.removeQuiz()}" update="dataTable">
+						<p:commandButton value="Edit" action="#{quizzesBean.editQuiz()}" styleClass="btn-warning" />
+						<p:commandButton value="Remove" actionListener="#{quizzesBean.removeQuiz()}" update=":form:dataTable" styleClass="btn-danger">
 							<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
 						</p:commandButton>
 						<p:button value="Create new" styleClass="btn-success" outcome="quiz" />
 					</div>
 			</div>	
 
-			<p:dataTable id="dataTable" var="quiz" value="#{quizzesBean.quizDataModel}" 
-						lazy="true"
-						paginator="true" rows="15"
+			<p:dataTable id="dataTable" var="quiz" widgetVar="quizTable" 
+						value="#{quizzesBean.quizDataModel}" 
+						lazy="true" paginator="true" rows="15"
 						paginatorPosition="bottom"
 						selection="#{quizzesBean.selectedQuiz}" selectionMode="single"
+						emptyMessage="No quiz found with given criteria" 
 						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"  >   
+
+				<f:facet name="header">  
+					<p:outputPanel style="text-align:left">  
+						<!-- <h:outputText value="Category: " /> -->
+						<p:selectOneMenu value="#{quizzesBean.quizDataModel.selectedCategory}" id="globalFilter" update="@this" onchange="quizTable.filter()">
+							<f:selectItem itemValue="" itemLabel="Select category " />
+							<f:selectItems value="#{quizzesBean.categories.toArray()}" var="category" itemValue="#{category.name}" itemLabel="#{category.name}" />
+						</p:selectOneMenu>
+					</p:outputPanel>  
+				</f:facet> 
 
 				<p:column style="width:36%">
 					<f:facet name="header">
@@ -71,6 +83,11 @@
 				</p:column>
 
 			</p:dataTable> 
+
+			<p:confirmDialog global="true">
+				<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
+			</p:confirmDialog>
 
 		</h:form> 
 

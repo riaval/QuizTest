@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -35,11 +34,12 @@ public class QuizBean {
 	private void postConstract() {
 		Map<String, String> params = FacesContext.getCurrentInstance()
 				.getExternalContext().getRequestParameterMap();
-
+		
 		try {
 			Integer id = Integer.parseInt(params.get("id"));
 			quiz = quizDAO.findByID(id);
 		} catch (Exception e) {
+//			return;
 		}
 
 		if (quiz != null) {
@@ -53,17 +53,25 @@ public class QuizBean {
 			quiz = new Quiz();
 			heading = "Create quiz";
 		}
-
+		
 		categories = categoryDAO.findAll(OrderBy.DESC);
 		selectedCategories = new int[quiz.getCategories().size()];
-		Object[] cats = quiz.getCategories().toArray();
-		for (int i = 0; i < quiz.getCategories().size(); i++) {
-			for (Category each : categories) {
-				if (each.equals(cats[i])) {
-					selectedCategories[i] = categories.indexOf(cats[i]);
-				}
-			}
+		
+		int i=0;
+		for (Category category : quiz.getCategories()) {
+			int t = categories.indexOf(category);
+			selectedCategories[i] = categories.indexOf(category);
+			i++;
 		}
+//		Object[] cats = quiz.getCategories().toArray();
+//		for (int i = 0; i < quiz.getCategories().size(); i++) {
+//			selectedCategories[i] = categories.indexOf(cats[i]);
+////			for (Category each : categories) {
+////				if (each.equals(cats[i])) {
+////					selectedCategories[i] = categories.indexOf(cats[i]);
+////				}
+////			}
+//		}
 
 	}
 
@@ -220,6 +228,12 @@ public class QuizBean {
 		}
 	}
 	
+	public void addQuestionAction() {
+		clear();
+		RequestContext.getCurrentInstance().update("form:dialog");
+		RequestContext.getCurrentInstance().execute("addQuestionDialog.show()");
+	}
+	
 	public void editQuestion(Question question) {
 		this.question = question;
 		answers.clear();
@@ -250,7 +264,7 @@ public class QuizBean {
 		deletedQuestion.add(question);
 	}
 
-	private void clear() {
+	public void clear() {
 		question = new Question();
 		answers.clear();
 
@@ -273,12 +287,12 @@ public class QuizBean {
 			}
 		}
 //		isValidation(quiz);
-//		quizDAO.save(quiz);
+		quizDAO.save(quiz);
 
 		return "quizzes?faces-redirect=true";
 	}
 	
-	private void isValidation(Quiz quiz) {
+//	private void isValidation(Quiz quiz) {
 //		if (quiz.getName() == null || quiz.getName().isEmpty()) {
 //			FacesContext.getCurrentInstance().addMessage(
 //					null,
@@ -291,7 +305,7 @@ public class QuizBean {
 //					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 //							"Question", ""));
 //		}
-	}
+//	}
 
 	@EJB
 	private CategoryDAO categoryDAO;

@@ -52,7 +52,7 @@
 
 					<div class="buttons quiz-item">
 						<p:commandButton value="Save" update="@form" action="#{quizBean.save()}" styleClass="ui-priority-primary" />
-						<p:commandButton onclick="PF('addQuestionDialog').show()" value="Add question" />
+						<p:commandButton value="Add question" action="#{quizBean.addQuestionAction()}" />
 					</div>
 				</div>
 				<div class="span3">

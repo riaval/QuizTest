@@ -75,7 +75,6 @@ public class Category implements java.io.Serializable {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((quizzes == null) ? 0 : quizzes.hashCode());
 		return result;
 	}
 
@@ -97,11 +96,6 @@ public class Category implements java.io.Serializable {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (quizzes == null) {
-			if (other.quizzes != null)
-				return false;
-		} else if (!quizzes.equals(other.quizzes))
 			return false;
 		return true;
 	}

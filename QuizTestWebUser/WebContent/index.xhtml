@@ -16,7 +16,7 @@
 					<ul class="nav nav-tabs nav-stacked menu-sidebar">
 						<li class="#{indexBean.currentCategory == null ? 'active' : ''}">
 						<p:commandLink update="@form" actionListener="#{indexBean.firstLoadQuizzes(null)}">
-							<h:outputText value="Last quizzes" />  
+							<h:outputText value="#{res.last_quizzes}" />  
 							<i class="icon-home"></i>
 						</p:commandLink>
 						</li>

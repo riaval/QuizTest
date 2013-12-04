@@ -5,10 +5,13 @@ language=Язык
 sign_in=Войти
 sign_up=Зарегестрироватся
 log_out=Выйти
+no_quiz_found=Активных тестов не найдено!
+main_page=Главная страница
 
 # Index
 nav_prev=Раньше
 nav_next=Новее
+last_quizzes=Последние тесты
 
 # Quiz
 amount=Количество вопросов

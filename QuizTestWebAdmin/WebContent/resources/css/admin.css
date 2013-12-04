@@ -217,6 +217,10 @@ footer {
 	margin: 0 0 0 5px !important;
 }
 
+.ui-dialog-buttonpane {
+	text-align: center !important;
+}
+
 .btn-danger {
   background-color: #DA4F49 !important;
   background-image: linear-gradient(to bottom, #EE5F5B, #BD362F) !important;

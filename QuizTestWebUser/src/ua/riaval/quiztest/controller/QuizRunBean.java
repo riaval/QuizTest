@@ -116,11 +116,8 @@ public class QuizRunBean implements Serializable {
 	public String finish() {
 		String email = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 		User user = userDAO.findByEmail(email);
-//		User user = userDAO.findByID(1);
 		quiz.setUser(user);
 		quizAnalyzing(quiz);
-		
-//		System.out.println(quizAnalyzing(quiz));
 		
 		quizResultDAO.save(quiz);
 		
@@ -155,7 +152,8 @@ public class QuizRunBean implements Serializable {
 				if (binary &&  result != 1) {
 					continue;
 				} else {
-					mark = qr.getCost() * result;
+					double score = qr.getCost() * result;
+					mark = (score < 0) ? 0 : score;
 					marks += mark;
 				}
 			} else if (questionType.equals("single")) {
@@ -177,7 +175,7 @@ public class QuizRunBean implements Serializable {
 					newAnswerResult("", qr);
 				}
 				for (AnswerResult ar : qr.getAnswerResults()) {
-					if (ar.getCorrect() && ar.equals(checkedAnswer)) {
+					if (ar.getCorrect() && ar.getText().equals(checkedAnswer.getText())) {
 						checkedAnswer.setCorrect(true);
 						mark = qr.getCost();
 						marks += mark;
