@@ -5,10 +5,12 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -161,6 +163,51 @@ public class QuizBean {
 	}
 
 	public void addQuestion() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		boolean validationError = false;
+		if (question.getText().isEmpty()) {
+			context.addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error in question!", "Question text is required"));
+			validationError = true;
+		}
+		if (answers.size() < 2) {
+			context.addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							"Error in question!", "You must add at least two answers"));
+			validationError = true;
+		} else {
+			boolean textError = false;
+			for (Answer answer : answers) {
+				if (answer.getText().isEmpty()) {
+					textError = true;
+					break;
+				}
+			}
+			if (textError) {
+				context.addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Error in question!", "You must determine all answers"));
+				validationError = true;
+			}
+			if ((questionType.equals("multiple")  && (checkedItems == null || checkedItems.length < 1)) || 
+				(questionType.equals("single") && (checkedItem == null || checkedItem.length() < 1))) {
+				context.addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Error in question!", "You must select at least one answer"));
+				validationError = true;
+			}
+		}
+		
+		if (validationError) {
+			return;
+		}
+		
+		
 		switch (questionType) {
 		case "single":
 			prepareForSingleQuestion();
@@ -179,16 +226,9 @@ public class QuizBean {
 		QuestionType objectType = questionTypeDAO.findByTypeName(questionType);
 		question.setQuestionType(objectType);
 
-		for (Question each : quiz.getQuestions()) {
-			System.out.println(each.getText());
-		}
 		if (question.getId() == null) {
 			quiz.getQuestions().add(question);
 			question.setQuiz(quiz);
-		}
-		System.out.println();
-		for (Question each : quiz.getQuestions()) {
-			System.out.println(each.getText());
 		}
 		clear();
 
@@ -274,6 +314,30 @@ public class QuizBean {
 	}
 
 	public String save() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		boolean validationError = false;
+		if (quiz.getName().isEmpty()) {
+			context.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Error in quiz!",
+					"Quiz title is required"));
+			validationError = true;
+		}
+		if (quiz.getQuestions().isEmpty()) {
+			context.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Error in quiz!",
+					"You must add at least one question"));
+			validationError = true;
+		}
+		if (quiz.getAmount() > quiz.getQuestions().size()) {
+			context.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_ERROR, "Error in quiz!",
+					"The amount field can't be greater than amount of questions"));
+			validationError = true;
+		}
+		if (validationError) {
+			return null;
+		}
+		
 		quiz.setCategories(new LinkedHashSet<Category>());
 		for (int index : selectedCategories) {
 			Category category = categories.get(index);

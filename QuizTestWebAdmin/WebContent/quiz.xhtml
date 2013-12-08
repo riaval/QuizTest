@@ -16,12 +16,11 @@
 		<h:form id="CategoryForm">
 			<div class="row-fluid">
 				<div class="span9">
-					<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true" />
+					<!-- <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true" /> -->
 					<!-- <p:messages /> -->
 					<div class="quiz-item">
-						<div class="title"><p:outputLabel for="title" value="Title" /></div>
-						<p:inputText id="title" value="#{quizBean.quiz.name}" required="true" styleClass="quiz-title" label="Title" />
-						<!-- <p:message for="title" display="icon"/>   -->
+						<div class="title">Title</div>
+						<p:inputText id="title" value="#{quizBean.quiz.name}" styleClass="quiz-title" />
 					</div>
 					
 					<div class="quiz-item">
@@ -210,7 +209,9 @@
 				</div>
 			</p:dialog>
 		</h:form>
-				
+
+		<p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true" globalOnly="true" />
+
 
 	</ui:define>
 

@@ -36,13 +36,13 @@ public class AuthAdminBean {
 	public String signin() throws ServletException {
 		try {
 			request.login(email, getHash(password));
-			return "quiz?faces-redirect=true";
+			return "quizzes?faces-redirect=true";
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Login failed", "wrong login or password"));
+							"Login failed", "Wrong login or password"));
 		}
 		return null;
 	}
