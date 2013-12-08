@@ -10,7 +10,8 @@
 	<ui:define name="content">
 
 		<div class="container">
-			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true" />
+			<p:growl id="growl" showDetail="true" sticky="true" autoUpdate="true" globalOnly="true" />
+			<!-- <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" globalOnly="true" /> -->
 
 			<h:form class="form-signin">
 				<h2 class="form-signin-heading">#{res.sign_in_welcome}</h2>

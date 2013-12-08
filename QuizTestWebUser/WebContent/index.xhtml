@@ -21,7 +21,7 @@
 						</p:commandLink>
 						</li>
 						<ui:repeat value="#{indexBean.categories}" var="category">
-							<h:panelGroup rendered="#{not empty category.quizzes}">
+							<h:panelGroup rendered="#{indexBean.countQuizzes(category) > 0}">
 							<li class="#{indexBean.currentCategory == category ? 'active' : ''}">
 							<p:commandLink update="@form" actionListener="#{indexBean.firstLoadQuizzes(category)}">
 								<h:outputText value="#{category.name}" />  

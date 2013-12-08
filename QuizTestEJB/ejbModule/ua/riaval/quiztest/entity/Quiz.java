@@ -72,7 +72,7 @@ public class Quiz implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "comment", nullable = false, length = 500)
+	@Column(name = "comment", nullable = false, length = 1000)
 	public String getComment() {
 		return this.comment;
 	}

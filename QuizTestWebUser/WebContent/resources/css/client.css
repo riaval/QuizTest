@@ -189,6 +189,10 @@ footer {
 	background-image: url('#{resource['bootstrap:img/glyphicons-halflings.png']}') !important;
 }
 
+.navbar-fixed-top, .navbar-fixed-bottom {
+	z-index: 1000 !important;
+}
+
 h1 {
 	color: #5A5A5A !important;
 }

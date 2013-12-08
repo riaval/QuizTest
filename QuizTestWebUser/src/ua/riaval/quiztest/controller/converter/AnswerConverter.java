@@ -8,7 +8,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import ua.riaval.quiztest.dao.AnswerDAO;
-import ua.riaval.quiztest.dao.CategoryDAO;
 import ua.riaval.quiztest.entity.Answer;
 
 @FacesConverter("answerConverter")

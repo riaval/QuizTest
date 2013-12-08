@@ -48,8 +48,7 @@
 	<ui:repeat value="#{resultBean.quizResult.questionResults.toArray()}" var="questionResult">
 	<div class="result #{questionResult.result > 0 ? 'correct' : 'incorrect'}">
 		<div class="result-title">
-			(
-			<h:outputText value="#{questionResult.result}">
+			(<h:outputText value="#{questionResult.result}">
 				<f:convertNumber type="number" minFractionDigits="0" maxFractionDigits="2"/>
 			</h:outputText>
 			 / #{questionResult.cost}) #{questionResult.text}

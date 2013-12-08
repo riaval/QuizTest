@@ -1,7 +1,9 @@
 package ua.riaval.quiztest.controller;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -21,6 +23,10 @@ public class IndexBean implements Serializable {
 	@PostConstruct
 	private void postConstruct() {
 		categories = categoryDAO.findAll(OrderBy.DESC);
+		for (Category category : categories) {
+			int count = quizDAO.countFromCategory(category);
+			catCount.put(category, count);
+		}
 		loadDef();
 	}
 
@@ -99,6 +105,13 @@ public class IndexBean implements Serializable {
 				AMOUNT_OF_QUIZZES);
 		count = quizDAO.countFromCategory(category);
 	}
+	
+	public int countQuizzes(Category category) {
+//		System.out.println(category.getName() + " : " + category.getQuizzes().size());
+//		return category.getQuizzes().size();
+//		return quizDAO.countFromCategory(category);
+		return catCount.get(category);
+	}
 
 	@EJB
 	private CategoryDAO categoryDAO;
@@ -110,6 +123,7 @@ public class IndexBean implements Serializable {
 	private List<Category> categories;
 	private Category currentCategory;
 	private List<Quiz> quizzes;
+	private Map<Category, Integer> catCount = new HashMap<>();
 
 	private static final int AMOUNT_OF_QUIZZES = 10;
 	private static final long serialVersionUID = 1L;

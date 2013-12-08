@@ -45,9 +45,16 @@ password_again=Паоль (еще раз)
 sign_in_welcome=Пожалуйста, войдите
 
 # Validation
-val_email=Должен быть 6—40 символов
+val_email=Должен быть действительный адрес
 val_password=Должен быть 6—40 символов
 val_first_name=Поле имя обязательно к заполнению
 val_last_name=Поле фамилия обязательно к заполнению
 
 author=Жуков Дмитрий
+
+#Bean
+email_exist=Электронный адрес уже используется
+error=Ошибка!
+auth_error=Ошибка авторизации!
+wrong_login_pass=Неверный логин или пароль
+pass_dont_match=Пароли не совпадают

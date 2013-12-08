@@ -1,5 +1,6 @@
 package ua.riaval.quiztest.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.TimerTask;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import ua.riaval.quiztest.dao.QuizDAO;
@@ -32,6 +34,8 @@ public class QuizRunBean implements Serializable {
 
 			timeLeft = defaultQuiz.getTimeLimit() * 60;
 			currentQuestion = this.quiz.getQuestionResults().iterator().next();
+			
+			timer = new Timer();
 			timer.schedule(new TimerTask() {
 
 				@Override
@@ -45,9 +49,9 @@ public class QuizRunBean implements Serializable {
 	}
 
 	public String getTimeLeft() {
-		String min = String.valueOf(timeLeft / 60);
-		String sec = String.valueOf(timeLeft % 60);
-		return min + " : " + sec;
+		long min = timeLeft / 60;
+		long sec = timeLeft % 60;
+		return String.format("%02d", min) + " : " + String.format("%02d", sec);
 	}
 
 	public String getSingleAnswer() {
@@ -75,8 +79,6 @@ public class QuizRunBean implements Serializable {
 
 	public void setSingleAnswer(String answer) {
 		for (AnswerResult answerResult : currentQuestion.getAnswerResults()) {
-			// System.out.println(answerResult.getText().equals(answer) + " : "
-			// + answerResult.getText() + " : " + answer);
 			if (answerResult.getText().equals(answer)) {
 				answerResult.setChecked(true);
 				return;
@@ -114,6 +116,7 @@ public class QuizRunBean implements Serializable {
 	}
 
 	public String finish() {
+		timer.cancel();
 		String email = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
 		User user = userDAO.findByEmail(email);
 		quiz.setUser(user);
@@ -121,9 +124,22 @@ public class QuizRunBean implements Serializable {
 		
 		quizResultDAO.save(quiz);
 		
-		int id = quiz.getId();
+		int id= storedId = quiz.getId();
 		quiz = null;
+
 		return "result?faces-redirect=true&id=" + id;
+	}
+	
+	public void checkfinish() {
+		if (timeLeft < 1) {
+			finish();
+			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			try {
+				ec.redirect("result.xhtml?id=" + storedId);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	private QuizResult quizAnalyzing(QuizResult quiz) {
@@ -144,7 +160,8 @@ public class QuizRunBean implements Serializable {
 					}
 					if (ar.getCorrect() && ar.getChecked()) {
 						correct++;
-					} else if (!ar.getCorrect() && ar.getChecked()) {
+					} else if (!ar.getCorrect() && ar.getChecked() || 
+								ar.getCorrect() && !ar.getChecked()) {
 						correct--;
 					}
 				}
@@ -187,9 +204,6 @@ public class QuizRunBean implements Serializable {
 			mark = 0;
 		}
 		grade = (double) marks/cost;
-//		System.out.println("mark: " + marks);
-//		System.out.println("cost: " + cost);
-//		System.out.println("grade: " + grade);
 		quiz.setGrade(grade);
 		return quiz;
 	}
@@ -220,8 +234,9 @@ public class QuizRunBean implements Serializable {
 	private QuizResult quiz;
 	private QuestionResult currentQuestion;
 	private long timeLeft;
-	private Timer timer = new Timer();
+	private Timer timer;
 	private boolean binary;
+	private int storedId;
 	
 	private static final long serialVersionUID = 1L;
 

@@ -18,14 +18,14 @@
 			<h:link value="#{res.main_page}" outcome="index" styleClass="btn btn-primary btn-large" />
 		</p>
 	</h:panelGroup>
-	
+
 	<h:panelGroup rendered="#{not empty quizRunBean.quiz}">
 		<h:form id="form">
 			<div class="sidebar">
 				<div class="timer">
 					<h:outputText id="timer" value="#{quizRunBean.timeLeft}" />
 				</div>
-				<p:poll interval="1" update=":form:timer" autoStart="true"/>
+				<p:poll interval="1" update=":form:timer" process="@this" autoStart="true" listener ="#{quizRunBean.checkfinish()}" />
 				<ul class="nav nav-tabs nav-stacked">
 					<ui:repeat value="#{quizRunBean.quiz.questionResults.toArray()}" var="question" varStatus="status">
 						<li class="#{quizRunBean.currentQuestion == question ? 'active' : ''}">

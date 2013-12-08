@@ -38,6 +38,7 @@ public class AuthAdminBean {
 			request.login(email, getHash(password));
 			return "quiz?faces-redirect=true";
 		} catch (Exception e) {
+			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,

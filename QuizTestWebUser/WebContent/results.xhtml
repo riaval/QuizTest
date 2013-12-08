@@ -10,7 +10,7 @@
 	<ui:define name="content">
 
 	<div class="page-header">
-		<h1>Results</h1>
+		<h1>#{res.results}</h1>
 	</div>
 
 	<h:form>
@@ -19,6 +19,7 @@
 				<tr>
 					<th>#{res.name}</th>
 					<!-- <th style="width:10%">Marks</th> -->
+					<th style="width:10%">#{res.date}</th>
 					<th style="width:10%">#{res.grade}</th>
 				</tr>
 			</thead>
@@ -27,6 +28,11 @@
 				<tr onclick="location.href='result.xhtml?id=#{quizResult.id}'">
 					<td>#{quizResult.name}</td>
 					<!-- <td>10/60</td> -->
+					<td>
+						<h:outputText value="#{quizResult.date}">
+							<f:convertDateTime pattern="dd.MM.yyyy" />
+						</h:outputText>
+					</td>
 					<td>
 						<h:outputText value="#{quizResult.grade}">
 							<f:convertNumber type="percent" minFractionDigits="0" maxFractionDigits="2"/>

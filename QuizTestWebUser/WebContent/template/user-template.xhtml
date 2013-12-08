@@ -13,6 +13,7 @@
 		<h:outputStylesheet library="bootstrap/css" name="bootstrap.min.css" />
 		<h:outputScript library="bootstrap/js" name="bootstrap.min.js" />
 		<title>#{title}</title>
+		<ui:insert name="metaRefresh" />
 	</h:head>
 	<h:body>
 	<div class="expanded">
@@ -53,7 +54,7 @@
 							</h:panelGroup>
 							<h:panelGroup rendered="#{request.isUserInRole('user')}">
 								<li class="dropdown"><a data-toggle="dropdown"
-									class="dropdown-toggle" href="#">#{authBean.getUser().email}<b class="caret"></b></a>
+									class="dropdown-toggle" href="#">#{authBean.getUser().firstName} #{authBean.getUser().lastName}<b class="caret"></b></a>
 									<ul class="dropdown-menu">
 										<li><p:commandLink action="#{authBean.logout()}" value="#{res.log_out}" /></li>
 									</ul>

@@ -3,6 +3,7 @@ package ua.riaval.quiztest.controller;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -68,10 +69,12 @@ public class AuthBean {
 			request.login(email, getHash(password));
 			return returnURI();
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage(
+			FacesContext context = FacesContext.getCurrentInstance();
+			ResourceBundle bundle = context.getApplication().getResourceBundle(context, "res");
+			context.addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Login failed", "wrong login or password"));
+							bundle.getString("auth_error"), bundle.getString("wrong_login_pass")));
 		}
 		return null;
 	}
@@ -79,19 +82,23 @@ public class AuthBean {
 	public String signup() throws ServletException {
 		User createdUser = userDAO.findByEmail(email);
 		if (createdUser != null) {
-			FacesContext.getCurrentInstance().addMessage(
+			FacesContext context = FacesContext.getCurrentInstance();
+			ResourceBundle bundle = context.getApplication().getResourceBundle(context, "res");
+			context.addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Email already exists", ""));
+							bundle.getString("error"), bundle.getString("email_exist")));
 			password = passwordAgain = null;
 			return null;
 		}
 
 		if (!password.equals(passwordAgain)) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			ResourceBundle bundle = context.getApplication().getResourceBundle(context, "res");
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Passwords don't match", ""));
+							bundle.getString("error"), bundle.getString("pass_dont_match")));
 			password = passwordAgain = null;
 			return null;
 		}
