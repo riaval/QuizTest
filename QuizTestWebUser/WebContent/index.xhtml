@@ -42,7 +42,7 @@
 						</h:link>
 					</ui:repeat>
 
-					<h:panelGroup rendered="#{indexBean.count > 10}">
+					<h:panelGroup rendered="#{indexBean.count > 5}">
 					<ul class="pager">
 						<li class="previous #{indexBean.firstIndex lt 1 ? 'disabled' : ''}">
 							<h:panelGroup rendered="#{!(indexBean.firstIndex lt 1)}">
@@ -52,11 +52,11 @@
 								<a href="">← #{res.nav_prev}</a>
 							</h:panelGroup>
 						</li>
-						<li class="next #{indexBean.firstIndex + 10 ge indexBean.count ? 'disabled' : ''}">
-							<h:panelGroup rendered="#{!(indexBean.firstIndex + 10 ge indexBean.count)}">
+						<li class="next #{indexBean.firstIndex + 5 ge indexBean.count ? 'disabled' : ''}">
+							<h:panelGroup rendered="#{!(indexBean.firstIndex + 5 ge indexBean.count)}">
 								<p:commandLink action="#{indexBean.next()}" update="quizzesList" value="#{res.nav_next} →" />
 							</h:panelGroup>
-							<h:panelGroup rendered="#{indexBean.firstIndex + 10 ge indexBean.count}">
+							<h:panelGroup rendered="#{indexBean.firstIndex + 5 ge indexBean.count}">
 								<a href="">#{res.nav_next} →</a>
 							</h:panelGroup>
 						</li>

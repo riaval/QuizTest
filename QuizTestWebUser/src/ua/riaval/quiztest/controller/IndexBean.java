@@ -36,12 +36,12 @@ public class IndexBean implements Serializable {
 	}
 
 	public void next() {
-		firstIndex += 10;
+		firstIndex += AMOUNT_OF_QUIZZES;
 		loadQuizzes(currentCategory);
 	}
 
 	public void previous() {
-		firstIndex -= 10;
+		firstIndex -= AMOUNT_OF_QUIZZES;
 		loadQuizzes(currentCategory);
 	}
 
@@ -125,7 +125,7 @@ public class IndexBean implements Serializable {
 	private List<Quiz> quizzes;
 	private Map<Category, Integer> catCount = new HashMap<>();
 
-	private static final int AMOUNT_OF_QUIZZES = 10;
+	private static final int AMOUNT_OF_QUIZZES = 5;
 	private static final long serialVersionUID = 1L;
 
 }

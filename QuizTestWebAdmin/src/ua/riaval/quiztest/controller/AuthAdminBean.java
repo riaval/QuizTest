@@ -48,7 +48,8 @@ public class AuthAdminBean {
 	}
 
 	public String logout() throws ServletException {
-		request.logout();
+//		request.logout();
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
 		return "signin?faces-redirect=true";
 	}

@@ -160,8 +160,7 @@ public class QuizRunBean implements Serializable {
 					}
 					if (ar.getCorrect() && ar.getChecked()) {
 						correct++;
-					} else if (!ar.getCorrect() && ar.getChecked() || 
-								ar.getCorrect() && !ar.getChecked()) {
+					} else if (!ar.getCorrect() && ar.getChecked()) {
 						correct--;
 					}
 				}
