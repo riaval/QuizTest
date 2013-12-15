@@ -13,7 +13,6 @@
 		<h:outputStylesheet library="bootstrap/css" name="bootstrap.min.css" />
 		<h:outputScript library="bootstrap/js" name="bootstrap.min.js" />
 		<title>#{title}</title>
-		<ui:insert name="metaRefresh" />
 	</h:head>
 	<h:body>
 	<div class="expanded">
@@ -37,6 +36,8 @@
 						<ul class="nav">
 							<li><a href="/QuizTestWebUser/faces/index.xhtml">#{res.quizzes}</a></li>
 							<h:panelGroup rendered="#{request.isUserInRole('user')}"><li><h:link outcome="results" value="#{res.results}" /></li></h:panelGroup>
+							<h:panelGroup rendered="#{not empty quizRunBean.quiz}"><li><h:link styleClass="active-quiz" outcome="testRun" value="Active quiz" /></li></h:panelGroup>
+							<!-- <li><a class="active-quiz" href="/QuizTestWebUser/faces/index.xhtml">Active quiz</a></li> -->
 						</ul>
 
 						<ul class="nav pull-right">
