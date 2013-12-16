@@ -126,6 +126,7 @@ public class Quiz implements java.io.Serializable {
 		this.binaryGrade = binaryGrade;
 	}
 
+	@OrderBy
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz", cascade = CascadeType.ALL)
 	public Set<Comment> getComments() {
 		return this.comments;

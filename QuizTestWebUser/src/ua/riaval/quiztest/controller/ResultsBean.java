@@ -40,12 +40,12 @@ public class ResultsBean implements Serializable {
 	}
 
 	public void next() {
-		firstIndex += 10;
+		firstIndex += AMOUNT_OF_QUIZZES;
 		findResults();
 	}
 
 	public void previous() {
-		firstIndex -= 10;
+		firstIndex -= AMOUNT_OF_QUIZZES;
 		findResults();
 	}
 

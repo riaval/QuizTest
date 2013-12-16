@@ -54,7 +54,59 @@
 			</tr>
 		</table>
 
-		<p:inputTextarea value="testBean.comment" rows="6" cols="33" />  
+		<h:form id="form">
+			<h:panelGroup rendered="#{not empty testBean.comments}">
+				<div class="comments">
+					<h3>Comments</h3>
+					<ui:repeat value="#{testBean.comments}" var="comment">
+						<div class="comment-block">
+							<div class="head">
+								<span class="author">#{comment.user.firstName} #{comment.user.lastName}</span>
+								<span class="created">
+									<h:outputText value="#{comment.date}">
+										<f:convertDateTime pattern="dd.MM.yyyy" />
+									</h:outputText>
+								</span>
+							</div>
+							<p class="text">
+								#{comment.content}
+							</p>
+						</div>	
+					</ui:repeat>
+				</div>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{testBean.count > 10}">
+			<ul class="pager">
+				<li class="previous #{testBean.firstIndex lt 1 ? 'disabled' : ''}">
+					<h:panelGroup rendered="#{!(testBean.firstIndex lt 1)}">
+						<p:commandLink action="#{testBean.previous()}" update="@form" value="← #{res.nav_prev}" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{testBean.firstIndex lt 1}">
+						<a href="">← #{res.nav_prev}</a>
+					</h:panelGroup>
+				</li>
+				<li class="next #{testBean.firstIndex + 10 ge testBean.count ? 'disabled' : ''}">
+					<h:panelGroup rendered="#{!(testBean.firstIndex + 10 ge testBean.count)}">
+						<p:commandLink action="#{testBean.next()}" update="@form" value="#{res.nav_next} →" />
+					</h:panelGroup>
+					<h:panelGroup rendered="#{testBean.firstIndex + 10 ge testBean.count}">
+						<a href="">#{res.nav_next} →</a>
+					</h:panelGroup>
+				</li>
+			</ul>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{request.isUserInRole('user')}">
+				<h4>Add comment</h4>
+				<div>
+					<p:inputTextarea styleClass="add-comment-textarea" value="#{testBean.newComment}" />
+				</div>
+
+				<p:commandButton action="#{testBean.addComment()}" value="Confirm" update="@form" styleClass="ui-priority-primary" />
+			</h:panelGroup>
+
+		</h:form>
 
 	</ui:define>
 
