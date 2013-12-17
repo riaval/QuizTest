@@ -23,12 +23,16 @@ start_quiz=Начать тест
 min=мин.
 yes=Да
 no=Нет
+comments=Комментарии
+add_comment=Добавить комментарий
+confirm=Отправить
 
 # Results
 date=Дата
 name=Название
 marks=Ответов
 grade=Результат
+nothing_so_far=Пока ничего нет
 
 # Quiz Run
 finish=Завершить

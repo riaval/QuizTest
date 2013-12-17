@@ -57,7 +57,7 @@
 		<h:form id="form">
 			<h:panelGroup rendered="#{not empty testBean.comments}">
 				<div class="comments">
-					<h3>Comments</h3>
+					<h3>#{res.comments}</h3>
 					<ui:repeat value="#{testBean.comments}" var="comment">
 						<div class="comment-block">
 							<div class="head">
@@ -98,12 +98,12 @@
 			</h:panelGroup>
 
 			<h:panelGroup rendered="#{request.isUserInRole('user')}">
-				<h4>Add comment</h4>
+				<h4>#{res.add_comment}</h4>
 				<div>
 					<p:inputTextarea styleClass="add-comment-textarea" value="#{testBean.newComment}" />
 				</div>
 
-				<p:commandButton action="#{testBean.addComment()}" value="Confirm" update="@form" styleClass="ui-priority-primary" />
+				<p:commandButton action="#{testBean.addComment()}" value="#{res.confirm}" update="@form" styleClass="ui-priority-primary" />
 			</h:panelGroup>
 
 		</h:form>

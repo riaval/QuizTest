@@ -17,7 +17,6 @@ import org.primefaces.context.RequestContext;
 import ua.riaval.quiztest.dao.CommentDAO;
 import ua.riaval.quiztest.dao.QuizDAO;
 import ua.riaval.quiztest.dao.UserDAO;
-import ua.riaval.quiztest.dao.implementation.OrderBy;
 import ua.riaval.quiztest.entity.Comment;
 import ua.riaval.quiztest.entity.Quiz;
 import ua.riaval.quiztest.entity.User;
@@ -33,8 +32,9 @@ public class TestBean implements Serializable {
 
 		int id = Integer.parseInt(params.get("id"));
 		quiz = quizDAO.findByID(id);
-		comments = commentDAO.loadPart(0, AMOUNT_OF_COMMENTS, OrderBy.DESC);
-		count = commentDAO.count();
+		findResults();
+//		comments = commentDAO.loadPart(0, AMOUNT_OF_COMMENTS, OrderBy.DESC);
+//		count = commentDAO.count();
 	}
 
 	public void addComment() {
@@ -62,8 +62,8 @@ public class TestBean implements Serializable {
 	}
 
 	private void findResults() {
-		comments = commentDAO.loadPart(firstIndex, AMOUNT_OF_COMMENTS,
-				OrderBy.DESC);
+		comments = commentDAO.findInQuiz(quiz, firstIndex, AMOUNT_OF_COMMENTS);
+		count = commentDAO.countFromQuiz(quiz);
 	}
 
 	// public void reply(Comment comment) {

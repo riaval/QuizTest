@@ -14,6 +14,7 @@
 	</div>
 
 	<h:form>
+		<h:panelGroup rendered="#{not empty resultsBean.results}">
 		<table class="table table-hover" style="cursor: pointer;">
 			<thead>
 				<tr>
@@ -42,6 +43,11 @@
 				</ui:repeat>
 			</tbody>
 		</table>
+		</h:panelGroup>
+
+		<h:panelGroup rendered="#{empty resultsBean.results}">
+			<p>#{res.nothing_so_far}</p>
+		</h:panelGroup>
 
 		<h:panelGroup rendered="#{resultsBean.count > 10}">
 		<ul class="pager">

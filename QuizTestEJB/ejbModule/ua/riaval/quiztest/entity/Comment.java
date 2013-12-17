@@ -14,11 +14,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@NamedQueries({
+	@NamedQuery(name = "Comment.findInQuiz", query = "SELECT c FROM Comment AS c WHERE c.quiz = :quiz ORDER BY c.id DESC"),
+	@NamedQuery(name = "Comment.countFromQuiz", query = "SELECT COUNT(c) FROM Comment AS c WHERE c.quiz = :quiz")
+})
 @Entity
 @Table(name = "Comment", catalog = "QuizTest")
 public class Comment implements java.io.Serializable {
