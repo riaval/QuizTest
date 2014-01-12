@@ -13,7 +13,7 @@ import ua.riaval.quiztest.dao.DAO;
 
 public abstract class DAOImpl<T> implements DAO<T> {
 
-	@PersistenceContext(type = PersistenceContextType.EXTENDED)
+	@PersistenceContext(type = PersistenceContextType.EXTENDED, unitName="QuizTest")
 	protected EntityManager em;
 
 	public DAOImpl(Class<T> clazz) {
