@@ -1,12 +1,13 @@
 package ua.riaval.quiztest.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-
-import static javax.persistence.GenerationType.IDENTITY;
-
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,14 +15,26 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "AnswerResult", catalog = "QuizTest")
-public class AnswerResult implements java.io.Serializable {
+public class AnswerResult implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "questionResult_id", nullable = false)
 	private QuestionResult questionResult;
+
+	@Column(name = "text", nullable = false, length = 200)
 	private String text;
+
+	@Column(name = "correct")
 	private Boolean correct;
+
+	@Column(name = "checked", nullable = false)
 	private boolean checked;
 
 	public AnswerResult() {
@@ -45,9 +58,6 @@ public class AnswerResult implements java.io.Serializable {
 		this.correct = answer.getCorrect();
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -56,8 +66,6 @@ public class AnswerResult implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "questionResult_id", nullable = false)
 	public QuestionResult getQuestionResult() {
 		return this.questionResult;
 	}
@@ -66,7 +74,6 @@ public class AnswerResult implements java.io.Serializable {
 		this.questionResult = questionResult;
 	}
 
-	@Column(name = "text", nullable = false, length = 200)
 	public String getText() {
 		return this.text;
 	}
@@ -75,7 +82,6 @@ public class AnswerResult implements java.io.Serializable {
 		this.text = text;
 	}
 
-	@Column(name = "correct")
 	public Boolean getCorrect() {
 		return this.correct;
 	}
@@ -84,7 +90,6 @@ public class AnswerResult implements java.io.Serializable {
 		this.correct = correct;
 	}
 
-	@Column(name = "checked", nullable = false)
 	public boolean getChecked() {
 		return this.checked;
 	}

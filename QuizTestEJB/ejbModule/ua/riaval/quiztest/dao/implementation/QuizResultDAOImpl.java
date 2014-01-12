@@ -11,7 +11,8 @@ import ua.riaval.quiztest.entity.QuizResult;
 import ua.riaval.quiztest.entity.User;
 
 @Stateless
-public class QuizResultDAOImpl extends DAOImpl<QuizResult> implements QuizResultDAO {
+public class QuizResultDAOImpl extends DAOImpl<QuizResult> implements
+		QuizResultDAO {
 
 	public QuizResultDAOImpl() {
 		super(QuizResult.class);

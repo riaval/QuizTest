@@ -11,7 +11,7 @@ import ua.riaval.quiztest.entity.User;
 public interface QuizResultDAO extends DAO<QuizResult> {
 
 	public List<QuizResult> findForUser(User user, int firstIndex, int amount);
-	
+
 	public int countForUser(User user);
-	
+
 }

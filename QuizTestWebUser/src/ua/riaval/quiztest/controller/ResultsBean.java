@@ -18,17 +18,18 @@ import ua.riaval.quiztest.entity.User;
 @ViewScoped
 public class ResultsBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	private static final int AMOUNT_OF_QUIZZES = 15;
+
 	@EJB
 	private UserDAO userDAO;
 	@EJB
 	private QuizResultDAO quizResultDAO;
 
+	private User user;
 	private List<QuizResult> results;
 	private int firstIndex;
 	private int count;
-
-	private User user;
-	private static final int AMOUNT_OF_QUIZZES = 15;
 
 	@PostConstruct
 	private void postConstruct() {
@@ -57,17 +58,14 @@ public class ResultsBean implements Serializable {
 	public List<QuizResult> getResults() {
 		return results;
 	}
-	
 
 	public void setResults(List<QuizResult> results) {
 		this.results = results;
 	}
-	
 
 	public int getFirstIndex() {
 		return firstIndex;
 	}
-	
 
 	public void setFirstIndex(int firstIndex) {
 		this.firstIndex = firstIndex;
@@ -80,7 +78,5 @@ public class ResultsBean implements Serializable {
 	public void setCount(int count) {
 		this.count = count;
 	}
-
-	private static final long serialVersionUID = 1L;
 
 }

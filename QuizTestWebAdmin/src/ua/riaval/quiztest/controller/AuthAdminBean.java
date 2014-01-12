@@ -48,8 +48,8 @@ public class AuthAdminBean {
 	}
 
 	public String logout() throws ServletException {
-//		request.logout();
-		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		FacesContext.getCurrentInstance().getExternalContext()
+				.invalidateSession();
 
 		return "signin?faces-redirect=true";
 	}
@@ -64,7 +64,7 @@ public class AuthAdminBean {
 		return Util.createPasswordHash("SHA", Util.BASE64_ENCODING, null, null,
 				item);
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}

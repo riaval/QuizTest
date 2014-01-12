@@ -113,7 +113,6 @@ public class AuthBean {
 	}
 
 	public String logout() throws ServletException {
-//		request.logout();
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 
 		return "index?faces-redirect=true";

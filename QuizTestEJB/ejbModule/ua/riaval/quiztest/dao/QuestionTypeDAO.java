@@ -8,5 +8,5 @@ import ua.riaval.quiztest.entity.QuestionType;
 public interface QuestionTypeDAO extends DAO<QuestionType> {
 
 	public QuestionType findByTypeName(String typeName);
-	
+
 }

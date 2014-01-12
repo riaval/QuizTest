@@ -34,7 +34,7 @@ public class QuizzesBean {
 		categories = categoryDAO.findAll(OrderBy.ASC);
 		quizDataModel = new QuizDataModel();
 	}
-	
+
 	public String editQuiz() {
 		return "quiz?faces-redirect=true&id=" + selectedQuiz.getId();
 	}

@@ -7,7 +7,8 @@ import ua.riaval.quiztest.dao.QuestionTypeDAO;
 import ua.riaval.quiztest.entity.QuestionType;
 
 @Stateless
-public class QuestionTypeDAOImpl extends DAOImpl<QuestionType> implements QuestionTypeDAO {
+public class QuestionTypeDAOImpl extends DAOImpl<QuestionType> implements
+		QuestionTypeDAO {
 
 	public QuestionTypeDAOImpl() {
 		super(QuestionType.class);
@@ -20,7 +21,7 @@ public class QuestionTypeDAOImpl extends DAOImpl<QuestionType> implements Questi
 		query.setParameter("typeName", typeName);
 
 		return findOne(query);
-		
+
 	}
-	
+
 }

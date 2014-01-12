@@ -62,9 +62,6 @@ public class QuizDataModel extends LazyDataModel<Quiz> {
 			this.setRowCount(quizDAO.count());
 		}
 
-		// datasource = quizDAO.loadPart(first, pageSize, OrderBy.DESC);
-		// this.setRowCount(10);
-		// this.setRowCount(quizDAO.count());
 		return datasource;
 	}
 

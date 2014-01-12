@@ -8,5 +8,5 @@ import ua.riaval.quiztest.entity.Category;
 public interface CategoryDAO extends DAO<Category> {
 
 	public Category findByName(String name);
-	
+
 }

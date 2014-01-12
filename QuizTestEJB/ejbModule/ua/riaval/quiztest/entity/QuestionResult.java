@@ -2,6 +2,7 @@ package ua.riaval.quiztest.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -19,18 +20,40 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "QuestionResult", catalog = "QuizTest")
-public class QuestionResult implements java.io.Serializable {
+public class QuestionResult implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "questionType_id", nullable = false)
 	private QuestionType questionType;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "quizResult_id", nullable = false)
 	private QuizResult quizResult;
+
+	@Column(name = "text", length = 500)
 	private String text;
+
+	@Column(name = "image")
 	private byte[] image;
+
+	@Column(name = "isLatex", nullable = false)
 	private boolean isLatex;
+
+	@Column(name = "cost", nullable = false)
 	private int cost;
+
+	@Column(name = "result", nullable = false)
 	private double result;
+
+	@OrderBy
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionResult", cascade = CascadeType.ALL)
 	private Set<AnswerResult> answerResults = new LinkedHashSet<AnswerResult>();
 
 	public QuestionResult() {
@@ -65,9 +88,6 @@ public class QuestionResult implements java.io.Serializable {
 		}
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -76,8 +96,6 @@ public class QuestionResult implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "questionType_id", nullable = false)
 	public QuestionType getQuestionType() {
 		return this.questionType;
 	}
@@ -86,8 +104,6 @@ public class QuestionResult implements java.io.Serializable {
 		this.questionType = questionType;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "quizResult_id", nullable = false)
 	public QuizResult getQuizResult() {
 		return this.quizResult;
 	}
@@ -96,7 +112,6 @@ public class QuestionResult implements java.io.Serializable {
 		this.quizResult = quizResult;
 	}
 
-	@Column(name = "text", length = 500)
 	public String getText() {
 		return this.text;
 	}
@@ -105,7 +120,6 @@ public class QuestionResult implements java.io.Serializable {
 		this.text = text;
 	}
 
-	@Column(name = "image")
 	public byte[] getImage() {
 		return this.image;
 	}
@@ -114,7 +128,6 @@ public class QuestionResult implements java.io.Serializable {
 		this.image = image;
 	}
 
-	@Column(name = "isLatex", nullable = false)
 	public boolean isIsLatex() {
 		return this.isLatex;
 	}
@@ -123,7 +136,6 @@ public class QuestionResult implements java.io.Serializable {
 		this.isLatex = isLatex;
 	}
 
-	@Column(name = "cost", nullable = false)
 	public int getCost() {
 		return this.cost;
 	}
@@ -132,7 +144,6 @@ public class QuestionResult implements java.io.Serializable {
 		this.cost = cost;
 	}
 
-	@Column(name = "result", nullable = false)
 	public double getResult() {
 		return this.result;
 	}
@@ -140,9 +151,7 @@ public class QuestionResult implements java.io.Serializable {
 	public void setResult(double result) {
 		this.result = result;
 	}
-	
-	@OrderBy
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionResult", cascade = CascadeType.ALL)
+
 	public Set<AnswerResult> getAnswerResults() {
 		return this.answerResults;
 	}

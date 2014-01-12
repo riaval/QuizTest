@@ -15,8 +15,8 @@ public class UserRoleDAOImpl extends DAOImpl<UserRole> implements UserRoleDAO {
 
 	@Override
 	public UserRole findByRole(String role) {
-		TypedQuery<UserRole> query = em.createNamedQuery(
-				"UserRole.findByRole", UserRole.class);
+		TypedQuery<UserRole> query = em.createNamedQuery("UserRole.findByRole",
+				UserRole.class);
 		query.setParameter("role", role);
 
 		return findOne(query);

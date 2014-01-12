@@ -13,7 +13,11 @@ import ua.riaval.quiztest.dao.DAO;
 
 public abstract class DAOImpl<T> implements DAO<T> {
 
-	@PersistenceContext(type = PersistenceContextType.EXTENDED, unitName="QuizTest")
+	private Class<T> persistClass;
+	private String findAllQuery;
+	private String countQuery;
+
+	@PersistenceContext(type = PersistenceContextType.EXTENDED, unitName = "QuizTest")
 	protected EntityManager em;
 
 	public DAOImpl(Class<T> clazz) {
@@ -44,10 +48,6 @@ public abstract class DAOImpl<T> implements DAO<T> {
 
 	@Override
 	public void delete(T entity) {
-//		if (!em.contains(entity)) {
-//			em.persist(entity);
-//		}
-//		System.out.println(em.contains(entity));
 		em.remove(entity);
 	}
 
@@ -80,7 +80,7 @@ public abstract class DAOImpl<T> implements DAO<T> {
 	@Override
 	public int count() {
 		Query query = em.createQuery(countQuery);
-		
+
 		return ((Long) query.getSingleResult()).intValue();
 	}
 
@@ -99,16 +99,12 @@ public abstract class DAOImpl<T> implements DAO<T> {
 			return null;
 		}
 	}
-	
+
 	public List<T> findPart(TypedQuery<T> query, int firstIndex, int amount) {
 		query.setFirstResult(firstIndex);
 		query.setMaxResults(amount);
 
 		return findMany(query);
 	}
-
-	private Class<T> persistClass;
-	private String findAllQuery;
-	private String countQuery;
 
 }

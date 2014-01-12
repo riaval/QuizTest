@@ -63,7 +63,7 @@ public class CategoriesBean {
 		categoriesModel.setWrappedData(categories);
 		newCategoryName = null;
 	}
-	
+
 	public void removeCategories() {
 		for (Category each : selectedCategories) {
 			categoryDAO.delete(each);

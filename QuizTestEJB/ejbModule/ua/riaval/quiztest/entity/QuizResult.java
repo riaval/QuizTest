@@ -2,6 +2,7 @@ package ua.riaval.quiztest.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -27,22 +28,40 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @NamedQueries({
-	@NamedQuery(name = "QuizResult.findForUser", query = "SELECT qr FROM QuizResult AS qr WHERE qr.user = :user ORDER BY qr.id DESC"),
-	@NamedQuery(name = "QuizResult.countForUser", query = "SELECT COUNT(qr) FROM QuizResult AS qr WHERE qr.user = :user")
-})
+		@NamedQuery(name = "QuizResult.findForUser", query = "SELECT qr FROM QuizResult AS qr WHERE qr.user = :user ORDER BY qr.id DESC"),
+		@NamedQuery(name = "QuizResult.countForUser", query = "SELECT COUNT(qr) FROM QuizResult AS qr WHERE qr.user = :user") })
 @Entity
 @Table(name = "QuizResult", catalog = "QuizTest")
-public class QuizResult implements java.io.Serializable {
+public class QuizResult implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
+
+	@Column(name = "name", nullable = false, length = 45)
 	private String name;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date", nullable = false, length = 19)
 	private Date date;
+
+	@Column(name = "grade", nullable = false, precision = 22, scale = 0)
 	private double grade;
+
+	@Column(name = "showResults", nullable = false)
 	private boolean showResults;
-	private Set<QuestionResult> questionResults = new LinkedHashSet<QuestionResult>(0);
+
+	@OrderBy
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quizResult", cascade = CascadeType.ALL)
+	private Set<QuestionResult> questionResults = new LinkedHashSet<QuestionResult>(
+			0);
 
 	public QuizResult() {
 	}
@@ -65,26 +84,24 @@ public class QuizResult implements java.io.Serializable {
 		this.name = quiz.getName();
 		this.date = Calendar.getInstance().getTime();
 		this.showResults = quiz.getShowResults();
-		
-		List<QuestionResult> questions = new ArrayList<>(quiz.getQuestions().size());
+
+		List<QuestionResult> questions = new ArrayList<>(quiz.getQuestions()
+				.size());
 		for (Question question : quiz.getQuestions()) {
 			QuestionResult qr = new QuestionResult(question);
 			qr.setQuizResult(this);
 			questions.add(qr);
-//			count
 		}
 		if (quiz.isRandomOrder()) {
 			Collections.shuffle(questions);
 		}
-		int count = (questions.size() < quiz.getAmount()) ? questions.size() : quiz.getAmount();
+		int count = (questions.size() < quiz.getAmount()) ? questions.size()
+				: quiz.getAmount();
 		for (int i = 0; i < count; i++) {
 			questionResults.add(questions.get(i));
 		}
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -93,8 +110,6 @@ public class QuizResult implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
 		return this.user;
 	}
@@ -103,7 +118,6 @@ public class QuizResult implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Column(name = "name", nullable = false, length = 45)
 	public String getName() {
 		return this.name;
 	}
@@ -112,8 +126,6 @@ public class QuizResult implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date", nullable = false, length = 19)
 	public Date getDate() {
 		return this.date;
 	}
@@ -122,7 +134,6 @@ public class QuizResult implements java.io.Serializable {
 		this.date = date;
 	}
 
-	@Column(name = "grade", nullable = false, precision = 22, scale = 0)
 	public double getGrade() {
 		return this.grade;
 	}
@@ -131,7 +142,6 @@ public class QuizResult implements java.io.Serializable {
 		this.grade = grade;
 	}
 
-	@Column(name = "showResults", nullable = false)
 	public boolean isShowResults() {
 		return this.showResults;
 	}
@@ -140,8 +150,6 @@ public class QuizResult implements java.io.Serializable {
 		this.showResults = showResults;
 	}
 
-	@OrderBy
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quizResult", cascade = CascadeType.ALL)
 	public Set<QuestionResult> getQuestionResults() {
 		return this.questionResults;
 	}

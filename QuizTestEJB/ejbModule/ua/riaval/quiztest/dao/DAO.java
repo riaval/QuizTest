@@ -13,11 +13,11 @@ public interface DAO<T> {
 	public void delete(T entity);
 
 	public List<T> findAll(OrderBy orderBy);
-	
+
 	public List<T> loadPart(int firstIndex, int amount, OrderBy orderBy);
 
 	public T findByID(int id);
-	
+
 	public int count();
 
 }

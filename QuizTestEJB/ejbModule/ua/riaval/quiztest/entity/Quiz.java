@@ -2,6 +2,7 @@ package ua.riaval.quiztest.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -21,25 +22,50 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @NamedQueries({
-	@NamedQuery(name = "Quiz.findInCategory", query = "SELECT q FROM Quiz AS q WHERE :category MEMBER OF q.categories ORDER BY q.id DESC"),
-	@NamedQuery(name = "Quiz.countFromCategory", query = "SELECT COUNT(q) FROM Quiz AS q WHERE :category MEMBER OF q.categories")
-})
+		@NamedQuery(name = "Quiz.findInCategory", query = "SELECT q FROM Quiz AS q WHERE :category MEMBER OF q.categories ORDER BY q.id DESC"),
+		@NamedQuery(name = "Quiz.countFromCategory", query = "SELECT COUNT(q) FROM Quiz AS q WHERE :category MEMBER OF q.categories") })
 @Entity
 @Table(name = "Quiz", catalog = "QuizTest")
-public class Quiz implements java.io.Serializable {
+public class Quiz implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+
+	@Column(name = "name", nullable = false, length = 45)
 	private String name;
+
+	@Column(name = "comment", nullable = false, length = 1000)
 	private String comment;
+
+	@Column(name = "timeLimit", nullable = false)
 	private int timeLimit = 1;
+
+	@Column(name = "amount", nullable = false)
 	private int amount = 1;
+
+	@Column(name = "randomOrder", nullable = false)
 	private boolean randomOrder;
+
+	@Column(name = "showResults", nullable = false)
 	private boolean showResults;
+
+	@Column(name = "binaryGrade", nullable = false)
 	private boolean binaryGrade;
+
+	@OrderBy
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz", cascade = CascadeType.ALL)
 	private Set<Comment> comments = new LinkedHashSet<Comment>();
+
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+	@JoinTable(name = "Quiz_Category", joinColumns = { @JoinColumn(name = "quiz_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
 	private Set<Category> categories = new LinkedHashSet<Category>();
+
+	@OrderBy
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz", cascade = CascadeType.ALL)
 	private Set<Question> questions = new LinkedHashSet<Question>();
 
 	public Quiz() {
@@ -52,9 +78,6 @@ public class Quiz implements java.io.Serializable {
 		this.amount = amount;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -63,7 +86,6 @@ public class Quiz implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false, length = 45)
 	public String getName() {
 		return this.name;
 	}
@@ -72,7 +94,6 @@ public class Quiz implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "comment", nullable = false, length = 1000)
 	public String getComment() {
 		return this.comment;
 	}
@@ -81,7 +102,6 @@ public class Quiz implements java.io.Serializable {
 		this.comment = comment;
 	}
 
-	@Column(name = "timeLimit", nullable = false)
 	public int getTimeLimit() {
 		return this.timeLimit;
 	}
@@ -90,7 +110,6 @@ public class Quiz implements java.io.Serializable {
 		this.timeLimit = timeLimit;
 	}
 
-	@Column(name = "amount", nullable = false)
 	public int getAmount() {
 		return this.amount;
 	}
@@ -99,7 +118,6 @@ public class Quiz implements java.io.Serializable {
 		this.amount = amount;
 	}
 
-	@Column(name = "randomOrder", nullable = false)
 	public boolean isRandomOrder() {
 		return this.randomOrder;
 	}
@@ -108,7 +126,6 @@ public class Quiz implements java.io.Serializable {
 		this.randomOrder = randomOrder;
 	}
 
-	@Column(name = "showResults", nullable = false)
 	public boolean getShowResults() {
 		return this.showResults;
 	}
@@ -117,7 +134,6 @@ public class Quiz implements java.io.Serializable {
 		this.showResults = showResults;
 	}
 
-	@Column(name = "binaryGrade", nullable = false)
 	public boolean isBinaryGrade() {
 		return this.binaryGrade;
 	}
@@ -126,8 +142,6 @@ public class Quiz implements java.io.Serializable {
 		this.binaryGrade = binaryGrade;
 	}
 
-	@OrderBy
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz", cascade = CascadeType.ALL)
 	public Set<Comment> getComments() {
 		return this.comments;
 	}
@@ -136,9 +150,6 @@ public class Quiz implements java.io.Serializable {
 		this.comments = comments;
 	}
 
-	// @ManyToMany(mappedBy = "quizzes", cascade = CascadeType.ALL)
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
-	@JoinTable(name = "Quiz_Category", joinColumns = { @JoinColumn(name = "quiz_id") }, inverseJoinColumns = { @JoinColumn(name = "category_id") })
 	public Set<Category> getCategories() {
 		return categories;
 	}
@@ -147,8 +158,6 @@ public class Quiz implements java.io.Serializable {
 		this.categories = categories;
 	}
 
-	@OrderBy
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "quiz", cascade = CascadeType.ALL)
 	public Set<Question> getQuestions() {
 		return this.questions;
 	}

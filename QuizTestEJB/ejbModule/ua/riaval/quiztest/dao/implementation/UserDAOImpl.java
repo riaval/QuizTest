@@ -15,8 +15,8 @@ public class UserDAOImpl extends DAOImpl<User> implements UserDAO {
 
 	@Override
 	public User findByEmail(String email) {
-		TypedQuery<User> query = em.createNamedQuery(
-				"User.findByEmail", User.class);
+		TypedQuery<User> query = em.createNamedQuery("User.findByEmail",
+				User.class);
 		query.setParameter("email", email);
 
 		return findOne(query);

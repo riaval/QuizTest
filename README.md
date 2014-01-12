@@ -12,7 +12,7 @@ The application has been published onto OpenShift for easy access:
 usename: demo@example.com
 password: password
 ```
-[Admin panel](https://quiztest-riaval.rhcloud.com/QuizTestWebAdmin/faces/quizzes.xhtml)
+[Admin panel](https://quiztest-riaval.rhcloud.com/QuizTestWebAdmin/faces/signin.xhtml)
 ```
 usename: admin@example.com
 password: password
@@ -37,3 +37,4 @@ password: password
 6. Saving progress during passing the quiz
 7. Optional detailed reports
 8. Detailed Admin section
+

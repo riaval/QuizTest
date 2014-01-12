@@ -24,8 +24,15 @@ public class UserRole implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	
+	@Column(name = "name", length = 45)
 	private String name;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userRole")
 	private Set<User> users = new LinkedHashSet<User>();
 
 	public UserRole() {
@@ -36,9 +43,7 @@ public class UserRole implements java.io.Serializable {
 		this.users = users;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -47,7 +52,7 @@ public class UserRole implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", length = 45)
+	
 	public String getName() {
 		return this.name;
 	}
@@ -56,7 +61,7 @@ public class UserRole implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userRole")
+	
 	public Set<User> getUsers() {
 		return this.users;
 	}

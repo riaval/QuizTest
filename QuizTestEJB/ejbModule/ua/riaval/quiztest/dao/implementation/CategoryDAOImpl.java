@@ -15,12 +15,12 @@ public class CategoryDAOImpl extends DAOImpl<Category> implements CategoryDAO {
 
 	@Override
 	public Category findByName(String name) {
-		TypedQuery<Category> query = em.createNamedQuery(
-				"Category.findByName", Category.class);
+		TypedQuery<Category> query = em.createNamedQuery("Category.findByName",
+				Category.class);
 		query.setParameter("name", name);
 
 		return findOne(query);
-		
+
 	}
-	
+
 }

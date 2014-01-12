@@ -8,5 +8,5 @@ import ua.riaval.quiztest.entity.UserRole;
 public interface UserRoleDAO extends DAO<UserRole> {
 
 	public UserRole findByRole(String role);
-	
+
 }

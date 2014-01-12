@@ -2,6 +2,7 @@ package ua.riaval.quiztest.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -21,22 +22,39 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-@NamedQueries({
-	@NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User AS u WHERE u.email = :email")
-})
+@NamedQueries({ @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User AS u WHERE u.email = :email") })
 @Entity
 @Table(name = "User", catalog = "QuizTest", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-public class User implements java.io.Serializable {
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "userRole_id", nullable = false)
 	private UserRole userRole;
+
+	@Column(name = "email", unique = true, nullable = false, length = 80)
 	private String email;
+
+	@Column(name = "password", nullable = false, length = 120)
 	private String password;
+
+	@Column(name = "firstName", nullable = false, length = 45)
 	private String firstName;
+
+	@Column(name = "lastName", nullable = false, length = 45)
 	private String lastName;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "registered", nullable = false, length = 19)
 	private Date registered;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<QuizResult> quizResults = new LinkedHashSet<QuizResult>();
 
 	public User() {
@@ -64,9 +82,6 @@ public class User implements java.io.Serializable {
 		this.quizResults = quizResults;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -75,8 +90,6 @@ public class User implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userRole_id", nullable = false)
 	public UserRole getUserRole() {
 		return this.userRole;
 	}
@@ -85,7 +98,6 @@ public class User implements java.io.Serializable {
 		this.userRole = userRole;
 	}
 
-	@Column(name = "email", unique = true, nullable = false, length = 80)
 	public String getEmail() {
 		return this.email;
 	}
@@ -94,7 +106,6 @@ public class User implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "password", nullable = false, length = 120)
 	public String getPassword() {
 		return this.password;
 	}
@@ -103,7 +114,6 @@ public class User implements java.io.Serializable {
 		this.password = password;
 	}
 
-	@Column(name = "firstName", nullable = false, length = 45)
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -112,7 +122,6 @@ public class User implements java.io.Serializable {
 		this.firstName = firstName;
 	}
 
-	@Column(name = "lastName", nullable = false, length = 45)
 	public String getLastName() {
 		return this.lastName;
 	}
@@ -121,8 +130,6 @@ public class User implements java.io.Serializable {
 		this.lastName = lastName;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "registered", nullable = false, length = 19)
 	public Date getRegistered() {
 		return this.registered;
 	}
@@ -131,7 +138,6 @@ public class User implements java.io.Serializable {
 		this.registered = registered;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	public Set<QuizResult> getQuizResults() {
 		return this.quizResults;
 	}

@@ -9,9 +9,9 @@ import ua.riaval.quiztest.entity.Quiz;
 
 @Local
 public interface CommentDAO extends DAO<Comment> {
-	
+
 	public List<Comment> findInQuiz(Quiz quiz, int firstIndex, int amount);
 
 	public int countFromQuiz(Quiz quiz);
-	
+
 }

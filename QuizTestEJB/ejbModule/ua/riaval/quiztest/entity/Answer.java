@@ -2,6 +2,8 @@ package ua.riaval.quiztest.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,13 +16,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Answer", catalog = "QuizTest")
-public class Answer implements java.io.Serializable {
+public class Answer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+
+	@Column(name = "text", nullable = false, length = 200)
 	private String text;
+
+	@Column(name = "correct")
 	private Boolean correct = false;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "question_id", nullable = false)
 	private Question question;
 
 	public Answer() {
@@ -31,9 +43,6 @@ public class Answer implements java.io.Serializable {
 		this.correct = correct;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -42,8 +51,6 @@ public class Answer implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "question_id", nullable = false)
 	public Question getQuestion() {
 		return this.question;
 	}
@@ -52,7 +59,6 @@ public class Answer implements java.io.Serializable {
 		this.question = question;
 	}
 
-	@Column(name = "text", nullable = false, length = 200)
 	public String getText() {
 		return this.text;
 	}
@@ -61,7 +67,6 @@ public class Answer implements java.io.Serializable {
 		this.text = text;
 	}
 
-	@Column(name = "correct")
 	public Boolean getCorrect() {
 		return this.correct;
 	}

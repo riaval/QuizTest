@@ -18,8 +18,7 @@ public class CommentDAOImpl extends DAOImpl<Comment> implements CommentDAO {
 	}
 
 	@Override
-	public List<Comment> findInQuiz(Quiz quiz, int firstIndex,
-			int amount) {
+	public List<Comment> findInQuiz(Quiz quiz, int firstIndex, int amount) {
 
 		TypedQuery<Comment> query = em.createNamedQuery("Comment.findInQuiz",
 				Comment.class);

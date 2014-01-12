@@ -20,6 +20,21 @@ import ua.riaval.quiztest.entity.Quiz;
 @ViewScoped
 public class IndexBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	private static final int AMOUNT_OF_QUIZZES = 5;
+
+	@EJB
+	private CategoryDAO categoryDAO;
+	@EJB
+	private QuizDAO quizDAO;
+
+	private int count;
+	private int firstIndex;
+	private List<Category> categories;
+	private Category currentCategory;
+	private List<Quiz> quizzes;
+	private Map<Category, Integer> catCount = new HashMap<>();
+
 	@PostConstruct
 	private void postConstruct() {
 		categories = categoryDAO.findAll(OrderBy.DESC);
@@ -105,27 +120,9 @@ public class IndexBean implements Serializable {
 				AMOUNT_OF_QUIZZES);
 		count = quizDAO.countFromCategory(category);
 	}
-	
+
 	public int countQuizzes(Category category) {
-//		System.out.println(category.getName() + " : " + category.getQuizzes().size());
-//		return category.getQuizzes().size();
-//		return quizDAO.countFromCategory(category);
 		return catCount.get(category);
 	}
-
-	@EJB
-	private CategoryDAO categoryDAO;
-	@EJB
-	private QuizDAO quizDAO;
-
-	private int count;
-	private int firstIndex;
-	private List<Category> categories;
-	private Category currentCategory;
-	private List<Quiz> quizzes;
-	private Map<Category, Integer> catCount = new HashMap<>();
-
-	private static final int AMOUNT_OF_QUIZZES = 5;
-	private static final long serialVersionUID = 1L;
 
 }

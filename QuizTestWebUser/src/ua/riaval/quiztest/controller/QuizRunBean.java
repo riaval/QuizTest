@@ -25,7 +25,23 @@ import ua.riaval.quiztest.entity.User;
 @ManagedBean
 @SessionScoped
 public class QuizRunBean implements Serializable {
-	
+
+	private static final long serialVersionUID = 1L;
+
+	@EJB
+	private UserDAO userDAO;
+	@EJB
+	private QuizDAO quizDAO;
+	@EJB
+	private QuizResultDAO quizResultDAO;
+
+	private QuizResult quiz;
+	private QuestionResult currentQuestion;
+	private long timeLeft;
+	private Timer timer;
+	private boolean binary;
+	private int storedId;
+
 	public String start(int requestId) {
 		if (quiz == null) {
 			Quiz defaultQuiz = quizDAO.findByID(requestId);
@@ -34,7 +50,7 @@ public class QuizRunBean implements Serializable {
 
 			timeLeft = defaultQuiz.getTimeLimit() * 60;
 			currentQuestion = this.quiz.getQuestionResults().iterator().next();
-			
+
 			timer = new Timer();
 			timer.schedule(new TimerTask() {
 
@@ -107,7 +123,7 @@ public class QuizRunBean implements Serializable {
 
 		newAnswerResult(answer, currentQuestion);
 	}
-	
+
 	private void newAnswerResult(String text, QuestionResult question) {
 		AnswerResult ar = new AnswerResult(text, true);
 		ar.setCorrect(false);
@@ -117,23 +133,25 @@ public class QuizRunBean implements Serializable {
 
 	public String finish() {
 		timer.cancel();
-		String email = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+		String email = FacesContext.getCurrentInstance().getExternalContext()
+				.getRemoteUser();
 		User user = userDAO.findByEmail(email);
 		quiz.setUser(user);
 		quizAnalyzing(quiz);
-		
+
 		quizResultDAO.save(quiz);
-		
-		int id= storedId = quiz.getId();
+
+		int id = storedId = quiz.getId();
 		quiz = null;
 
 		return "result?faces-redirect=true&id=" + id;
 	}
-	
+
 	public void checkfinish() {
 		if (timeLeft < 1) {
 			finish();
-			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+			ExternalContext ec = FacesContext.getCurrentInstance()
+					.getExternalContext();
 			try {
 				ec.redirect("result.xhtml?id=" + storedId);
 			} catch (IOException e) {
@@ -141,7 +159,7 @@ public class QuizRunBean implements Serializable {
 			}
 		}
 	}
-	
+
 	private QuizResult quizAnalyzing(QuizResult quiz) {
 		double mark = 0;
 		double marks = 0;
@@ -165,7 +183,7 @@ public class QuizRunBean implements Serializable {
 					}
 				}
 				result = (double) correct / pointed;
-				if (binary &&  result != 1) {
+				if (binary && result != 1) {
 					continue;
 				} else {
 					double score = qr.getCost() * result;
@@ -191,7 +209,8 @@ public class QuizRunBean implements Serializable {
 					newAnswerResult("", qr);
 				}
 				for (AnswerResult ar : qr.getAnswerResults()) {
-					if (ar.getCorrect() && ar.getText().equals(checkedAnswer.getText())) {
+					if (ar.getCorrect()
+							&& ar.getText().equals(checkedAnswer.getText())) {
 						checkedAnswer.setCorrect(true);
 						mark = qr.getCost();
 						marks += mark;
@@ -202,7 +221,7 @@ public class QuizRunBean implements Serializable {
 			qr.setResult(mark);
 			mark = 0;
 		}
-		grade = (double) marks/cost;
+		grade = (double) marks / cost;
 		quiz.setGrade(grade);
 		return quiz;
 	}
@@ -222,21 +241,5 @@ public class QuizRunBean implements Serializable {
 	public void setCurrentQuestion(QuestionResult currentQuestion) {
 		this.currentQuestion = currentQuestion;
 	}
-
-	@EJB
-	private UserDAO userDAO;
-	@EJB
-	private QuizDAO quizDAO;
-	@EJB
-	private QuizResultDAO quizResultDAO;
-
-	private QuizResult quiz;
-	private QuestionResult currentQuestion;
-	private long timeLeft;
-	private Timer timer;
-	private boolean binary;
-	private int storedId;
-	
-	private static final long serialVersionUID = 1L;
 
 }

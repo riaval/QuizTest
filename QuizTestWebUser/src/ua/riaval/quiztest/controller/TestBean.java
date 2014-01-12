@@ -25,6 +25,22 @@ import ua.riaval.quiztest.entity.User;
 @ViewScoped
 public class TestBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	private static final int AMOUNT_OF_COMMENTS = 10;
+
+	@EJB
+	private QuizDAO quizDAO;
+	@EJB
+	private UserDAO userDAO;
+	@EJB
+	private CommentDAO commentDAO;
+
+	private Quiz quiz;
+	private String newComment;
+	private List<Comment> comments;
+	private int firstIndex;
+	private int count;
+
 	@PostConstruct
 	private void postConstruct() {
 		Map<String, String> params = FacesContext.getCurrentInstance()
@@ -33,8 +49,6 @@ public class TestBean implements Serializable {
 		int id = Integer.parseInt(params.get("id"));
 		quiz = quizDAO.findByID(id);
 		findResults();
-//		comments = commentDAO.loadPart(0, AMOUNT_OF_COMMENTS, OrderBy.DESC);
-//		count = commentDAO.count();
 	}
 
 	public void addComment() {
@@ -46,7 +60,7 @@ public class TestBean implements Serializable {
 		quiz.getComments().add(comment);
 		quizDAO.merge(quiz);
 		newComment = null;
-		
+
 		findResults();
 		RequestContext.getCurrentInstance().update("form");
 	}
@@ -65,26 +79,6 @@ public class TestBean implements Serializable {
 		comments = commentDAO.findInQuiz(quiz, firstIndex, AMOUNT_OF_COMMENTS);
 		count = commentDAO.countFromQuiz(quiz);
 	}
-
-	// public void reply(Comment comment) {
-	// replyComment = comment;
-	// RequestContext.getCurrentInstance().update("form:dialog");
-	// RequestContext.getCurrentInstance().execute("dialog.show()");
-	// }
-	//
-	// public void replyConfirm() {
-	// String email = FacesContext.getCurrentInstance().getExternalContext()
-	// .getRemoteUser();
-	// User user = userDAO.findByEmail(email);
-	// Date date = Calendar.getInstance().getTime();
-	//
-	// Comment subComment = new Comment(replyComment, null, newSubComment, date,
-	// user);
-	// replyComment.getComments().add(subComment);
-	// commentDAO.merge(replyComment);
-	//
-	// newSubComment = null;
-	// }
 
 	public Quiz getQuiz() {
 		return quiz;
@@ -125,24 +119,5 @@ public class TestBean implements Serializable {
 	public void setFirstIndex(int firstIndex) {
 		this.firstIndex = firstIndex;
 	}
-
-	@EJB
-	private QuizDAO quizDAO;
-	@EJB
-	private UserDAO userDAO;
-	@EJB
-	private CommentDAO commentDAO;
-
-	private Quiz quiz;
-	private String newComment;
-	private List<Comment> comments;
-	private int firstIndex;
-	private int count;
-	// private String newSubComment;
-	// private Comment replyComment;
-
-	private static final int AMOUNT_OF_COMMENTS = 10;
-
-	private static final long serialVersionUID = 1L;
 
 }

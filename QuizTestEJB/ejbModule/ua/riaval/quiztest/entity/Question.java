@@ -23,13 +23,33 @@ public class Question implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE,
+			CascadeType.REFRESH })
+	@JoinColumn(name = "type_id", nullable = false)
 	private QuestionType questionType;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "quiz_id", nullable = false)
 	private Quiz quiz;
+	
+	@Column(name = "text", length = 500)
 	private String text;
+	
+	@Column(name = "image")
 	private byte[] image;
+	
+	@Column(name = "latex", nullable = false)
 	private boolean latex;
+	
+	@Column(name = "cost", nullable = false)
 	private int cost = 1;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question", cascade = CascadeType.ALL)
 	private Set<Answer> answers = new LinkedHashSet<Answer>();
 
 	public Question() {
@@ -52,9 +72,7 @@ public class Question implements Serializable {
 		this.answers = answers;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -63,9 +81,7 @@ public class Question implements Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE,
-			CascadeType.REFRESH })
-	@JoinColumn(name = "type_id", nullable = false)
+	
 	public QuestionType getQuestionType() {
 		return this.questionType;
 	}
@@ -74,8 +90,7 @@ public class Question implements Serializable {
 		this.questionType = questionType;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "quiz_id", nullable = false)
+	
 	public Quiz getQuiz() {
 		return this.quiz;
 	}
@@ -84,7 +99,7 @@ public class Question implements Serializable {
 		this.quiz = quiz;
 	}
 
-	@Column(name = "text", length = 500)
+	
 	public String getText() {
 		return this.text;
 	}
@@ -93,7 +108,7 @@ public class Question implements Serializable {
 		this.text = text;
 	}
 
-	@Column(name = "image")
+	
 	public byte[] getImage() {
 		return this.image;
 	}
@@ -102,7 +117,7 @@ public class Question implements Serializable {
 		this.image = image;
 	}
 
-	@Column(name = "latex", nullable = false)
+	
 	public boolean isLatex() {
 		return this.latex;
 	}
@@ -111,7 +126,7 @@ public class Question implements Serializable {
 		this.latex = latex;
 	}
 
-	@Column(name = "cost", nullable = false)
+	
 	public int getCost() {
 		return this.cost;
 	}
@@ -120,7 +135,7 @@ public class Question implements Serializable {
 		this.cost = cost;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question", cascade = CascadeType.ALL)
+	
 	public Set<Answer> getAnswers() {
 		return this.answers;
 	}

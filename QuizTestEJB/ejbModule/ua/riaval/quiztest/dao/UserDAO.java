@@ -8,5 +8,5 @@ import ua.riaval.quiztest.entity.User;
 public interface UserDAO extends DAO<User> {
 
 	public User findByEmail(String email);
-	
+
 }

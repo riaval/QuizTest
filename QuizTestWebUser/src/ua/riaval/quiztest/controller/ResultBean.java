@@ -2,7 +2,6 @@ package ua.riaval.quiztest.controller;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -18,6 +17,13 @@ import ua.riaval.quiztest.entity.QuizResult;
 @ManagedBean
 @RequestScoped
 public class ResultBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@EJB
+	private QuizResultDAO quizResultDAO;
+
+	private QuizResult quizResult;
 
 	@PostConstruct
 	private void postConstruct() {
@@ -36,7 +42,7 @@ public class ResultBean implements Serializable {
 	public void setQuizResult(QuizResult quizResul) {
 		this.quizResult = quizResul;
 	}
-	
+
 	public boolean isCorrect(QuestionResult questionResult) {
 		for (AnswerResult each : questionResult.getAnswerResults()) {
 			if (each.getChecked() && each.getCorrect()) {
@@ -45,30 +51,23 @@ public class ResultBean implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public int getCost() {
 		int cost = 0;
 		for (QuestionResult each : quizResult.getQuestionResults()) {
 			cost += each.getCost();
 		}
-		
+
 		return cost;
 	}
-	
+
 	public double getMarks() {
 		double marks = 0;
 		for (QuestionResult each : quizResult.getQuestionResults()) {
 			marks += each.getResult();
 		}
-		
+
 		return marks;
 	}
-
-	@EJB
-	private QuizResultDAO quizResultDAO;
-
-	private QuizResult quizResult;
-
-	private static final long serialVersionUID = 1L;
 
 }

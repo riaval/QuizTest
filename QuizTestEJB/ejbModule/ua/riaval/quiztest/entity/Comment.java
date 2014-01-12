@@ -2,6 +2,7 @@ package ua.riaval.quiztest.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -22,21 +23,39 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @NamedQueries({
-	@NamedQuery(name = "Comment.findInQuiz", query = "SELECT c FROM Comment AS c WHERE c.quiz = :quiz ORDER BY c.id DESC"),
-	@NamedQuery(name = "Comment.countFromQuiz", query = "SELECT COUNT(c) FROM Comment AS c WHERE c.quiz = :quiz")
-})
+		@NamedQuery(name = "Comment.findInQuiz", query = "SELECT c FROM Comment AS c WHERE c.quiz = :quiz ORDER BY c.id DESC"),
+		@NamedQuery(name = "Comment.countFromQuiz", query = "SELECT COUNT(c) FROM Comment AS c WHERE c.quiz = :quiz") })
 @Entity
 @Table(name = "Comment", catalog = "QuizTest")
-public class Comment implements java.io.Serializable {
+public class Comment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "comment_id")
 	private Comment comment;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "quiz_id", nullable = true)
 	private Quiz quiz;
+
+	@Column(name = "content", length = 500)
 	private String content;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date", nullable = false, length = 19)
 	private Date date;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment", cascade = CascadeType.ALL)
 	private Set<Comment> comments = new LinkedHashSet<Comment>();
 
 	public Comment() {
@@ -58,9 +77,6 @@ public class Comment implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -69,8 +85,6 @@ public class Comment implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "comment_id")
 	public Comment getComment() {
 		return this.comment;
 	}
@@ -79,8 +93,6 @@ public class Comment implements java.io.Serializable {
 		this.comment = comment;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "quiz_id", nullable = true)
 	public Quiz getQuiz() {
 		return this.quiz;
 	}
@@ -89,7 +101,6 @@ public class Comment implements java.io.Serializable {
 		this.quiz = quiz;
 	}
 
-	@Column(name = "content", length = 500)
 	public String getContent() {
 		return this.content;
 	}
@@ -98,8 +109,6 @@ public class Comment implements java.io.Serializable {
 		this.content = content;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date", nullable = false, length = 19)
 	public Date getDate() {
 		return date;
 	}
@@ -108,8 +117,6 @@ public class Comment implements java.io.Serializable {
 		this.date = date;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser() {
 		return user;
 	}
@@ -118,7 +125,6 @@ public class Comment implements java.io.Serializable {
 		this.user = user;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "comment", cascade = CascadeType.ALL)
 	public Set<Comment> getComments() {
 		return this.comments;
 	}

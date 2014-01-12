@@ -12,23 +12,25 @@ import org.primefaces.model.SelectableDataModel;
 import ua.riaval.quiztest.dao.CategoryDAO;
 import ua.riaval.quiztest.entity.Category;
 
-public class CategoryDataModel  extends ListDataModel<Category> implements SelectableDataModel<Category> {
-	
+public class CategoryDataModel extends ListDataModel<Category> implements
+		SelectableDataModel<Category> {
+
 	public CategoryDataModel(List<Category> categories) {
 		super(categories);
 	}
-	
+
 	@Override
 	public Category getRowData(String name) {
 		try {
 			InitialContext context = new InitialContext();
-			CategoryDAO categoryDAO = (CategoryDAO) context.lookup("java:global/QuizTest/QuizTestEJB/CategoryDAOImpl!ua.riaval.quiztest.dao.CategoryDAO");
-			
+			CategoryDAO categoryDAO = (CategoryDAO) context
+					.lookup("java:global/QuizTest/QuizTestEJB/CategoryDAOImpl!ua.riaval.quiztest.dao.CategoryDAO");
+
 			return categoryDAO.findByName(name);
 		} catch (NamingException e) {
 			Logger log = Logger.getLogger(this.getClass().getName());
 			log.info("[WORNING] " + e.getMessage());
-			
+
 			return null;
 		}
 	}

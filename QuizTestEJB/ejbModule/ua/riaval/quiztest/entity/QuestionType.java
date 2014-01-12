@@ -26,9 +26,18 @@ public class QuestionType implements java.io.Serializable {
 	public static final String MULTIPLE = "multiple";
 	public static final String OPEN = "open";
 
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+
+	@Column(name = "name", nullable = false, length = 45)
 	private String name;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionType")
 	private Set<QuestionResult> questionResults = new LinkedHashSet<QuestionResult>();
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionType")
 	private Set<Question> questions = new LinkedHashSet<Question>();
 
 	public QuestionType() {
@@ -45,9 +54,6 @@ public class QuestionType implements java.io.Serializable {
 		this.questions = questions;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -56,7 +62,6 @@ public class QuestionType implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false, length = 45)
 	public String getName() {
 		return this.name;
 	}
@@ -65,7 +70,6 @@ public class QuestionType implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionType")
 	public Set<QuestionResult> getQuestionResults() {
 		return this.questionResults;
 	}
@@ -74,7 +78,6 @@ public class QuestionType implements java.io.Serializable {
 		this.questionResults = questionResults;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionType")
 	public Set<Question> getQuestions() {
 		return this.questions;
 	}
